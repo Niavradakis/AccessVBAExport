@@ -1,0 +1,500 @@
+Relationship: AccountingArticlesTLinkAccountingArticlesToFinancialTransacto
+  Table: AccountingArticlesT
+  Foreign Table: LinkAccountingArticlesToFinancialTransactorsT
+    Accounting_Article_ID -> Accounting_Articles_ID
+
+Relationship: AccountingArticlesTLinkAccountingArticlesToIssuableDocumentsT
+  Table: AccountingArticlesT
+  Foreign Table: LinkAccountingArticlesToIssuableDocumentsT
+    Accounting_Article_ID -> Accounting_Article_ID
+
+Relationship: AccountingArticlesTLinkUsersToAccountingArticles
+  Table: AccountingArticlesT
+  Foreign Table: LinkUsersToAccountingArticles
+    Accounting_Article_ID -> Accounting_Article_ID
+
+Relationship: AccountsTTransactorsT
+  Table: AccountsT
+  Foreign Table: TransactorsT
+    Account_ID -> Account_ID
+
+Relationship: AttributesTAttributeValuesListsT
+  Table: AttributesT
+  Foreign Table: AttributeValuesListsT
+    Attribute_ID -> Attribute_ID
+
+Relationship: AttributesTLinkAttributeValueToEntitiesT
+  Table: AttributesT
+  Foreign Table: LinkAttributeValueToEntitiesT
+    Attribute_ID -> Attribute_ID
+
+Relationship: AttributesTLInkReferenceID(EntityTypeID)ToAttributeIDsT
+  Table: AttributesT
+  Foreign Table: LInkReferenceID(EntityTypeID)ToAttributeIDsT
+    Attribute_ID -> Attribute_ID
+
+Relationship: CountiesTCitiesT
+  Table: CountiesT
+  Foreign Table: CitiesT
+    County_ID -> County_ID
+
+Relationship: CountriesTInstallationsÔ
+  Table: CountriesT
+  Foreign Table: InstallationsT
+    Country_ID -> Country_ID
+
+Relationship: CountriesTProductVATCategoriesT
+  Table: CountriesT
+  Foreign Table: ProductVATCategoriesT
+    Country_ID -> Country_ID
+
+Relationship: CountriesTProvincesT
+  Table: CountriesT
+  Foreign Table: ProvincesT
+    Country_ID -> Country_ID
+
+Relationship: CountriesTTransactorDetailsÔ
+  Table: CountriesT
+  Foreign Table: TransactorDetailsT
+    Country_ID -> Country
+
+Relationship: CountriesTTransactorVATStatusT
+  Table: CountriesT
+  Foreign Table: VATStatusT
+    Country_ID -> Country_ID
+
+Relationship: DiscountLogsTDiscountLogsDetailsT
+  Table: DiscountLogsT
+  Foreign Table: DiscountLogsDetailsT
+    Discount_Logs_ID -> Discount_Logs_ID
+
+Relationship: DiscountOrOfferTDiscountLogsT
+  Table: DiscountOrOfferT
+  Foreign Table: DiscountLogsT
+    Discount_Or_Offer_ID -> Discount_OR_Offer_ID
+
+Relationship: DiscountOrOfferTLink_Products_To_Pricelists
+  Table: DiscountOrOfferT
+  Foreign Table: LinkProductsToPricelistsT
+    Discount_Or_Offer_ID -> Discount_Or_Offer_ID
+
+Relationship: DiscountOrOfferTypeTDiscountOrOfferT
+  Table: DiscountOrOfferTypeT
+  Foreign Table: DiscountOrOfferT
+    Discount_OR_Offer_Type_ID -> Discount_Or_Offer_Type_ID
+
+Relationship: DocumentIssuerTypeTDocumentsIssuersT
+  Table: DocumentIssuerTypeT
+  Foreign Table: DocumentsIssuersT
+    Document_Issuer_Type_ID -> Document_Issuer_Type_ID
+
+Relationship: DocumentsIssuersTIssuableDocumentT
+  Table: DocumentsIssuersT
+  Foreign Table: IssuableDocumentT
+    Document_Issuer_ID -> Document_Issuer_ID
+
+Relationship: DutiesTDutiesPerJobT
+  Table: DutiesT
+  Foreign Table: LInkDutiesPerJobT
+    Duty_ID -> Duty_ID
+
+Relationship: DutiesTLinkTransactorsToDutiesT
+  Table: DutiesT
+  Foreign Table: LinkTransactorsToDutiesT
+    Duty_ID -> Duty_ID
+
+Relationship: DutyTypeTDutiesT
+  Table: DutyTypeT
+  Foreign Table: DutiesT
+    Duty_Type_ID -> Duty_Type_ID
+
+Relationship: EntitiesTypesToHaveAttributesLInkReferenceID(EntityTypeID)ToA
+  Table: EntitiesTypesToHaveAttributesT
+  Foreign Table: LInkReferenceID(EntityTypeID)ToAttributeIDsT
+    Entities_To_Have_Attributes_ID -> Entity_Type_ID
+
+Relationship: FormsTLinkIntentionTypesToFormsT
+  Table: FormsT
+  Foreign Table: LinkIntentionTypesToFormsT
+    Form_ID -> Form_ID
+
+Relationship: FormsTLinkIssuableDocumentsToFormsT
+  Table: FormsT
+  Foreign Table: LinkIssuableDocumentsToFormsT
+    Form_ID -> Form_ID
+
+Relationship: InstallationsÔDocumentsIssuersT
+  Table: InstallationsT
+  Foreign Table: DocumentsIssuersT
+    Installation_ID -> Installation_ID
+
+Relationship: InstallationsÔLinkStoragesToInstallationsT
+  Table: InstallationsT
+  Foreign Table: LinkStoragesToInstallationsT
+    Installation_ID -> Installation_ID
+
+Relationship: IntentionsTLinkIssuableDocumentsToIntentionsT
+  Table: IntentionsT
+  Foreign Table: LinkIssuableDocumentsToIntentionsT
+    Intention_ID -> Intention_ID
+
+Relationship: IntentionsTypeTIntentionsT
+  Table: IntentionsTypeT
+  Foreign Table: IntentionsT
+    Intention_Type_ID -> Intention_Type_ID
+
+Relationship: IntentionsTypeTLinkIntentionTypesToFormsT
+  Table: IntentionsTypeT
+  Foreign Table: LinkIntentionTypesToFormsT
+    Intention_Type_ID -> Intention_Type_ID
+
+Relationship: IntentionsTypeTProducts_To_Accounts_IDT
+  Table: IntentionsTypeT
+  Foreign Table: LinkProductsToCompanyFinancialTransactorsT
+    Intention_Type_ID -> Intention_Type_ID
+
+Relationship: IssuableDocumentTIssuedDocumentT
+  Table: IssuableDocumentT
+  Foreign Table: IssuedDocumentT
+    Issuable_Document_ID -> Issuable_Document_ID
+
+Relationship: IssuableDocumentTLinkAccountingArticlesToIssuableDocumentsT
+  Table: IssuableDocumentT
+  Foreign Table: LinkAccountingArticlesToIssuableDocumentsT
+    Issuable_Document_ID -> Issuable_Document_ID
+
+Relationship: IssuableDocumentTLinkIssuableDocumentsToFormsT
+  Table: IssuableDocumentT
+  Foreign Table: LinkIssuableDocumentsToFormsT
+    Issuable_Document_ID -> Issuable_Document_ID
+
+Relationship: IssuableDocumentTLinkIssuableDocumentsToIntentionsT
+  Table: IssuableDocumentT
+  Foreign Table: LinkIssuableDocumentsToIntentionsT
+    Issuable_Document_ID -> Issuable_Document_ID
+
+Relationship: IssuableDocumentTLinkIssuableDocumentToUserT
+  Table: IssuableDocumentT
+  Foreign Table: LinkIssuableDocumentToUserT
+    Issuable_Document_ID -> Issuable_Document_ID
+
+Relationship: IssuableDocumentTLinkMainToSupplentaryDocumentsT
+  Table: IssuableDocumentT
+  Foreign Table: LinkMainToSupplentaryDocumentsT
+    Issuable_Document_ID -> Main_IssuableDocument_ID
+
+Relationship: IssuableDocumentTLinkMainToSupplentaryDocumentsT1
+  Table: IssuableDocumentT
+  Foreign Table: LinkMainToSupplentaryDocumentsT
+    Issuable_Document_ID -> Supplementary_IssuableDocument_ID
+
+Relationship: IssuableDocumentTLinkProductArticlesToIssuableDocumentsT
+  Table: IssuableDocumentT
+  Foreign Table: LinkProductArticlesToIssuableDocumentsT
+    Issuable_Document_ID -> Issuable_Document_ID
+
+Relationship: IssuedDocumentProductDetailsTIssuedDocumentsSalesWithDetailsQ
+  Table: IssuedDocumentProductDetailsT
+  Foreign Table: IssuedDocumentsSalesWithDetailsQ
+    Issued_Document_ID -> Issued_Document_ID
+
+Relationship: IssuedDocumentTDiscountLogsT
+  Table: IssuedDocumentT
+  Foreign Table: DiscountLogsT
+    Issued_Document_ID -> Issued_Document_ID
+
+Relationship: IssuedDocumentTIssuedDocumentFinancialDetailsT
+  Table: IssuedDocumentT
+  Foreign Table: IssuedDocumentFinancialDetailsT
+    Issued_Document_ID -> Issued_Document_ID
+
+Relationship: IssuedDocumentTIssuedDocumentProductDetailsT
+  Table: IssuedDocumentT
+  Foreign Table: IssuedDocumentProductDetailsT
+    Issued_Document_ID -> Issued_Document_ID
+
+Relationship: IssuedDocumentTIssuedDocumentProductDetailsT1
+  Table: IssuedDocumentT
+  Foreign Table: IssuedDocumentProductDetailsT
+    Issued_Document_ID -> Issued_Document_ID
+
+Relationship: JobsTDutiesPerJobT
+  Table: JobsT
+  Foreign Table: LInkDutiesPerJobT
+    Job_ID -> Job_ID
+
+Relationship: JobsTLinkTransactorsToJobsT
+  Table: JobsT
+  Foreign Table: LinkTransactorsToJobsT
+    Job_ID -> Job_ID
+
+Relationship: LinkAccountingArticlesToFinanTransactorsFinancialQ
+  Table: LinkAccountingArticlesToFinancialTransactorsT
+  Foreign Table: TransactorsFinancialQ
+    Financial_Transactors_ID -> Transactor_ID
+
+Relationship: LinkAttributesToProductsQAttributesT
+  Table: LinkAttributesToProductsQ
+  Foreign Table: AttributesT
+    Attribute_ID -> Attribute_ID
+
+Relationship: MeasureUnitsTProductsÔ
+  Table: MeasureUnitsT
+  Foreign Table: ProductsT
+    Measure_Unit_ID -> Measure_Unit_For_Purchases/Sales_ID
+
+Relationship: MeasureUnitsTProductsÔ1
+  Table: MeasureUnitsT
+  Foreign Table: ProductsT
+    Measure_Unit_ID -> Measure_Unit_Of_Product_Content_In_Package_ID
+
+Relationship: PriceListsTLink_Products_To_Pricelists
+  Table: PriceListsT
+  Foreign Table: LinkProductsToPricelistsT
+    Price_List_ID -> Price_List_ID
+
+Relationship: ProductArticlesTLinkProductArticlesToIssuableDocumentsT
+  Table: ProductArticlesT
+  Foreign Table: LinkProductArticlesToIssuableDocumentsT
+    Product_Article_ID -> Product_Article_ID
+
+Relationship: ProductArticlesTLinkProductArticlesToProductsT
+  Table: ProductArticlesT
+  Foreign Table: LinkProductArticlesToProductsT
+    Product_Article_ID -> Product_Articles_ID
+
+Relationship: ProductArticlesTLinkUsersToProductArticles
+  Table: ProductArticlesT
+  Foreign Table: LinkUsersToProductArticles
+    Product_Article_ID -> Product_Article_ID
+
+Relationship: ProductCategoryÔProductsÔ
+  Table: ProductCategoryT
+  Foreign Table: ProductsT
+    Category_ID -> Product_Category_ID
+
+Relationship: ProductsTAttributeValuesToProductsQ
+  Table: ProductsT
+  Foreign Table: AttributeValuesToProductsQ
+    Product_ID -> Entity_ID
+
+Relationship: ProductsTLink_Products_To_Pricelists
+  Table: ProductsT
+  Foreign Table: LinkProductsToPricelistsT
+    Product_ID -> Product_ID
+
+Relationship: ProductsTLinkAttributesToProductsQ
+  Table: ProductsT
+  Foreign Table: LinkAttributesToProductsQ
+    Product_ID -> Entity_ID
+
+Relationship: ProductsTLinkAttributeValeToProductsQ1
+  Table: ProductsT
+  Foreign Table: LinkAttributeValeToProductsQ
+    Product_ID -> Entity_ID
+
+Relationship: ProductsTLinkProductArticlesToProductsT
+  Table: ProductsT
+  Foreign Table: LinkProductArticlesToProductsT
+    Product_ID -> Product_ID
+
+Relationship: ProductsTProductInventoryBalance
+  Table: ProductsT
+  Foreign Table: ProductInventoryBalanceT
+    Product_ID -> Product_ID
+
+Relationship: ProductSubcategoryTProductsT
+  Table: ProductSubcategoryT
+  Foreign Table: ProductsT
+    Subcategory_ID -> Product_Subcategory_ID
+
+Relationship: ProductsÔIssuedDocumentProductDetailsT
+  Table: ProductsT
+  Foreign Table: IssuedDocumentProductDetailsT
+    Product_ID -> Product_ID
+
+Relationship: ProductsÔIssuedDocumentProductDetailsT1
+  Table: ProductsT
+  Foreign Table: IssuedDocumentProductDetailsT
+    Product_ID -> Product_ID
+
+Relationship: ProductsÔLinkProductsToSunsoftProductsT
+  Table: ProductsT
+  Foreign Table: LinkProductsToSunsoftProductsT
+    Product_ID -> Product_ID
+
+Relationship: ProductsÔProductMetaDataT
+  Table: ProductsT
+  Foreign Table: ProductMetaDataT
+    Product_ID -> Product_ID
+
+Relationship: ProductsÔProductToSupplierLinkÔ
+  Table: ProductsT
+  Foreign Table: ProductToSupplierLinkÔ
+    Product_ID -> Product_ID
+
+Relationship: ProductsÔRecipesExecutionMethodWithProductsLink
+  Table: ProductsT
+  Foreign Table: RecipesExecutionMethodWithProductsLink
+    Product_ID -> ProductID
+
+Relationship: ProductsÔRecipesÔ
+  Table: ProductsT
+  Foreign Table: RecipesÔ
+    Product_ID -> Sale_Product_ID
+
+Relationship: ProductTypeÔProductsÔ
+  Table: ProductTypeT
+  Foreign Table: ProductsT
+    Type_ID -> Product_Type_ID
+
+Relationship: ProductVATCategoriesTProductsÔ
+  Table: ProductVATCategoriesT
+  Foreign Table: ProductsT
+    Product_VAT_Category_ID -> VAT_Category_ID
+
+Relationship: ProductVATCategoriesTVAT_T
+  Table: ProductVATCategoriesT
+  Foreign Table: VAT_T
+    Product_VAT_Category_ID -> Product_VAT_Category_ID
+
+Relationship: ProvincesTCountiesT
+  Table: ProvincesT
+  Foreign Table: CountiesT
+    Province_ID -> Province_ID
+
+Relationship: ReipesExecutionMethodÔRecipesExecutionMethodStepsT
+  Table: ReipesExecutionMethodÔ
+  Foreign Table: RecipesExecutionMethodStepsT
+    RecipesExecutionMethodID -> RecipesExecutionMethodID
+
+Relationship: ReipesExecutionMethodÔRecipesExecutionMethodWithProductsLink
+  Table: ReipesExecutionMethodÔ
+  Foreign Table: RecipesExecutionMethodWithProductsLink
+    RecipesExecutionMethodID -> RecipesExecutionMethodID
+
+Relationship: ReipesExecutionMethodÔRecipesExecutionMethodWithProductsLink1
+  Table: ReipesExecutionMethodÔ
+  Foreign Table: RecipesExecutionMethodWithProductsLink
+    RecipesExecutionMethodID -> RecipesExecutionMethodID
+
+Relationship: StoragesQTransactorsT
+  Table: StoragesQ
+  Foreign Table: TransactorsT
+    Transactor_ID -> Transactor_ID
+
+Relationship: TransactionPointsTMap_Document_Product_Rows_To_Company's_Fina
+  Table: TransactionPointsT
+  Foreign Table: Map_Document_Product_Rows_To_Company's_Financial_TransactorT
+    Transaction_Point_ID -> Transaction_Point_ID
+
+Relationship: TransactionsTIssuedDocumentT
+  Table: TransactionsT
+  Foreign Table: IssuedDocumentT
+    Transaction_ID -> Transaction_ID
+
+Relationship: TransactionTypesTTransactionsT
+  Table: TransactionTypesT
+  Foreign Table: TransactionsT
+    Transaction_Type_ID -> Transaction_Type_ID
+
+Relationship: TransactorsBasicTTransactorContactDetailsT
+  Table: TransactorsBasicT
+  Foreign Table: TransactorContactDetailsT
+    Basic_Transactor_ID -> Basic_Tsansactor_ID_FK
+
+Relationship: TransactorsBasicTTransactorsT
+  Table: TransactorsBasicT
+  Foreign Table: TransactorsT
+    Basic_Transactor_ID -> Basic_Transactor_ID
+
+Relationship: TransactorsFinancialCompanyEnMap_Document_Product_Rows_To_Com
+  Table: TransactorsFinancialCompanyEntitiesQ
+  Foreign Table: Map_Document_Product_Rows_To_Company's_Financial_TransactorT
+    Transactor_ID -> Company"s_Financial_Transactor_ID
+
+Relationship: TransactorsTAttributeValuesToTransactorsQ
+  Table: TransactorsT
+  Foreign Table: AttributeValuesToTransactorsQ
+    Transactor_ID -> Entity_ID
+
+Relationship: TransactorsTIssuedDocumentFinancialDetailsT
+  Table: TransactorsT
+  Foreign Table: IssuedDocumentFinancialDetailsT
+    Transactor_ID -> Transactor_ID
+
+Relationship: TransactorsTLinkAttributesToTransactorsQ
+  Table: TransactorsT
+  Foreign Table: LinkAttributesToTransactorsQ
+    Transactor_ID -> Entity_ID
+
+Relationship: TransactorsTLinkFinancialTransactorsToVatTransactorsT
+  Table: TransactorsT
+  Foreign Table: LinkFinancialTransactorsToVatTransactorsT
+    Transactor_ID -> Vat_Transactor_ID
+
+Relationship: TransactorsTLinkFinancialTransactorsToVatTransactorsT1
+  Table: TransactorsT
+  Foreign Table: LinkFinancialTransactorsToVatTransactorsT
+    Transactor_ID -> Financial_Transactor_ID
+
+Relationship: TransactorsTLinkTransactorsToDutiesT
+  Table: TransactorsT
+  Foreign Table: LinkTransactorsToDutiesT
+    Transactor_ID -> Transactor_ID
+
+Relationship: TransactorsTLinkTransactorsToJobsT
+  Table: TransactorsT
+  Foreign Table: LinkTransactorsToJobsT
+    Transactor_ID -> Transactor_ID
+
+Relationship: TransactorsTProductInventoryBalance
+  Table: TransactorsT
+  Foreign Table: ProductInventoryBalanceT
+    Transactor_ID -> Transactor_ID
+
+Relationship: TransactorsTSuppliersDetailsÔ
+  Table: TransactorsT
+  Foreign Table: TransactorDetailsT
+    Transactor_ID -> Transactor_ID
+
+Relationship: TransactorsTTransactorAddressDetailsT
+  Table: TransactorsT
+  Foreign Table: TransactorAddressDetailsT
+    Transactor_ID -> Transactor_ID
+
+Relationship: TransactorTLinkStoragesToInstallationsT
+  Table: TransactorsT
+  Foreign Table: LinkStoragesToInstallationsT
+    Transactor_ID -> StorageID
+
+Relationship: TransactorTypesTTransactorsT
+  Table: TransactorTypesT
+  Foreign Table: TransactorsT
+    Transactor_Type_ID -> Transactor_Type_ID
+
+Relationship: TransactorVATStatusTTransactorDetailsT
+  Table: VATStatusT
+  Foreign Table: TransactorDetailsT
+    VAT_Status_ID -> VAT_Status_ID
+
+Relationship: TransactorVATStatusTVAT_T
+  Table: VATStatusT
+  Foreign Table: VAT_T
+    VAT_Status_ID -> Transactor_VAT_Status_ID
+
+Relationship: UsersTLinkIssuableDocumentToUserT
+  Table: UsersT
+  Foreign Table: LinkIssuableDocumentToUserT
+    User_ID -> User_ID
+
+Relationship: UsersTLinkUsersToAccountingArticles
+  Table: UsersT
+  Foreign Table: LinkUsersToAccountingArticles
+    User_ID -> User_ID
+
+Relationship: UsersTLinkUsersToProductArticles
+  Table: UsersT
+  Foreign Table: LinkUsersToProductArticles
+    User_ID -> User_ID
+

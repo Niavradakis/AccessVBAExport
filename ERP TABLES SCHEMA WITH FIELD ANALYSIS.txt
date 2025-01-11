@@ -1,0 +1,1413 @@
+Table: AccountingArticlesT
+    Field: Accounting_Article_ID (Type: Long)
+    Field: Accounting_Article_Description (Type: Text)
+    Field: In_Use (Type: Boolean)
+    Field: Notes (Type: Text)
+
+Table: AccountsT
+    Field: Account_ID (Type: Long)
+    Field: Account_Description (Type: Text)
+    Field: Accounting_Account_Official_Code (Type: Text)
+    Field: Accounting_Account_Auxilary1_Code (Type: Text)
+    Field: Accounting_Account_Auxilary2_Code (Type: Text)
+
+Table: ActionsT
+    Field: Action_ID (Type: Long)
+    Field: Action_Type_ID (Type: Long)
+    Field: Protocol_ID (Type: Long)
+    Field: Timestamp_Assigned (Type: Date/Time)
+    Field: Timestamp_Planned_To_Be_Executed_From (Type: Date/Time)
+    Field: Timestamp_Planned_To_Be_Executed_Until (Type: Date/Time)
+    Field: Timestamp_Executed (Type: Date/Time)
+    Field: Notes (Type: Memo)
+    Field: Action_Insert_Timestamp (Type: Date/Time)
+    Field: Action_Insert_User_ID (Type: Text)
+    Field: Is_New (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+
+Table: ActionsT_DeletedRecords
+    Field: Action_ID (Type: Long)
+    Field: Action_Type_ID (Type: Long)
+    Field: Protocol_ID (Type: Long)
+    Field: Timestamp_Assigned (Type: Date/Time)
+    Field: Timestamp_Planned_To_Be_Executed_From (Type: Date/Time)
+    Field: Timestamp_Planned_To_Be_Executed_Until (Type: Date/Time)
+    Field: Timestamp_Executed (Type: Date/Time)
+    Field: Notes (Type: Memo)
+    Field: Action_Insert_Timestamp (Type: Date/Time)
+    Field: Action_Insert_User_ID (Type: Text)
+
+Table: ActionTypesT
+    Field: Action_Type_ID (Type: Long)
+    Field: Action_Type_Description (Type: Text)
+    Field: Help_Text_For_Action (Type: Text)
+    Field: Notes (Type: Memo)
+
+Table: AdditivesViewIdHelperT
+    Field: child productID (Type: Long)
+    Field: viewID (Type: Long)
+
+Table: AttributesT
+    Field: Attribute_ID (Type: Long)
+    Field: Attribute_Description (Type: Text)
+    Field: EntityTypeID_For_RelevantTablePKField (Type: Long)
+    Field: TypeOfEntityType_ID (Type: Long)
+    Field: Data_type (Type: Long)
+    Field: Entities_May_Have_Multiple_Values (Type: Boolean)
+    Field: Feed_list_Available (Type: Boolean)
+    Field: Limited_To_List (Type: Boolean)
+    Field: User_Can_Enrich_List (Type: Boolean)
+    Field: System_Attribute (Type: Boolean)
+    Field: Notes (Type: Memo)
+
+Table: AttributeValuesHierarchyT
+    Field: Attribute_Values_Hierarchy_ID (Type: Long)
+    Field: Parent_Attribute_ID (Type: Long)
+    Field: Parent_Attribute_Value_ID (Type: Long)
+    Field: Child_Attribute_ID (Type: Long)
+    Field: Child_Attribute_Value_ID (Type: Long)
+
+Table: AttributeValuesListsT
+    Field: Attribute_Value_id (Type: Long)
+    Field: Attribute_ID (Type: Long)
+    Field: Attribute_Value_String (Type: Text)
+    Field: Attribute_Value_Number (Type: Double)
+    Field: Attribute_Value_Date (Type: Date/Time)
+    Field: Attribute_Value_Time (Type: Date/Time)
+    Field: Attribute_Value_TImestamp (Type: Date/Time)
+    Field: View_Sequence_Number (Type: Long)
+
+Table: CitiesT
+    Field: City_ID (Type: Long)
+    Field: City_Description (Type: Text)
+    Field: County_ID (Type: Long)
+
+Table: CompaniesT to delete
+    Field: Company_ID (Type: Long)
+    Field: Company_Description (Type: Text)
+
+Table: CompanyDepartmentT
+    Field: Company_Department_ID (Type: Long)
+    Field: Company_Department_Description (Type: Text)
+    Field: Company_ID (Type: Long)
+
+Table: CountiesT
+    Field: County_ID (Type: Long)
+    Field: County_Description (Type: Text)
+    Field: Province_ID (Type: Long)
+
+Table: CountriesT
+    Field: Country_ID (Type: Long)
+    Field: Country_Description (Type: Text)
+
+Table: CurrencyT
+    Field: Currency_ID (Type: Long)
+    Field: Currency_Description (Type: Text)
+    Field: Currency_Abbreviation (Type: Text)
+    Field: Currency_Symbol (Type: Text)
+
+Table: CurrentlyConnectedUsersT
+    Field: CurrentlyConnectedUsers_ID (Type: Long)
+    Field: ConnectionTimestamp (Type: Date/Time)
+    Field: DisconnectionTimestamp (Type: Date/Time)
+
+Table: CurrentUserT
+    Field: Current_User_ID (Type: Integer)
+    Field: Login_Activity_ID (Type: Long)
+
+Table: DataTypesT
+    Field: Data_Type_ID (Type: Long)
+    Field: Data_Type_Description (Type: Text)
+
+Table: dbo_TblSnItem
+    Field: ItemCode (Type: Long)
+    Field: ItemDescr (Type: Text)
+    Field: ItemInitDate (Type: Date/Time)
+    Field: ItemIcon (Type: Text)
+    Field: ItemNotes (Type: Memo)
+    Field: ItemInactive (Type: Integer)
+    Field: ItemNoStock (Type: Integer)
+    Field: ItemRemove (Type: Integer)
+    Field: ItemWeb (Type: Integer)
+    Field: ItemGreek (Type: Integer)
+    Field: ItemSet (Type: Integer)
+    Field: ItemBookID (Type: Text)
+    Field: ItemUsed (Type: Integer)
+    Field: ItemSummary (Type: Memo)
+    Field: FpaCategOID (Type: Long)
+    Field: MeasureUnitOID (Type: Long)
+    Field: ItemTypeOID (Type: Long)
+    Field: ItemMarkOID (Type: Long)
+    Field: BasicSuppOID (Type: Long)
+    Field: ProducerOID (Type: Long)
+    Field: ItemOID (Type: Long)
+    Field: BasicISPOID (Type: Long)
+    Field: BasicBPOID (Type: Long)
+    Field: ThemeSubCategOID (Type: Long)
+    Field: ItemModify (Type: Integer)
+    Field: ItemBarcodes (Type: Memo)
+    Field: ItemAbbreviationDescrs (Type: Memo)
+    Field: ItemGroupOID (Type: Long)
+    Field: ItemSMega (Type: Single)
+    Field: ItemShelf (Type: Text)
+    Field: ItemCompBarCodes (Type: Text)
+    Field: ItemCompBarCodeQtys (Type: Text)
+    Field: ItemCompBarCodeActs (Type: Text)
+    Field: ItemDeCompBarCodes (Type: Text)
+    Field: ItemDeCompBarCodeQtys (Type: Text)
+    Field: ItemDeCompBarCodeActs (Type: Text)
+    Field: ItemTransBarCodes (Type: Text)
+    Field: ItemTransBarCodeQtys (Type: Text)
+    Field: ItemTransBarCodeActs (Type: Text)
+    Field: ItemWHouseSupp (Type: Integer)
+    Field: ItemSecondDescrs (Type: Memo)
+    Field: ItemSysk (Type: Text)
+    Field: OrderWayOID (Type: Long)
+    Field: OrderDayOID (Type: Long)
+    Field: ItemLevel (Type: Long)
+    Field: ItemCheckStock (Type: Long)
+    Field: ItemServRow (Type: Long)
+    Field: ItemFastFood (Type: Integer)
+    Field: ItemProdTime (Type: Single)
+    Field: ItemGift (Type: Integer)
+    Field: ItemRounding (Type: Integer)
+    Field: ItemChangePrice (Type: Integer)
+    Field: ItemCentral (Type: Integer)
+    Field: ItemUniqueCode (Type: Long)
+    Field: ItemPart (Type: Integer)
+    Field: DasmClassOID (Type: Long)
+    Field: ItemSerialNo (Type: Integer)
+    Field: ItemTerm (Type: Integer)
+    Field: ItemTicket (Type: Integer)
+    Field: ItemSMicro (Type: Single)
+    Field: ItemColor (Type: Long)
+    Field: ItemSent (Type: Integer)
+    Field: ItemAux1 (Type: Text)
+    Field: ItemAux2 (Type: Text)
+    Field: ItemFromDate (Type: Date/Time)
+    Field: ItemToDate (Type: Date/Time)
+    Field: ItemWeighed (Type: Integer)
+    Field: ItemUpdDate (Type: Date/Time)
+    Field: DataBaseOID (Type: Long)
+    Field: ItemCombo (Type: Integer)
+    Field: ItemCostPrice (Type: Integer)
+    Field: ItemMaxPlus (Type: Long)
+    Field: ItemMaxAcc (Type: Long)
+    Field: ItemComboType (Type: Integer)
+    Field: ItemComboNo (Type: Long)
+    Field: ItemRecycle (Type: Integer)
+    Field: ItemRecycleValue (Type: Currency)
+    Field: ItemDuration (Type: Integer)
+    Field: ItemMaturation (Type: Integer)
+    Field: ItemMinProdQty (Type: Currency)
+    Field: ItemWaste (Type: Double)
+    Field: ItemLotNotes (Type: Memo)
+    Field: ItemLotNumberTemplate (Type: Text)
+    Field: ItemThermalProcess (Type: Integer)
+    Field: ItemIsContract (Type: Integer)
+    Field: ItemContractDescr (Type: Text)
+
+Table: dbo_TblSnShopItem
+    Field: ShopItemDescr (Type: Text)
+    Field: ItemOID (Type: Long)
+    Field: ShopOID (Type: Long)
+    Field: WHouseOID (Type: Long)
+    Field: ShopItemOID (Type: Long)
+    Field: ShopItemForInventory (Type: Integer)
+    Field: ShopItemForSales (Type: Integer)
+    Field: ShopItemModify (Type: Integer)
+    Field: ShopItemDeleted (Type: Integer)
+    Field: ShopItemTECCode (Type: Text)
+    Field: ShopItemSRMCode (Type: Text)
+    Field: ShopItemSort (Type: Long)
+    Field: ShopItemObligQty (Type: Long)
+    Field: ProdWHouseOID (Type: Long)
+    Field: ShopItemForPurchases (Type: Integer)
+    Field: ShopItemIndependent (Type: Integer)
+    Field: ShopItemSent (Type: Integer)
+    Field: ShopItemFromDate (Type: Date/Time)
+    Field: ShopItemToDate (Type: Date/Time)
+    Field: ShopItemInitDate (Type: Date/Time)
+    Field: ShopItemUpdDate (Type: Date/Time)
+    Field: DataBaseOID (Type: Long)
+
+Table: dbo_TblSnTransAccDtl
+    Field: TrAcDtXre (Type: Currency)
+    Field: TrAcDtPis (Type: Currency)
+    Field: TrAcDtDescription (Type: Memo)
+    Field: TrAcDtCost (Type: Integer)
+    Field: TrAcDtFXre (Type: Currency)
+    Field: TrAcDtFPis (Type: Currency)
+    Field: TransAccHdrOID (Type: Long)
+    Field: TrnTypeGLOID (Type: Long)
+    Field: AccountOID (Type: Long)
+    Field: FinYearOID (Type: Long)
+    Field: TransAccDtlOID (Type: Long)
+    Field: TrAcDtUpdate (Type: Integer)
+    Field: TrAcDtAnalyt (Type: Integer)
+    Field: TrAcDtParentAcc (Type: Long)
+
+Table: DiscountLogsBackupT
+    Field: DiscountLogsID_Backup_ID (Type: Long)
+    Field: Discount_Logs_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Discount_OR_Offer_ID (Type: Long)
+    Field: %Discount_Percentage (Type: Double)
+    Field: #Discount_Value (Type: Double)
+    Field: Discount_For_Single_ProductDetailsID_Only (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Discount_Insert_Timestamp (Type: Date/Time)
+    Field: DiscountLogs_Backup_ID (Type: Long)
+    Field: Discount_Insert_User_ID (Type: Long)
+    Field: Discount_Edit_Timestamp (Type: Date/Time)
+    Field: Discount_Edit_User_ID (Type: Long)
+
+Table: DiscountLogsDetailsBackupT
+    Field: DiscountsLogsDetailsID_backup_ID (Type: Long)
+    Field: Discounts_Logs_Details_ID (Type: Long)
+    Field: Discount_Logs_ID (Type: Long)
+    Field: Product_Details_ID (Type: Long)
+    Field: Unit_Price_Before_This_Discount (Type: Double)
+    Field: Unit_Price_After_This_Discount (Type: Double)
+    Field: Is_Deleted (Type: Boolean)
+    Field: DiscountDetails_Insert_Timestamp (Type: Date/Time)
+    Field: DiscountDetails_Insert_User_ID (Type: Long)
+    Field: DiscountDetails_Edit_Timestamp (Type: Date/Time)
+    Field: DiscountDetails_Edit_User_ID (Type: Long)
+
+Table: DiscountLogsDetailsT
+    Field: Discounts_Logs_Details_ID (Type: Long)
+    Field: Discount_Logs_ID (Type: Long)
+    Field: Product_Details_ID (Type: Long)
+    Field: Unit_Price_Before_This_Discount (Type: Double)
+    Field: Unit_Price_After_This_Discount (Type: Double)
+    Field: Is_Deleted (Type: Boolean)
+    Field: DiscountDetails_Insert_Timestamp (Type: Date/Time)
+    Field: DiscountDetails_Insert_User_ID (Type: Long)
+    Field: DiscountLogsDetails_Backup_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+
+Table: DiscountLogsDetailsT_DeletedRecords
+    Field: Discounts_Logs_Details_ID (Type: Long)
+    Field: Discount_Logs_ID (Type: Long)
+    Field: Product_Details_ID (Type: Long)
+    Field: Unit_Price_Before_This_Discount (Type: Double)
+    Field: Unit_Price_After_This_Discount (Type: Double)
+    Field: Is_Deleted (Type: Boolean)
+    Field: DiscountDetails_Insert_Timestamp (Type: Date/Time)
+    Field: DiscountDetails_Insert_User_ID (Type: Long)
+    Field: DiscountLogsDetails_Backup_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+    Field: Deletion_Timestamp (Type: Date/Time)
+    Field: Deletion_UserID (Type: Long)
+
+Table: DiscountLogsT
+    Field: Discount_Logs_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Discount_OR_Offer_ID (Type: Long)
+    Field: %Discount_Percentage (Type: Double)
+    Field: #Discount_Value (Type: Double)
+    Field: Discount_For_Single_ProductDetailsID_Only (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: DiscountLogs_Backup_ID (Type: Long)
+    Field: Discount_Insert_Timestamp (Type: Date/Time)
+    Field: Discount_Insert_User_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+
+Table: DiscountLogsT_DeletedRecords
+    Field: Discount_Logs_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Discount_OR_Offer_ID (Type: Long)
+    Field: %Discount_Percentage (Type: Double)
+    Field: #Discount_Value (Type: Double)
+    Field: Discount_For_Single_ProductDetailsID_Only (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: DiscountLogs_Backup_ID (Type: Long)
+    Field: Discount_Insert_Timestamp (Type: Date/Time)
+    Field: Discount_Insert_User_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+    Field: Deletion_Timestamp (Type: Date/Time)
+    Field: Deletion_UserID (Type: Long)
+
+Table: DiscountOrOfferT
+    Field: Discount_Or_Offer_ID (Type: Long)
+    Field: Discount_Or_Offer_Description (Type: Text)
+    Field: Additional_Discount_Permitted (Type: Boolean)
+    Field: Discount_Or_Offer_Type_ID (Type: Long)
+    Field: % Percentage of Discount (Type: Double)
+    Field: # Discount Monetary Value (Type: Double)
+    Field: For_Every_Paid_Products (Type: Double)
+    Field: Customer_Receives_Products_For_Free (Type: Double)
+    Field: On_Single_Product (Type: Boolean)
+    Field: On_Multiple_Products (Type: Boolean)
+    Field: Notes (Type: Memo)
+    Field: In-Use (Type: Boolean)
+
+Table: DiscountOrOfferTypeT
+    Field: Discount_OR_Offer_Type_ID (Type: Long)
+    Field: Discount_OR_Offer_Type_Description (Type: Text)
+    Field: Notes (Type: Memo)
+
+Table: DocumentIssuerTypeT
+    Field: Document_Issuer_Type_ID (Type: Long)
+    Field: Document_Issuer_Type_Description (Type: Text)
+
+Table: DocumentsIssuersT
+    Field: Document_Issuer_ID (Type: Long)
+    Field: Document_Issuer_Description (Type: Text)
+    Field: Document_Issuer_Type_ID (Type: Long)
+    Field: Installation_ID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: In_Use (Type: Boolean)
+
+Table: DutiesT
+    Field: Duty_ID (Type: Long)
+    Field: Duty_Description (Type: Text)
+    Field: Duty_Type_ID (Type: Long)
+    Field: Duty_Details_Analysis (Type: Memo)
+    Field: Company_ID (Type: Long)
+
+Table: DutyTypeT
+    Field: Duty_Type_ID (Type: Long)
+    Field: Duty_Type_Description (Type: Text)
+    Field: Duty_Type_Detail_Notes (Type: Memo)
+
+Table: EntitiesTypesToHaveAttributesT
+    Field: Entities_To_Have_Attributes_ID (Type: Long)
+    Field: Entities_To_Have_Attributes_Description (Type: Text)
+    Field: RelevantTablePKField (Type: Text)
+    Field: RelevantTable (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: ErrorLogingT
+    Field: Error_Log_ID (Type: Long)
+    Field: Error_Number (Type: Integer)
+    Field: Error_Description (Type: Text)
+    Field: Error_Time (Type: Date/Time)
+    Field: User_ID (Type: Integer)
+    Field: Module_Error_Appeared_In (Type: Text)
+    Field: Procedure_Or_Function (Type: Text)
+
+Table: FinancialBalanceErrorsT
+    Field: Financial_Balance_Error_ID (Type: Long)
+    Field: Transaction_ID (Type: Long)
+    Field: Document_ID (Type: Long)
+    Field: Financial_Details_ID (Type: Long)
+    Field: Product_Details_ID (Type: Long)
+    Field: Total_Debit (Type: Double)
+    Field: Total_Credit (Type: Double)
+    Field: Difference (Type: Double)
+    Field: Timestamp (Type: Date/Time)
+    Field: Notes (Type: Text)
+    Field: User_ID (Type: Integer)
+
+Table: FormsT
+    Field: Form_ID (Type: Long)
+    Field: Form_Description (Type: Text)
+    Field: View_ID (Type: Long)
+    Field: To_Be_Linked_With_Issuable_Docuemnts (Type: Boolean)
+
+Table: FunctionsT
+    Field: Function_ID (Type: Long)
+    Field: Function_Description (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: HelpTableForTransactorSearchByContactAndAddressDetailsT
+    Field: Link_Transactor_To_Address_And_Contact_Strings_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Basic_Transactor_ID (Type: Long)
+    Field: Address_String (Type: Text)
+    Field: Contact_String (Type: Text)
+
+Table: HelpTableForUseAttributeValuesAsFiltersFilterT
+    Field: Filter_Entity_ID (Type: Long)
+
+Table: HelpTableForUseAttributeValuesAsFiltersFinalT
+    Field: Link_Attribute_Value_To_Entity_ID (Type: Long)
+    Field: Entity_Type_ID (Type: Long)
+    Field: Final_Entity_ID (Type: Long)
+    Field: Attribute_ID (Type: Long)
+    Field: Attribute_Value_String (Type: Text)
+    Field: Attribute_Value_Number (Type: Double)
+    Field: Attribute_Value_Boolean (Type: Boolean)
+    Field: Attribute_Value_Date (Type: Date/Time)
+    Field: Attribute_Value_Time (Type: Date/Time)
+    Field: Attribute_Value_TImestamp (Type: Date/Time)
+    Field: Attribute_Value_Hyperlink (Type: Memo)
+    Field: Attribute_Description (Type: Text)
+
+Table: HelpTableForUseAttributeValuesAsFiltersT
+    Field: Help_Table_For_Use_Attribute_Values_As_Filters_ID (Type: Long)
+    Field: Attribute_ID (Type: Long)
+    Field: Attribute_Value_String (Type: Text)
+    Field: Attribute_Value_Number (Type: Double)
+    Field: Attribute_Value_Boolean (Type: Boolean)
+    Field: Attribute_Value_Date (Type: Date/Time)
+    Field: Attribute_Value_Time (Type: Date/Time)
+    Field: Attribute_Value_TImestamp (Type: Date/Time)
+    Field: Attribute_Value_Hyperlink (Type: Memo)
+    Field: Attribute_Value_Attachment (Type: Unknown)
+
+Table: InstallationsT
+    Field: Installation_ID (Type: Long)
+    Field: Installation Description (Type: Text)
+    Field: Country_ID (Type: Long)
+    Field: Installation's_Address (Type: Text)
+    Field: In_Use (Type: Boolean)
+    Field: VAT_Status_ID (Type: Long)
+
+Table: IntentionsT
+    Field: Intention_Description (Type: Text)
+    Field: Intention_ID (Type: Long)
+    Field: Intention_Type_ID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: In_Use (Type: Boolean)
+    Field: Has_Product_Details (Type: Boolean)
+    Field: Has_Financial_Details (Type: Boolean)
+    Field: Affects_Inventory (Type: Long)
+    Field: Affects_Financial (Type: Boolean)
+    Field: Affects_Ownership_Of_Products (Type: Boolean)
+    Field: Product_Details_Produce_Financial_Results (Type: Boolean)
+
+Table: IntentionsTypeT
+    Field: Intention_Type_ID (Type: Long)
+    Field: Intention_Type_Description (Type: Text)
+    Field: Involves_Products (Type: Boolean)
+    Field: Involves_Financial (Type: Boolean)
+    Field: Involves_Pricelists (Type: Boolean)
+    Field: Envolves_VAT_Account (Type: Boolean)
+    Field: Notes (Type: Memo)
+    Field: In_Use (Type: Boolean)
+    Field: View_ID (Type: Integer)
+
+Table: InventoryBalanceErrorsT
+    Field: Inventory_Balance_Error_ID (Type: Long)
+    Field: Transaction_ID (Type: Long)
+    Field: Document_ID (Type: Long)
+    Field: Product_Details_ID (Type: Long)
+    Field: Total_Debit (Type: Double)
+    Field: Total_Credit (Type: Double)
+    Field: Difference (Type: Double)
+    Field: Timestamp (Type: Date/Time)
+    Field: Notes (Type: Text)
+    Field: User_ID (Type: Integer)
+
+Table: IssuableDocumentT
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Distinction_Additive (Type: Text)
+    Field: Issuable_Document_Description (Type: Text)
+    Field: Document_Issuer_ID (Type: Long)
+    Field: In_Use (Type: Boolean)
+    Field: Has_Product_Details (Type: Boolean)
+    Field: Has_Financial_Details (Type: Boolean)
+    Field: Pricelist_FK (Type: Long)
+    Field: Product_Values_YESisGross_NOisNet (Type: Boolean)
+    Field: Affects_Inventory (Type: Integer)
+    Field: Is_Positive (Type: Boolean)
+    Field: Main_Product_Entity_Debited(For_Product_Documents) (Type: Boolean)
+    Field: Main_Financial_Entity_Debited(Commercial_Sector) (Type: Boolean)
+    Field: Notes (Type: Memo)
+    Field: Initial_Official_Number_Sequence (Type: Long)
+    Field: Preselected_Transaction_Point_ID (Type: Long)
+    Field: Preselected_ProductTransactorType_MainEntity (Type: Long)
+    Field: Preselected_ProductTransactorID_MainEntity (Type: Long)
+    Field: Preselected_FinancialTransactorType_OtherEntity (Type: Long)
+    Field: Preselected_FinancialTransactorID_OtherEntity (Type: Long)
+    Field: Preselected_TransactionPointID_OtherEntity (Type: Long)
+    Field: Preselected_ProductTransactorType_OtherEntity (Type: Long)
+    Field: Preselected_ProductTransactorID_OtherEntity (Type: Long)
+    Field: We_Are_Responsible_For_Official_Number_Sequence (Type: Boolean)
+    Field: Used_In_Commercial_Sector (Type: Boolean)
+    Field: Used_In_Accounting_Sector (Type: Boolean)
+    Field: Is_Part_Of_MultiDocument_Transaction (Type: Boolean)
+    Field: Is_Supplementary_Document (Type: Boolean)
+
+Table: IssuedDocumentBackupT
+    Field: IssuedDocumentID_Backup_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Transaction_ID (Type: Long)
+    Field: Issued_Date (Type: Date/Time)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+    Field: Document_Official_Number_Sequence (Type: Long)
+    Field: Financial_Transaction_Point_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Financial_ID(Other_Entity) (Type: Long)
+    Field: Financial_Transaction_Point_ID(Other_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Other_Entity) (Type: Long)
+    Field: User_Notes_For_Other_Users (Type: Text)
+    Field: User_Notes_For_Accounting_Department (Type: Text)
+    Field: Has_Been_Cancelled_By_Document_ID (Type: Long)
+    Field: O (Type: Boolean)
+    Field: U (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Edit_Timestamp (Type: Date/Time)
+    Field: Document_Edit_User_ID (Type: Long)
+
+Table: IssuedDocumentFinancialDetailsBackUpT
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: Long)
+    Field: Issued_Document_Financial_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Debit (Type: Long)
+    Field: Credit (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Financial_Details_Insert_User_ID (Type: Long)
+    Field: Document_Financial_Details_Edit_Timestamp (Type: Date/Time)
+    Field: Document_Financial_Details_Edit_User_ID (Type: Long)
+
+Table: IssuedDocumentFinancialDetailsT
+    Field: Issued_Document_Financial_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Debit (Type: Double)
+    Field: Credit (Type: Double)
+    Field: Notes (Type: Memo)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Financial_Details_Insert_User_ID (Type: Long)
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+
+Table: IssuedDocumentFinancialDetailsT_DeletedRecords
+    Field: Issued_Document_Financial_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Debit (Type: Double)
+    Field: Credit (Type: Double)
+    Field: Notes (Type: Memo)
+    Field: Is_New (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Financial_Details_Insert_User_ID (Type: Long)
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: Long)
+    Field: Deletion_Timestamp (Type: Date/Time)
+    Field: Deletion_UserID (Type: Long)
+
+Table: IssuedDocumentFinancialDetailsT1imported
+    Field: Issued_Document_Financial_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Debit (Type: Double)
+    Field: Credit (Type: Double)
+    Field: Notes (Type: Memo)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Financial_Details_Insert_User_ID (Type: Long)
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+
+Table: IssuedDocumentProductDetailsBackupT
+    Field: IssuedDocumentProductDetailsID_Backup_ID (Type: Long)
+    Field: Issued_Document_Product_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Quantity (Type: Long)
+    Field: Unit_Price_Before_Discount (Type: Double)
+    Field: Total # Unit Discount (Type: Double)
+    Field: VAT% (Type: Unknown)
+    Field: VAT_ID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: Transactor_Product_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Other_Entity) (Type: Long)
+    Field: Accounting_Behavior_ID (Type: Integer)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Product_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Product_Details_Insert_User_ID (Type: Long)
+    Field: Document_Product_Details_Edit_Timestamp (Type: Date/Time)
+    Field: Document_Product_Details_Edit_User_ID (Type: Long)
+    Field: Unit_Price_After_Discount (Type: Double)
+    Field: Financial_Transactor_ID (Type: Long)
+    Field: Vat_Transactor_ID (Type: Long)
+
+Table: IssuedDocumentProductDetailsT
+    Field: Issued_Document_Product_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Quantity (Type: Double)
+    Field: Unit_Price_Before_Discount (Type: Double)
+    Field: Total # Unit Discount (Type: Double)
+    Field: VAT% (Type: Double)
+    Field: VAT_ID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: Transactor_Product_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Other_Entity) (Type: Long)
+    Field: Accounting_Behavior_ID (Type: Integer)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Product_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Product_Details_Insert_User_ID (Type: Long)
+    Field: IssuedDocumentProductDetails_Backup_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+    Field: Unit_Price_After_Discount (Type: Double)
+    Field: Financial_Transactor_ID (Type: Long)
+    Field: Vat_Transactor_ID (Type: Long)
+
+Table: IssuedDocumentProductDetailsT_DeletedRecords
+    Field: Issued_Document_Product_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Quantity (Type: Double)
+    Field: Unit_Price_Before_Discount (Type: Double)
+    Field: Total # Unit Discount (Type: Double)
+    Field: VAT% (Type: Unknown)
+    Field: VAT_ID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: Transactor_Product_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Other_Entity) (Type: Long)
+    Field: Accounting_Behavior_ID (Type: Integer)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Product_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Product_Details_Insert_User_ID (Type: Long)
+    Field: IssuedDocumentProductDetails_Backup_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+    Field: Unit_Price_After_Discount (Type: Double)
+    Field: Financial_Transactor_ID (Type: Long)
+    Field: Vat_Transactor_ID (Type: Long)
+    Field: Deletion_Timestamp (Type: Date/Time)
+    Field: Deletion_UserID (Type: Long)
+
+Table: IssuedDocumentProductDetailsTImported
+    Field: Issued_Document_Product_Details_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Quantity (Type: Double)
+    Field: Unit_Price_Before_Discount (Type: Double)
+    Field: Total # Unit Discount (Type: Double)
+    Field: VAT% (Type: Double)
+    Field: VAT_ID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: Transactor_Product_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Other_Entity) (Type: Long)
+    Field: Accounting_Behavior_ID (Type: Integer)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Document_Product_Details_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Product_Details_Insert_User_ID (Type: Long)
+    Field: IssuedDocumentProductDetails_Backup_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+
+Table: IssuedDocumentT
+    Field: Issued_Document_ID (Type: Long)
+    Field: Transaction_ID (Type: Long)
+    Field: Issued_Date (Type: Date/Time)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+    Field: Document_Official_Number_Sequence (Type: Long)
+    Field: Financial_Transaction_Point_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Financial_ID(Other_Entity) (Type: Long)
+    Field: Financial_Transaction_Point_ID(Other_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Other_Entity) (Type: Long)
+    Field: User_Notes_For_Other_Users (Type: Text)
+    Field: User_Notes_For_Accounting_Department (Type: Text)
+    Field: Has_Been_Cancelled_By_Document_ID (Type: Long)
+    Field: O (Type: Boolean)
+    Field: U (Type: Boolean)
+    Field: IS_Deleted (Type: Boolean)
+    Field: Is_New (Type: Boolean)
+    Field: Document_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Insert_UserID (Type: Long)
+    Field: Issued_Document_Backup_ID (Type: Long)
+
+Table: IssuedDocumentT_DeletedRecords
+    Field: Issued_Document_ID (Type: Long)
+    Field: Transaction_ID (Type: Long)
+    Field: Issued_Date (Type: Date/Time)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+    Field: Document_Official_Number_Sequence (Type: Long)
+    Field: Financial_Transaction_Point_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Financial_ID(Other_Entity) (Type: Long)
+    Field: Financial_Transaction_Point_ID(Other_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Main_Entity) (Type: Long)
+    Field: Transactor_Product_ID(Other_Entity) (Type: Long)
+    Field: User_Notes_For_Other_Users (Type: Text)
+    Field: User_Notes_For_Accounting_Department (Type: Text)
+    Field: Has_Been_Cancelled_By_Document_ID (Type: Long)
+    Field: O (Type: Boolean)
+    Field: U (Type: Boolean)
+    Field: IS_Deleted (Type: Boolean)
+    Field: Is_New (Type: Boolean)
+    Field: Document_Insert_Timestamp (Type: Date/Time)
+    Field: Document_Insert_UserID (Type: Long)
+    Field: Issued_Document_Backup_ID (Type: Long)
+    Field: Deletion_Timestamp (Type: Date/Time)
+    Field: Deletion_UserID (Type: Long)
+
+Table: JobsT
+    Field: Job_ID (Type: Long)
+    Field: Job_Title (Type: Text)
+    Field: Job_Description (Type: Memo)
+
+Table: LinkAccountingArticlesToFinancialTransactorsT
+    Field: Link_Accounting_Articles_To_Financial_Transactors_ID (Type: Long)
+    Field: Accounting_Articles_ID (Type: Long)
+    Field: Financial_Transactors_ID (Type: Long)
+    Field: View_ID (Type: Long)
+    Field: Debit_Yes_OR_No (Type: Boolean)
+
+Table: LinkAccountingArticlesToIssuableDocumentsT
+    Field: Link_Issuable_Documents_To_Accounting_Articles_ID (Type: Long)
+    Field: Accounting_Article_ID (Type: Long)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: LinkActionTypesToProtocolTypes
+    Field: Link_ActionTypeID_To_ProtocolTypeID_ID (Type: Long)
+    Field: Protocol_Type_ID (Type: Long)
+    Field: Action_Type_ID (Type: Long)
+    Field: Notes (Type: Text)
+    Field: View_ID (Type: Long)
+
+Table: LinkAttributeValueToEntitiesBackupT
+    Field: LinkAttributeValueToEntityID_Backup_ID (Type: Long)
+    Field: Link_Attribute_Value_To_Entity_ID (Type: Long)
+    Field: Entity_Type_ID (Type: Long)
+    Field: Entity_ID (Type: Long)
+    Field: Attribute_ID (Type: Long)
+    Field: Attribute_Value_String (Type: Text)
+    Field: Attribute_Value_Number (Type: Double)
+    Field: Attribute_Value_Boolean (Type: Long)
+    Field: Attribute_Value_Date (Type: Date/Time)
+    Field: Attribute_Value_Time (Type: Date/Time)
+    Field: Attribute_Value_TImestamp (Type: Date/Time)
+    Field: Notes (Type: Text)
+    Field: Is_Included_To_Suggested_Attributes (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: AttLinkToEntityEdit_UserID (Type: Long)
+    Field: AttLinkToEntityEdit_Timestamp (Type: Date/Time)
+
+Table: LinkAttributeValueToEntitiesT
+    Field: Link_Attribute_Value_To_Entity_ID (Type: Long)
+    Field: Entity_Type_ID (Type: Long)
+    Field: Entity_ID (Type: Long)
+    Field: Attribute_ID (Type: Long)
+    Field: Attribute_Value_String (Type: Text)
+    Field: Attribute_Value_Number (Type: Double)
+    Field: Attribute_Value_Boolean (Type: Long)
+    Field: Attribute_Value_Date (Type: Date/Time)
+    Field: Attribute_Value_Time (Type: Date/Time)
+    Field: Attribute_Value_TImestamp (Type: Date/Time)
+    Field: Notes (Type: Text)
+    Field: Is_Included_To_Suggested_Attributes (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Is_New (Type: Boolean)
+    Field: AttLinkToEntityInsert_UserID (Type: Long)
+    Field: AttLinkToEntityInsert_Timestamp (Type: Date/Time)
+    Field: AttLinkToEntityEdit_UserID (Type: Long)
+    Field: AttLinkToEntityEdit_Timestamp (Type: Date/Time)
+    Field: LinkAttributeValueToEntityID_Backup_ID (Type: Long)
+
+Table: LinkAttributeValueToEntitiesT_DeletedRecords
+    Field: Link_Attribute_Value_To_Entity_ID (Type: Long)
+    Field: Entity_Type_ID (Type: Long)
+    Field: Entity_ID (Type: Long)
+    Field: Attribute_ID (Type: Long)
+    Field: Attribute_Value_String (Type: Text)
+    Field: Attribute_Value_Number (Type: Double)
+    Field: Attribute_Value_Boolean (Type: Long)
+    Field: Attribute_Value_Date (Type: Date/Time)
+    Field: Attribute_Value_Time (Type: Date/Time)
+    Field: Attribute_Value_TImestamp (Type: Date/Time)
+    Field: Notes (Type: Text)
+    Field: Is_Included_To_Suggested_Attributes (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Is_New (Type: Boolean)
+    Field: AttLinkToEntityInsert_UserID (Type: Long)
+    Field: AttLinkToEntityInsert_Timestamp (Type: Date/Time)
+    Field: AttLinkToEntityEdit_UserID (Type: Long)
+    Field: AttLinkToEntityEdit_Timestamp (Type: Date/Time)
+    Field: LinkAttributeValueToEntityID_Backup_ID (Type: Long)
+    Field: Deletion_Timestamp (Type: Date/Time)
+    Field: Deletion_UserID (Type: Long)
+
+Table: LInkDutiesPerJobT
+    Field: Duties_Per_Job_ID (Type: Long)
+    Field: Job_ID (Type: Long)
+    Field: Duty_ID (Type: Long)
+    Field: Notes (Type: Memo)
+
+Table: LInkEntitiesToActionsT
+    Field: Link_Entities_To_Events_ID (Type: Long)
+    Field: Action_ID (Type: Long)
+    Field: Entity_Type_ID (Type: Long)
+    Field: Entity_ID (Type: Long)
+    Field: Notes (Type: Memo)
+
+Table: LinkExecutedActionsTypeIDAbleToCreateNewActionsTypeIDT
+    Field: ActionTypesID_That_Can_Generate_NewActionsWithActionTypeID_ID (Type: Long)
+    Field: Protocol_Type_ID (Type: Long)
+    Field: Executed_Action_Type_ID (Type: Long)
+    Field: ActionTypeID_For_New_Action (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: LinkFinancialTransactorsToVatTransactorsT
+    Field: Link_Financial_Transactor_To_Vat_Transactor_ID (Type: Long)
+    Field: Financial_Transactor_ID (Type: Long)
+    Field: Vat_Transactor_ID (Type: Long)
+    Field: View_ID (Type: Integer)
+
+Table: LinkFunctionsToUsersT
+    Field: LInk_Functions_To_Users_ID (Type: Long)
+    Field: Function_ID (Type: Long)
+    Field: Is_Active (Type: Boolean)
+    Field: User_ID (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: LinkIntentionToTransactorTypeForDocumentUseT
+    Field: Link_Intention_To_Transactor_Type_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+    Field: Transactor_Type_Group (Type: Integer)
+    Field: Transactor_Type_ID (Type: Long)
+    Field: Preselected (Type: Boolean)
+
+Table: LinkIntentionTypesToFormsT
+    Field: Link_IntentionTypes_To_Forms_ID (Type: Long)
+    Field: Intention_Type_ID (Type: Long)
+    Field: Form_ID (Type: Long)
+
+Table: LinkIssuableDocumentsToFormsT
+    Field: Link_IssuableDocuments_To_Forms_ID (Type: Long)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Form_ID (Type: Long)
+
+Table: LinkIssuableDocumentsToIntentionsT
+    Field: Link_Issuable_Documents_ToIntentions_ID (Type: Long)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+
+Table: LinkIssuableDocumentToTransactionPointsT
+    Field: Issuable_Doc_To_Transaction_Point_ID (Type: Long)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Transaction_Point_ID (Type: Long)
+    Field: Preferred_Storage_ID (Type: Integer)
+    Field: Preferred_Cashier_ID (Type: Integer)
+
+Table: LinkIssuableDocumentToUserT
+    Field: Link_Issuable_Document_To_User_ID (Type: Long)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: User_ID (Type: Long)
+
+Table: LinkIssuedDocumentToIntentionsT
+    Field: Link_IssuedDocumentID_To_IntentionID_ID (Type: Long)
+    Field: Issued_Document_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+
+Table: LinkMainToSupplentaryDocumentsT
+    Field: Link_Main_To_Supplentary_Documents_ID (Type: Long)
+    Field: Main_IssuableDocument_ID (Type: Long)
+    Field: Supplementary_IssuableDocument_ID (Type: Long)
+
+Table: LinkMonetaryTransactorsToTransactionPointsT
+    Field: Link_MonetaryTransactors_To_TransactionPoints_ID (Type: Long)
+    Field: TransactionPoint_ID (Type: Long)
+    Field: Monetary_Transactor_ID (Type: Long)
+    Field: Notes (Type: Text)
+    Field: View_ID (Type: Long)
+
+Table: LinkPricelistsToIntentionsT
+    Field: Link_Pricelists_To_Intentions_ID (Type: Long)
+    Field: Pricelist_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+
+Table: LinkProductArticlesToIssuableDocumentsT
+    Field: Link_Issuable_Documents_To_Product_Articles_ID (Type: Long)
+    Field: Product_Article_ID (Type: Long)
+    Field: Issuable_Document_ID (Type: Long)
+    Field: Intention_ID (Type: Long)
+    Field: Main_Entity_Transaction_Point (Type: Long)
+    Field: Transactor_Product_ID_Main_Entity_Type (Type: Long)
+    Field: Transactor_Product_ID_Main_Entity (Type: Long)
+    Field: Transactor_Product_ID_Other_Entity_Type (Type: Long)
+    Field: Transactor_Product_ID_Other_Entity (Type: Long)
+    Field: Transactor_Financial_ID_Other_Entity_Type (Type: Long)
+    Field: Transactor_Financial_ID_Other_Entity (Type: Long)
+    Field: Other_Entity_Transaction_Point (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: LinkProductArticlesToProductsT
+    Field: Link_Product_Articles_To_Products_ID (Type: Long)
+    Field: Product_Articles_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: View_ID (Type: Text)
+
+Table: LinkProductsAsAdditivesToOtherProductsT
+    Field: Products_Linked_As_Additives_To_Other_Products_ID (Type: Long)
+    Field: Parent_Product_ID (Type: Long)
+    Field: Child_Product_ID_(Additive) (Type: Long)
+    Field: AdditiveViewPositionID (Type: Long)
+
+Table: LinkProductsToCompanyFinancialTransactorsT
+    Field: Link_Products_To_Company_Financial_Transactors_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Intention_Type_ID (Type: Long)
+    Field: Transactor_Financial_ID (Type: Long)
+    Field: Accounting_Behavior_ID (Type: Long)
+    Field: Preselected (Type: Boolean)
+
+Table: LinkProductsToPricelistsT
+    Field: Product_To_Pricelist_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Price_List_ID (Type: Long)
+    Field: Price_Net(Before_Discount) (Type: Double)
+    Field: Discount_Or_Offer_ID (Type: Long)
+    Field: Activation_Timestamp (Type: Date/Time)
+    Field: Product_Included_In_This_Pricelist_For_This_Period (Type: Boolean)
+    Field: Notes (Type: Text)
+
+Table: LinkProductsToSunsoftProductsT
+    Field: Product_ID (Type: Long)
+    Field: Sunsoft_ProductID (Type: Long)
+
+Table: LInkReferenceID(EntityTypeID)ToAttributeIDsT
+    Field: Entity_Type_IDs_To _Be_Linked_With_Attributes_ID (Type: Long)
+    Field: Entity_Type_ID (Type: Long)
+    Field: Reference_ID (Type: Long)
+    Field: Attribute_ID (Type: Long)
+    Field: Can_Have_Multiple_Values (Type: Boolean)
+    Field: Notes (Type: Text)
+    Field: View_ID (Type: Long)
+
+Table: LinkStoragesToInstallationsT
+    Field: Link_Storages_To_Installations_ID (Type: Long)
+    Field: StorageID (Type: Long)
+    Field: Installation_ID (Type: Long)
+
+Table: LinkStoredProcToActionTypesT
+    Field: Link_StoredProc_To_ActionTypes_ID (Type: Long)
+    Field: Action_Types_ID (Type: Long)
+    Field: Strored_Procedure_ID (Type: Long)
+
+Table: LinkStoredProcToAttributesT
+    Field: Link_StoredProc_To_Attributes_ID (Type: Long)
+    Field: Attributes_ID (Type: Long)
+    Field: Strored_Procedure_ID (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: LinkTransactorsToDutiesT
+    Field: Link_Transactor_To_Duty_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Duty_ID (Type: Long)
+    Field: Priority_Of_Duty_For_Transactor (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: LinkTransactorsToJobsT
+    Field: Link_Transactor_To_Job_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Job_ID (Type: Long)
+    Field: Priority_Of_Job_For_Transactor (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: LinkUsersToAccountingArticles
+    Field: Link_User_To_Accounting_Articles_ID (Type: Long)
+    Field: User_ID (Type: Long)
+    Field: Accounting_Article_ID (Type: Long)
+
+Table: LinkUsersToProductArticles
+    Field: Link_User_To_Product_Articles_ID (Type: Long)
+    Field: User_ID (Type: Long)
+    Field: Product_Article_ID (Type: Long)
+
+Table: LinkVATToFinancialTransactorsID TO DELETE
+    Field: Link_VAT_To_Financial_Transactors_ID (Type: Long)
+    Field: Financial_Transactor_ID (Type: Long)
+    Field: VAT_Transactor_ID (Type: Long)
+
+Table: LoggedInUsers
+    Field: Logged_In_Users_ID (Type: Long)
+    Field: User_ID (Type: Integer)
+
+Table: LoginActivityT
+    Field: Log_In_ID (Type: Long)
+    Field: User_ID (Type: Integer)
+    Field: Login_Timestamp (Type: Date/Time)
+    Field: Logout_Timestamp (Type: Date/Time)
+
+Table: Map_Document_Product_Rows_To_Company's_Financial_TransactorT
+    Field: Map_Document_Product_Rows_To_Company's_Financial_Transactor_ID (Type: Long)
+    Field: Transaction_Point_ID (Type: Long)
+    Field: Intention_Type_ID (Type: Long)
+    Field: Company"s_Financial_Transactor_ID (Type: Long)
+
+Table: Map_Document_Product_Rows_To_VAT_TransactorT
+    Field: Map_Document_Product_Records_To_VAT_Transactor_ID (Type: Long)
+    Field: Intention_Type_ID (Type: Long)
+    Field: %VAT (Type: Double)
+    Field: VAT_Transactor_ID (Type: Long)
+
+Table: MeasureUnitsT
+    Field: Measure_Unit_ID (Type: Long)
+    Field: Measure_Unit_Abbreviation (Type: Text)
+    Field: Measure_Unit_Description (Type: Text)
+
+Table: P&L_DetailContnents‘
+    Field: ID (Type: Long)
+    Field: RELATED_ID_P&L_STATEMENT_MAIN_CONTENT (Type: Double)
+    Field: P&L_STATEMENT_MAIN_CONTENT (Type: Text)
+    Field: P&L_STATEMENT_DETAIL_CONTENT (Type: Text)
+
+Table: P&L_MainContents‘
+    Field: P&L_Statement_Main_Content_ID (Type: Long)
+    Field: P&L_Statement_Main_Content_Description (Type: Text)
+
+Table: Paste Errors
+    Field: Link_Intention_To_Transactor_Type_ID (Type: Long)
+    Field: Intention_ID (Type: Text)
+    Field: Transactor_Type_Group (Type: Integer)
+    Field: Transactor_Type_ID (Type: Text)
+    Field: Preselected (Type: Boolean)
+
+Table: PriceListsT
+    Field: Price_List_ID (Type: Long)
+    Field: Price_LIst_Description (Type: Text)
+    Field: Is_Active (Type: Boolean)
+    Field: View_ID (Type: Long)
+    Field: Notes (Type: Text)
+
+Table: ProductAccountingBehaviorT
+    Field: Product_Accounting_Behavior_ID (Type: Long)
+    Field: Product_Accounting_Behavior_Description (Type: Memo)
+    Field: Notes (Type: Memo)
+
+Table: ProductArticlesT
+    Field: Product_Article_ID (Type: Long)
+    Field: Product_Article_Description (Type: Text)
+    Field: In_Use (Type: Boolean)
+    Field: Notes (Type: Text)
+
+Table: ProductCategoryT
+    Field: Category_ID (Type: Long)
+    Field: Category_Description (Type: Text)
+    Field: For_Material_Products (Type: Boolean)
+    Field: View_ID (Type: Long)
+    Field: In_Use (Type: Boolean)
+
+Table: ProductInventoryBalanceT
+    Field: Product_Inventory_Balance_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Total_Debit (Type: Double)
+    Field: Total_Credit (Type: Double)
+
+Table: ProductMetaDataT
+    Field: Product_Meta_Data_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Description of product ingredients for efood (Type: Memo)
+
+Table: ProductsT
+    Field: Product_ID (Type: Long)
+    Field: Product_Description (Type: Text)
+    Field: Marketing Label (Type: Text)
+    Field: Base_Product_ID (Type: Long)
+    Field: VAT_Category_ID (Type: Long)
+    Field: Quantity_Of_Product_Content_In_Package (Type: Double)
+    Field: Measure_Unit_For_Purchases/Sales_ID (Type: Long)
+    Field: Measure_Unit_Of_Product_Content_In_Package_ID (Type: Long)
+    Field: Product_Type_ID (Type: Long)
+    Field: Product_Category_ID (Type: Long)
+    Field: Product_Subcategory_ID (Type: Long)
+    Field: Barcode_for_internal_use (Type: Text)
+    Field: Barcode_official (Type: Text)
+    Field: SKU (Type: Text)
+    Field: Is_Material (Type: Boolean)
+    Field: Active (Type: Boolean)
+    Field: Inventoryable (Type: Boolean)
+    Field: Notes (Type: Text)
+
+Table: ProductSubcategoryT
+    Field: Subcategory_ID (Type: Long)
+    Field: Subcategory_Description (Type: Text)
+    Field: View_ID (Type: Long)
+    Field: In_Use (Type: Boolean)
+
+Table: ProductToProductAlterationLinkT
+    Field: ID (Type: Long)
+    Field: Purchased_Product_ID (Type: Long)
+    Field: Sale-Consumed_Product_ID (Type: Long)
+    Field: Notes (Type: Memo)
+
+Table: ProductToSupplierLink‘
+    Field: Product_To_Supplier_Link_ID (Type: Long)
+    Field: Product_ID (Type: Long)
+    Field: Supplier_ID (Type: Long)
+
+Table: ProductTypeT
+    Field: Type_ID (Type: Long)
+    Field: Type_Description (Type: Text)
+    Field: For_Material_Products (Type: Boolean)
+    Field: View_ID (Type: Long)
+    Field: In_Use (Type: Boolean)
+
+Table: ProductUseIntentionForFranchisee‘
+    Field: Product_Use_Intention_For_Franchisee_ID (Type: Long)
+    Field: Product_Use_Intention_For_Franchisee_Description (Type: Text)
+
+Table: ProductVATCategoriesT
+    Field: Product_VAT_Category_ID (Type: Long)
+    Field: Product_VAT_Category_Description (Type: Text)
+    Field: Country_ID (Type: Long)
+    Field: Notes (Type: Memo)
+
+Table: ProtocolsT
+    Field: Protocol_ID (Type: Long)
+    Field: Protocol_Type_ID (Type: Long)
+    Field: Assignment_Date (Type: Date/Time)
+    Field: Permanently_Closed (Type: Boolean)
+    Field: Priority_Level (Type: Integer)
+    Field: Notes (Type: Text)
+    Field: Protocol_Insert_Timestamp (Type: Date/Time)
+    Field: Protocol_Insert_User_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+
+Table: ProtocolsT_DeletedRecords
+    Field: Protocol_ID (Type: Long)
+    Field: Protocol_Type_ID (Type: Long)
+    Field: Assignment_Date (Type: Date/Time)
+    Field: Permanently_Closed (Type: Boolean)
+    Field: Priority_Level (Type: Integer)
+    Field: Notes (Type: Text)
+    Field: Protocol_Insert_Timestamp (Type: Date/Time)
+    Field: Protocol_Insert_User_ID (Type: Long)
+    Field: Is_New (Type: Boolean)
+    Field: Is_Deleted (Type: Boolean)
+
+Table: ProtocolTypesT
+    Field: Protocol_Type_ID (Type: Long)
+    Field: Protocol_Type_Description (Type: Text)
+    Field: Default_Priority_Level (Type: Integer)
+    Field: Notes (Type: Text)
+
+Table: ProvincesT
+    Field: Province_ID (Type: Long)
+    Field: Province_Description (Type: Text)
+    Field: Country_ID (Type: Long)
+
+Table: RecipesExecutionMethodStepsT
+    Field: RecipeExecutionMethodStepID (Type: Long)
+    Field: RecipesExecutionMethodID (Type: Long)
+    Field: RecipeExecutionMethodStepPriorityID (Type: Long)
+    Field: RecipeExecutionMethodStepDescription (Type: Memo)
+    Field: RecipeExecutionMethodStepNotes (Type: Memo)
+
+Table: RecipesExecutionMethodWithProductsLink
+    Field: ID (Type: Long)
+    Field: ProductID (Type: Long)
+    Field: RecipesExecutionMethodID (Type: Long)
+
+Table: Recipes‘
+    Field: Recipe_Record_ID (Type: Long)
+    Field: Sale_Product_ID (Type: Long)
+    Field: Consumable_Product_ID (Type: Long)
+    Field: Consumption_Quantity (Type: Double)
+
+Table: ReipesExecutionMethod‘
+    Field: RecipesExecutionMethodID (Type: Long)
+    Field: RecipeExecutionMethodDescription (Type: Text)
+
+Table: SalesCategoryT
+    Field: Sales_Category_ID (Type: Long)
+    Field: Sales_Category_Description (Type: Text)
+
+Table: ShortcutKeysT
+    Field: Shortcut_Key_ID (Type: Long)
+    Field: Form_ID (Type: Long)
+    Field: Shortcut_Key_Description (Type: Text)
+    Field: Shortcut_Key_Info (Type: Text)
+    Field: View_ID (Type: Integer)
+
+Table: StoredProceduresT
+    Field: Stored_Procedures_ID (Type: Long)
+    Field: Procedure_Name (Type: Text)
+    Field: Procedure_Description (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: TableEntitiesToActAsForeignKeyForAttributesT
+    Field: TableEntitiesToActAsForeignKeyForAttributes_ID (Type: Long)
+    Field: Entity_Description (Type: Text)
+    Field: Table_Name (Type: Text)
+    Field: Fieldname_PK_ToActAs_FK_For_Attribute (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: TransactionPointsT
+    Field: Transaction_Point_ID (Type: Long)
+    Field: Transaction_Point_Description (Type: Text)
+    Field: Installation_ID (Type: Long)
+    Field: Preselected_StorageID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: Country (Type: Long)
+    Field: Vat_StatusID (Type: Long)
+    Field: In_Use (Type: Boolean)
+
+Table: TransactionsBackupT
+    Field: TransactionID_Backup_ID (Type: Long)
+    Field: Transaction_ID (Type: Long)
+    Field: Transaction_Type_ID (Type: Long)
+    Field: is_Deleted (Type: Boolean)
+    Field: Transaction_Edit_Timestamp (Type: Date/Time)
+    Field: Transaction_Edit_User_ID (Type: Long)
+
+Table: TransactionsT
+    Field: Transaction_ID (Type: Long)
+    Field: Transaction_Type_ID (Type: Long)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Is_New (Type: Boolean)
+    Field: Transaction_Insert_Timestamp (Type: Date/Time)
+    Field: Transaction_Insert_UserID (Type: Long)
+    Field: Transaction_Backup_ID (Type: Long)
+
+Table: TransactionsT_DeletedRecords
+    Field: Transaction_ID (Type: Long)
+    Field: Transaction_Type_ID (Type: Long)
+    Field: Is_Deleted (Type: Boolean)
+    Field: Is_New (Type: Boolean)
+    Field: Transaction_Insert_Timestamp (Type: Date/Time)
+    Field: Transaction_Insert_UserID (Type: Long)
+    Field: Transaction_Backup_ID (Type: Long)
+    Field: Deletion_Timestamp (Type: Date/Time)
+    Field: Deletion_UserID (Type: Date/Time)
+
+Table: TransactionTypesT
+    Field: Transaction_Type_ID (Type: Long)
+    Field: Transaction_Type_Description (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: TransactorAddressDetailsT
+    Field: Transactor_Address_Details_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Transactor_Address_Type_ID (Type: Long)
+    Field: Street_Name (Type: Text)
+    Field: Street_Number (Type: Text)
+    Field: Postal_Code (Type: Text)
+    Field: City_ID (Type: Long)
+    Field: Country_ID (Type: Long)
+    Field: VAT_Status_ID (Type: Long)
+    Field: Default_Address_Of_Transactor (Type: Boolean)
+    Field: GPS Latitude (Type: Text)
+    Field: GPS Longitude (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: TransactorAddressTypeT
+    Field: Transactor_Address_Type_ID (Type: Long)
+    Field: Transactor_Address_Type_Description (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: TransactorContactDetailsT
+    Field: Transactor_Contact_Details_ID (Type: Long)
+    Field: Basic_Tsansactor_ID_FK (Type: Long)
+    Field: Transactor_Contact_Type_ID (Type: Long)
+    Field: Transactor_Contact_Decription (Type: Text)
+    Field: Notes (Type: Text)
+
+Table: TransactorContactTypeT
+    Field: Transactor_Contact_Type_ID (Type: Long)
+    Field: Transactor_Contact_Type_Description (Type: Text)
+    Field: In_Use (Type: Boolean)
+    Field: Notes (Type: Text)
+
+Table: TransactorDetailsT
+    Field: Transactor_Details_ID (Type: Long)
+    Field: Transactor_ID (Type: Long)
+    Field: Phone landline (Type: Text)
+    Field: Phone mobile (Type: Text)
+    Field: Email (Type: Text)
+    Field: Notes (Type: Memo)
+    Field: VAT Number (Type: Text)
+    Field: VAT_Status_ID (Type: Long)
+    Field: Address (Type: Text)
+    Field: Country (Type: Long)
+    Field: Town (Type: Text)
+    Field: Province (Type: Text)
+    Field: Zip Code (Type: Text)
+    Field: Profession (Type: Text)
+    Field: FoodSupplier _Yes/No (Type: Boolean)
+    Field: Transactor_Details_Last_Modification_User_ID (Type: Long)
+    Field: Transactor_Details_Last_Modification_Timestamp (Type: Date/Time)
+
+Table: TransactorsBasicT
+    Field: Basic_Transactor_ID (Type: Long)
+    Field: Basic_Transactor_Description (Type: Text)
+    Field: In Use (Type: Boolean)
+    Field: Transactor_Last_Modification_User_ID (Type: Long)
+    Field: Transactor_Last_Modification_Timestamp (Type: Date/Time)
+
+Table: TransactorsT
+    Field: Transactor_ID (Type: Long)
+    Field: Basic_Transactor_ID (Type: Long)
+    Field: Transactor_Type_ID (Type: Long)
+    Field: Notes (Type: Memo)
+    Field: Total_Debit (Type: Double)
+    Field: Total_Credit (Type: Double)
+    Field: Transactor_Last_Modification_User_ID (Type: Long)
+    Field: Transactor_Last_Modification_Timestamp (Type: Date/Time)
+    Field: Account_ID (Type: Long)
+    Field: In_Use (Type: Boolean)
+
+Table: TransactorTypesT
+    Field: Transactor_Type_ID (Type: Long)
+    Field: Transactor_Type_Desription (Type: Text)
+    Field: Have_Financial_Transactions (Type: Boolean)
+    Field: Have_Product_Transactions (Type: Boolean)
+    Field: Is_Company's_Entity (Type: Boolean)
+    Field: Is_Product_Commercial_Transactor (Type: Boolean)
+    Field: Is_Dependant_From_Product (Type: Boolean)
+    Field: UsedAsMainOrOtherEntity (Type: Boolean)
+    Field: View_ID (Type: Long)
+    Field: View_ID_For_Financial_Documents (Type: Long)
+    Field: View_ID_For_Product_Documents (Type: Long)
+    Field: Is_VAT_Related (Type: Boolean)
+    Field: Has_VAT_Status (Type: Boolean)
+    Field: Notes (Type: Memo)
+
+Table: UsersT
+    Field: User_ID (Type: Long)
+    Field: First_Name (Type: Text)
+    Field: Last_name (Type: Text)
+    Field: User_Name (Type: Text)
+    Field: Password (Type: Text)
+    Field: Email (Type: Text)
+    Field: Telephone (Type: Text)
+    Field: User_Role_ID (Type: Integer)
+    Field: In_Use (Type: Boolean)
+
+Table: UserToCompanyLinkT to delete
+    Field: User_To_Company_Link_ID (Type: Long)
+    Field: User_ID (Type: Long)
+    Field: Company_ID (Type: Long)
+
+Table: USysApplicationLog
+    Field: ID (Type: Long)
+    Field: SourceObject (Type: Text)
+    Field: Data Macro Instance ID (Type: Text)
+    Field: Error Number (Type: Long)
+    Field: Category (Type: Text)
+    Field: Object Type (Type: Text)
+    Field: Description (Type: Memo)
+    Field: Context (Type: Text)
+    Field: Created (Type: Date/Time)
+
+Table: VAT_T
+    Field: VAT_ID (Type: Long)
+    Field: Transactor_VAT_Status_ID (Type: Long)
+    Field: Product_VAT_Category_ID (Type: Long)
+    Field: VAT% (Type: Double)
+    Field: Country_ID (Type: Long)
+
+Table: VATStatusT
+    Field: VAT_Status_ID (Type: Long)
+    Field: VAT_Status_Description (Type: Text)
+    Field: Country_ID (Type: Long)
+    Field: Notes (Type: Memo)
+
+Table: ≈  —≈ÃÃœ‘«‘≈” √…¡ ’Àœ–œ…«”«
+    Field: ID (Type: Long)
+    Field: –≈—…√—¡÷« ≈—√¡”…¡” (Type: Memo)
+
+Table: ”ÁÏÂÈ˛ÛÂÈÚ‘
+    Field: ID (Type: Long)
+    Field: ¡ÌÙÈÍÂﬂÏÂÌÔ Ôı ·ˆÔÒ‹ (Type: Memo)
+    Field: –ÂÒÈ„Ò·ˆﬁ ·Ì·ÎıÙÈÍﬁ (Type: Memo)
+    Field: Extra ”ÁÏÂÈ˛ÛÂÈÚ (Type: Memo)
+

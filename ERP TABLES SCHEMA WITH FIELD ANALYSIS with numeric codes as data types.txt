@@ -1,0 +1,1413 @@
+Table: AccountingArticlesT
+    Field: Accounting_Article_ID (Type: 4)
+    Field: Accounting_Article_Description (Type: 10)
+    Field: In_Use (Type: 1)
+    Field: Notes (Type: 10)
+
+Table: AccountsT
+    Field: Account_ID (Type: 4)
+    Field: Account_Description (Type: 10)
+    Field: Accounting_Account_Official_Code (Type: 10)
+    Field: Accounting_Account_Auxilary1_Code (Type: 10)
+    Field: Accounting_Account_Auxilary2_Code (Type: 10)
+
+Table: ActionsT
+    Field: Action_ID (Type: 4)
+    Field: Action_Type_ID (Type: 4)
+    Field: Protocol_ID (Type: 4)
+    Field: Timestamp_Assigned (Type: 8)
+    Field: Timestamp_Planned_To_Be_Executed_From (Type: 8)
+    Field: Timestamp_Planned_To_Be_Executed_Until (Type: 8)
+    Field: Timestamp_Executed (Type: 8)
+    Field: Notes (Type: 12)
+    Field: Action_Insert_Timestamp (Type: 8)
+    Field: Action_Insert_User_ID (Type: 10)
+    Field: Is_New (Type: 1)
+    Field: Is_Deleted (Type: 1)
+
+Table: ActionsT_DeletedRecords
+    Field: Action_ID (Type: 4)
+    Field: Action_Type_ID (Type: 4)
+    Field: Protocol_ID (Type: 4)
+    Field: Timestamp_Assigned (Type: 8)
+    Field: Timestamp_Planned_To_Be_Executed_From (Type: 8)
+    Field: Timestamp_Planned_To_Be_Executed_Until (Type: 8)
+    Field: Timestamp_Executed (Type: 8)
+    Field: Notes (Type: 12)
+    Field: Action_Insert_Timestamp (Type: 8)
+    Field: Action_Insert_User_ID (Type: 10)
+
+Table: ActionTypesT
+    Field: Action_Type_ID (Type: 4)
+    Field: Action_Type_Description (Type: 10)
+    Field: Help_Text_For_Action (Type: 10)
+    Field: Notes (Type: 12)
+
+Table: AdditivesViewIdHelperT
+    Field: child productID (Type: 4)
+    Field: viewID (Type: 4)
+
+Table: AttributesT
+    Field: Attribute_ID (Type: 4)
+    Field: Attribute_Description (Type: 10)
+    Field: EntityTypeID_For_RelevantTablePKField (Type: 4)
+    Field: TypeOfEntityType_ID (Type: 4)
+    Field: Data_type (Type: 4)
+    Field: Entities_May_Have_Multiple_Values (Type: 1)
+    Field: Feed_list_Available (Type: 1)
+    Field: Limited_To_List (Type: 1)
+    Field: User_Can_Enrich_List (Type: 1)
+    Field: System_Attribute (Type: 1)
+    Field: Notes (Type: 12)
+
+Table: AttributeValuesHierarchyT
+    Field: Attribute_Values_Hierarchy_ID (Type: 4)
+    Field: Parent_Attribute_ID (Type: 4)
+    Field: Parent_Attribute_Value_ID (Type: 4)
+    Field: Child_Attribute_ID (Type: 4)
+    Field: Child_Attribute_Value_ID (Type: 4)
+
+Table: AttributeValuesListsT
+    Field: Attribute_Value_id (Type: 4)
+    Field: Attribute_ID (Type: 4)
+    Field: Attribute_Value_String (Type: 10)
+    Field: Attribute_Value_Number (Type: 7)
+    Field: Attribute_Value_Date (Type: 8)
+    Field: Attribute_Value_Time (Type: 8)
+    Field: Attribute_Value_TImestamp (Type: 8)
+    Field: View_Sequence_Number (Type: 4)
+
+Table: CitiesT
+    Field: City_ID (Type: 4)
+    Field: City_Description (Type: 10)
+    Field: County_ID (Type: 4)
+
+Table: CompaniesT to delete
+    Field: Company_ID (Type: 4)
+    Field: Company_Description (Type: 10)
+
+Table: CompanyDepartmentT
+    Field: Company_Department_ID (Type: 4)
+    Field: Company_Department_Description (Type: 10)
+    Field: Company_ID (Type: 4)
+
+Table: CountiesT
+    Field: County_ID (Type: 4)
+    Field: County_Description (Type: 10)
+    Field: Province_ID (Type: 4)
+
+Table: CountriesT
+    Field: Country_ID (Type: 4)
+    Field: Country_Description (Type: 10)
+
+Table: CurrencyT
+    Field: Currency_ID (Type: 4)
+    Field: Currency_Description (Type: 10)
+    Field: Currency_Abbreviation (Type: 10)
+    Field: Currency_Symbol (Type: 10)
+
+Table: CurrentlyConnectedUsersT
+    Field: CurrentlyConnectedUsers_ID (Type: 4)
+    Field: ConnectionTimestamp (Type: 8)
+    Field: DisconnectionTimestamp (Type: 8)
+
+Table: CurrentUserT
+    Field: Current_User_ID (Type: 3)
+    Field: Login_Activity_ID (Type: 4)
+
+Table: DataTypesT
+    Field: Data_Type_ID (Type: 4)
+    Field: Data_Type_Description (Type: 10)
+
+Table: dbo_TblSnItem
+    Field: ItemCode (Type: 4)
+    Field: ItemDescr (Type: 10)
+    Field: ItemInitDate (Type: 8)
+    Field: ItemIcon (Type: 10)
+    Field: ItemNotes (Type: 12)
+    Field: ItemInactive (Type: 3)
+    Field: ItemNoStock (Type: 3)
+    Field: ItemRemove (Type: 3)
+    Field: ItemWeb (Type: 3)
+    Field: ItemGreek (Type: 3)
+    Field: ItemSet (Type: 3)
+    Field: ItemBookID (Type: 10)
+    Field: ItemUsed (Type: 3)
+    Field: ItemSummary (Type: 12)
+    Field: FpaCategOID (Type: 4)
+    Field: MeasureUnitOID (Type: 4)
+    Field: ItemTypeOID (Type: 4)
+    Field: ItemMarkOID (Type: 4)
+    Field: BasicSuppOID (Type: 4)
+    Field: ProducerOID (Type: 4)
+    Field: ItemOID (Type: 4)
+    Field: BasicISPOID (Type: 4)
+    Field: BasicBPOID (Type: 4)
+    Field: ThemeSubCategOID (Type: 4)
+    Field: ItemModify (Type: 3)
+    Field: ItemBarcodes (Type: 12)
+    Field: ItemAbbreviationDescrs (Type: 12)
+    Field: ItemGroupOID (Type: 4)
+    Field: ItemSMega (Type: 6)
+    Field: ItemShelf (Type: 10)
+    Field: ItemCompBarCodes (Type: 10)
+    Field: ItemCompBarCodeQtys (Type: 10)
+    Field: ItemCompBarCodeActs (Type: 10)
+    Field: ItemDeCompBarCodes (Type: 10)
+    Field: ItemDeCompBarCodeQtys (Type: 10)
+    Field: ItemDeCompBarCodeActs (Type: 10)
+    Field: ItemTransBarCodes (Type: 10)
+    Field: ItemTransBarCodeQtys (Type: 10)
+    Field: ItemTransBarCodeActs (Type: 10)
+    Field: ItemWHouseSupp (Type: 3)
+    Field: ItemSecondDescrs (Type: 12)
+    Field: ItemSysk (Type: 10)
+    Field: OrderWayOID (Type: 4)
+    Field: OrderDayOID (Type: 4)
+    Field: ItemLevel (Type: 4)
+    Field: ItemCheckStock (Type: 4)
+    Field: ItemServRow (Type: 4)
+    Field: ItemFastFood (Type: 3)
+    Field: ItemProdTime (Type: 6)
+    Field: ItemGift (Type: 3)
+    Field: ItemRounding (Type: 3)
+    Field: ItemChangePrice (Type: 3)
+    Field: ItemCentral (Type: 3)
+    Field: ItemUniqueCode (Type: 4)
+    Field: ItemPart (Type: 3)
+    Field: DasmClassOID (Type: 4)
+    Field: ItemSerialNo (Type: 3)
+    Field: ItemTerm (Type: 3)
+    Field: ItemTicket (Type: 3)
+    Field: ItemSMicro (Type: 6)
+    Field: ItemColor (Type: 4)
+    Field: ItemSent (Type: 3)
+    Field: ItemAux1 (Type: 10)
+    Field: ItemAux2 (Type: 10)
+    Field: ItemFromDate (Type: 8)
+    Field: ItemToDate (Type: 8)
+    Field: ItemWeighed (Type: 3)
+    Field: ItemUpdDate (Type: 8)
+    Field: DataBaseOID (Type: 4)
+    Field: ItemCombo (Type: 3)
+    Field: ItemCostPrice (Type: 3)
+    Field: ItemMaxPlus (Type: 4)
+    Field: ItemMaxAcc (Type: 4)
+    Field: ItemComboType (Type: 3)
+    Field: ItemComboNo (Type: 4)
+    Field: ItemRecycle (Type: 3)
+    Field: ItemRecycleValue (Type: 5)
+    Field: ItemDuration (Type: 3)
+    Field: ItemMaturation (Type: 3)
+    Field: ItemMinProdQty (Type: 5)
+    Field: ItemWaste (Type: 7)
+    Field: ItemLotNotes (Type: 12)
+    Field: ItemLotNumberTemplate (Type: 10)
+    Field: ItemThermalProcess (Type: 3)
+    Field: ItemIsContract (Type: 3)
+    Field: ItemContractDescr (Type: 10)
+
+Table: dbo_TblSnShopItem
+    Field: ShopItemDescr (Type: 10)
+    Field: ItemOID (Type: 4)
+    Field: ShopOID (Type: 4)
+    Field: WHouseOID (Type: 4)
+    Field: ShopItemOID (Type: 4)
+    Field: ShopItemForInventory (Type: 3)
+    Field: ShopItemForSales (Type: 3)
+    Field: ShopItemModify (Type: 3)
+    Field: ShopItemDeleted (Type: 3)
+    Field: ShopItemTECCode (Type: 10)
+    Field: ShopItemSRMCode (Type: 10)
+    Field: ShopItemSort (Type: 4)
+    Field: ShopItemObligQty (Type: 4)
+    Field: ProdWHouseOID (Type: 4)
+    Field: ShopItemForPurchases (Type: 3)
+    Field: ShopItemIndependent (Type: 3)
+    Field: ShopItemSent (Type: 3)
+    Field: ShopItemFromDate (Type: 8)
+    Field: ShopItemToDate (Type: 8)
+    Field: ShopItemInitDate (Type: 8)
+    Field: ShopItemUpdDate (Type: 8)
+    Field: DataBaseOID (Type: 4)
+
+Table: dbo_TblSnTransAccDtl
+    Field: TrAcDtXre (Type: 5)
+    Field: TrAcDtPis (Type: 5)
+    Field: TrAcDtDescription (Type: 12)
+    Field: TrAcDtCost (Type: 3)
+    Field: TrAcDtFXre (Type: 5)
+    Field: TrAcDtFPis (Type: 5)
+    Field: TransAccHdrOID (Type: 4)
+    Field: TrnTypeGLOID (Type: 4)
+    Field: AccountOID (Type: 4)
+    Field: FinYearOID (Type: 4)
+    Field: TransAccDtlOID (Type: 4)
+    Field: TrAcDtUpdate (Type: 3)
+    Field: TrAcDtAnalyt (Type: 3)
+    Field: TrAcDtParentAcc (Type: 4)
+
+Table: DiscountLogsBackupT
+    Field: DiscountLogsID_Backup_ID (Type: 4)
+    Field: Discount_Logs_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Discount_OR_Offer_ID (Type: 4)
+    Field: %Discount_Percentage (Type: 7)
+    Field: #Discount_Value (Type: 7)
+    Field: Discount_For_Single_ProductDetailsID_Only (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: Discount_Insert_Timestamp (Type: 8)
+    Field: DiscountLogs_Backup_ID (Type: 4)
+    Field: Discount_Insert_User_ID (Type: 4)
+    Field: Discount_Edit_Timestamp (Type: 8)
+    Field: Discount_Edit_User_ID (Type: 4)
+
+Table: DiscountLogsDetailsBackupT
+    Field: DiscountsLogsDetailsID_backup_ID (Type: 4)
+    Field: Discounts_Logs_Details_ID (Type: 4)
+    Field: Discount_Logs_ID (Type: 4)
+    Field: Product_Details_ID (Type: 4)
+    Field: Unit_Price_Before_This_Discount (Type: 7)
+    Field: Unit_Price_After_This_Discount (Type: 7)
+    Field: Is_Deleted (Type: 1)
+    Field: DiscountDetails_Insert_Timestamp (Type: 8)
+    Field: DiscountDetails_Insert_User_ID (Type: 4)
+    Field: DiscountDetails_Edit_Timestamp (Type: 8)
+    Field: DiscountDetails_Edit_User_ID (Type: 4)
+
+Table: DiscountLogsDetailsT
+    Field: Discounts_Logs_Details_ID (Type: 4)
+    Field: Discount_Logs_ID (Type: 4)
+    Field: Product_Details_ID (Type: 4)
+    Field: Unit_Price_Before_This_Discount (Type: 7)
+    Field: Unit_Price_After_This_Discount (Type: 7)
+    Field: Is_Deleted (Type: 1)
+    Field: DiscountDetails_Insert_Timestamp (Type: 8)
+    Field: DiscountDetails_Insert_User_ID (Type: 4)
+    Field: DiscountLogsDetails_Backup_ID (Type: 4)
+    Field: Is_New (Type: 1)
+
+Table: DiscountLogsDetailsT_DeletedRecords
+    Field: Discounts_Logs_Details_ID (Type: 4)
+    Field: Discount_Logs_ID (Type: 4)
+    Field: Product_Details_ID (Type: 4)
+    Field: Unit_Price_Before_This_Discount (Type: 7)
+    Field: Unit_Price_After_This_Discount (Type: 7)
+    Field: Is_Deleted (Type: 1)
+    Field: DiscountDetails_Insert_Timestamp (Type: 8)
+    Field: DiscountDetails_Insert_User_ID (Type: 4)
+    Field: DiscountLogsDetails_Backup_ID (Type: 4)
+    Field: Is_New (Type: 1)
+    Field: Deletion_Timestamp (Type: 8)
+    Field: Deletion_UserID (Type: 4)
+
+Table: DiscountLogsT
+    Field: Discount_Logs_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Discount_OR_Offer_ID (Type: 4)
+    Field: %Discount_Percentage (Type: 7)
+    Field: #Discount_Value (Type: 7)
+    Field: Discount_For_Single_ProductDetailsID_Only (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: DiscountLogs_Backup_ID (Type: 4)
+    Field: Discount_Insert_Timestamp (Type: 8)
+    Field: Discount_Insert_User_ID (Type: 4)
+    Field: Is_New (Type: 1)
+
+Table: DiscountLogsT_DeletedRecords
+    Field: Discount_Logs_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Discount_OR_Offer_ID (Type: 4)
+    Field: %Discount_Percentage (Type: 7)
+    Field: #Discount_Value (Type: 7)
+    Field: Discount_For_Single_ProductDetailsID_Only (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: DiscountLogs_Backup_ID (Type: 4)
+    Field: Discount_Insert_Timestamp (Type: 8)
+    Field: Discount_Insert_User_ID (Type: 4)
+    Field: Is_New (Type: 1)
+    Field: Deletion_Timestamp (Type: 8)
+    Field: Deletion_UserID (Type: 4)
+
+Table: DiscountOrOfferT
+    Field: Discount_Or_Offer_ID (Type: 4)
+    Field: Discount_Or_Offer_Description (Type: 10)
+    Field: Additional_Discount_Permitted (Type: 1)
+    Field: Discount_Or_Offer_Type_ID (Type: 4)
+    Field: % Percentage of Discount (Type: 7)
+    Field: # Discount Monetary Value (Type: 7)
+    Field: For_Every_Paid_Products (Type: 7)
+    Field: Customer_Receives_Products_For_Free (Type: 7)
+    Field: On_Single_Product (Type: 1)
+    Field: On_Multiple_Products (Type: 1)
+    Field: Notes (Type: 12)
+    Field: In-Use (Type: 1)
+
+Table: DiscountOrOfferTypeT
+    Field: Discount_OR_Offer_Type_ID (Type: 4)
+    Field: Discount_OR_Offer_Type_Description (Type: 10)
+    Field: Notes (Type: 12)
+
+Table: DocumentIssuerTypeT
+    Field: Document_Issuer_Type_ID (Type: 4)
+    Field: Document_Issuer_Type_Description (Type: 10)
+
+Table: DocumentsIssuersT
+    Field: Document_Issuer_ID (Type: 4)
+    Field: Document_Issuer_Description (Type: 10)
+    Field: Document_Issuer_Type_ID (Type: 4)
+    Field: Installation_ID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: In_Use (Type: 1)
+
+Table: DutiesT
+    Field: Duty_ID (Type: 4)
+    Field: Duty_Description (Type: 10)
+    Field: Duty_Type_ID (Type: 4)
+    Field: Duty_Details_Analysis (Type: 12)
+    Field: Company_ID (Type: 4)
+
+Table: DutyTypeT
+    Field: Duty_Type_ID (Type: 4)
+    Field: Duty_Type_Description (Type: 10)
+    Field: Duty_Type_Detail_Notes (Type: 12)
+
+Table: EntitiesTypesToHaveAttributesT
+    Field: Entities_To_Have_Attributes_ID (Type: 4)
+    Field: Entities_To_Have_Attributes_Description (Type: 10)
+    Field: RelevantTablePKField (Type: 10)
+    Field: RelevantTable (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: ErrorLogingT
+    Field: Error_Log_ID (Type: 4)
+    Field: Error_Number (Type: 3)
+    Field: Error_Description (Type: 10)
+    Field: Error_Time (Type: 8)
+    Field: User_ID (Type: 3)
+    Field: Module_Error_Appeared_In (Type: 10)
+    Field: Procedure_Or_Function (Type: 10)
+
+Table: FinancialBalanceErrorsT
+    Field: Financial_Balance_Error_ID (Type: 4)
+    Field: Transaction_ID (Type: 4)
+    Field: Document_ID (Type: 4)
+    Field: Financial_Details_ID (Type: 4)
+    Field: Product_Details_ID (Type: 4)
+    Field: Total_Debit (Type: 7)
+    Field: Total_Credit (Type: 7)
+    Field: Difference (Type: 7)
+    Field: Timestamp (Type: 8)
+    Field: Notes (Type: 10)
+    Field: User_ID (Type: 3)
+
+Table: FormsT
+    Field: Form_ID (Type: 4)
+    Field: Form_Description (Type: 10)
+    Field: View_ID (Type: 4)
+    Field: To_Be_Linked_With_Issuable_Docuemnts (Type: 1)
+
+Table: FunctionsT
+    Field: Function_ID (Type: 4)
+    Field: Function_Description (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: HelpTableForTransactorSearchByContactAndAddressDetailsT
+    Field: Link_Transactor_To_Address_And_Contact_Strings_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Basic_Transactor_ID (Type: 4)
+    Field: Address_String (Type: 10)
+    Field: Contact_String (Type: 10)
+
+Table: HelpTableForUseAttributeValuesAsFiltersFilterT
+    Field: Filter_Entity_ID (Type: 4)
+
+Table: HelpTableForUseAttributeValuesAsFiltersFinalT
+    Field: Link_Attribute_Value_To_Entity_ID (Type: 4)
+    Field: Entity_Type_ID (Type: 4)
+    Field: Final_Entity_ID (Type: 4)
+    Field: Attribute_ID (Type: 4)
+    Field: Attribute_Value_String (Type: 10)
+    Field: Attribute_Value_Number (Type: 7)
+    Field: Attribute_Value_Boolean (Type: 1)
+    Field: Attribute_Value_Date (Type: 8)
+    Field: Attribute_Value_Time (Type: 8)
+    Field: Attribute_Value_TImestamp (Type: 8)
+    Field: Attribute_Value_Hyperlink (Type: 12)
+    Field: Attribute_Description (Type: 10)
+
+Table: HelpTableForUseAttributeValuesAsFiltersT
+    Field: Help_Table_For_Use_Attribute_Values_As_Filters_ID (Type: 4)
+    Field: Attribute_ID (Type: 4)
+    Field: Attribute_Value_String (Type: 10)
+    Field: Attribute_Value_Number (Type: 7)
+    Field: Attribute_Value_Boolean (Type: 1)
+    Field: Attribute_Value_Date (Type: 8)
+    Field: Attribute_Value_Time (Type: 8)
+    Field: Attribute_Value_TImestamp (Type: 8)
+    Field: Attribute_Value_Hyperlink (Type: 12)
+    Field: Attribute_Value_Attachment (Type: 101)
+
+Table: InstallationsT
+    Field: Installation_ID (Type: 4)
+    Field: Installation Description (Type: 10)
+    Field: Country_ID (Type: 4)
+    Field: Installation's_Address (Type: 10)
+    Field: In_Use (Type: 1)
+    Field: VAT_Status_ID (Type: 4)
+
+Table: IntentionsT
+    Field: Intention_Description (Type: 10)
+    Field: Intention_ID (Type: 4)
+    Field: Intention_Type_ID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: In_Use (Type: 1)
+    Field: Has_Product_Details (Type: 1)
+    Field: Has_Financial_Details (Type: 1)
+    Field: Affects_Inventory (Type: 4)
+    Field: Affects_Financial (Type: 1)
+    Field: Affects_Ownership_Of_Products (Type: 1)
+    Field: Product_Details_Produce_Financial_Results (Type: 1)
+
+Table: IntentionsTypeT
+    Field: Intention_Type_ID (Type: 4)
+    Field: Intention_Type_Description (Type: 10)
+    Field: Involves_Products (Type: 1)
+    Field: Involves_Financial (Type: 1)
+    Field: Involves_Pricelists (Type: 1)
+    Field: Envolves_VAT_Account (Type: 1)
+    Field: Notes (Type: 12)
+    Field: In_Use (Type: 1)
+    Field: View_ID (Type: 3)
+
+Table: InventoryBalanceErrorsT
+    Field: Inventory_Balance_Error_ID (Type: 4)
+    Field: Transaction_ID (Type: 4)
+    Field: Document_ID (Type: 4)
+    Field: Product_Details_ID (Type: 4)
+    Field: Total_Debit (Type: 7)
+    Field: Total_Credit (Type: 7)
+    Field: Difference (Type: 7)
+    Field: Timestamp (Type: 8)
+    Field: Notes (Type: 10)
+    Field: User_ID (Type: 3)
+
+Table: IssuableDocumentT
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Distinction_Additive (Type: 10)
+    Field: Issuable_Document_Description (Type: 10)
+    Field: Document_Issuer_ID (Type: 4)
+    Field: In_Use (Type: 1)
+    Field: Has_Product_Details (Type: 1)
+    Field: Has_Financial_Details (Type: 1)
+    Field: Pricelist_FK (Type: 4)
+    Field: Product_Values_YESisGross_NOisNet (Type: 1)
+    Field: Affects_Inventory (Type: 3)
+    Field: Is_Positive (Type: 1)
+    Field: Main_Product_Entity_Debited(For_Product_Documents) (Type: 1)
+    Field: Main_Financial_Entity_Debited(Commercial_Sector) (Type: 1)
+    Field: Notes (Type: 12)
+    Field: Initial_Official_Number_Sequence (Type: 4)
+    Field: Preselected_Transaction_Point_ID (Type: 4)
+    Field: Preselected_ProductTransactorType_MainEntity (Type: 4)
+    Field: Preselected_ProductTransactorID_MainEntity (Type: 4)
+    Field: Preselected_FinancialTransactorType_OtherEntity (Type: 4)
+    Field: Preselected_FinancialTransactorID_OtherEntity (Type: 4)
+    Field: Preselected_TransactionPointID_OtherEntity (Type: 4)
+    Field: Preselected_ProductTransactorType_OtherEntity (Type: 4)
+    Field: Preselected_ProductTransactorID_OtherEntity (Type: 4)
+    Field: We_Are_Responsible_For_Official_Number_Sequence (Type: 1)
+    Field: Used_In_Commercial_Sector (Type: 1)
+    Field: Used_In_Accounting_Sector (Type: 1)
+    Field: Is_Part_Of_MultiDocument_Transaction (Type: 1)
+    Field: Is_Supplementary_Document (Type: 1)
+
+Table: IssuedDocumentBackupT
+    Field: IssuedDocumentID_Backup_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Transaction_ID (Type: 4)
+    Field: Issued_Date (Type: 8)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+    Field: Document_Official_Number_Sequence (Type: 4)
+    Field: Financial_Transaction_Point_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Financial_ID(Other_Entity) (Type: 4)
+    Field: Financial_Transaction_Point_ID(Other_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Other_Entity) (Type: 4)
+    Field: User_Notes_For_Other_Users (Type: 10)
+    Field: User_Notes_For_Accounting_Department (Type: 10)
+    Field: Has_Been_Cancelled_By_Document_ID (Type: 4)
+    Field: O (Type: 1)
+    Field: U (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Edit_Timestamp (Type: 8)
+    Field: Document_Edit_User_ID (Type: 4)
+
+Table: IssuedDocumentFinancialDetailsBackUpT
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: 4)
+    Field: Issued_Document_Financial_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Debit (Type: 4)
+    Field: Credit (Type: 4)
+    Field: Notes (Type: 12)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Financial_Details_Insert_User_ID (Type: 4)
+    Field: Document_Financial_Details_Edit_Timestamp (Type: 8)
+    Field: Document_Financial_Details_Edit_User_ID (Type: 4)
+
+Table: IssuedDocumentFinancialDetailsT
+    Field: Issued_Document_Financial_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Debit (Type: 7)
+    Field: Credit (Type: 7)
+    Field: Notes (Type: 12)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Financial_Details_Insert_User_ID (Type: 4)
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: 4)
+    Field: Is_New (Type: 1)
+
+Table: IssuedDocumentFinancialDetailsT_DeletedRecords
+    Field: Issued_Document_Financial_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Debit (Type: 7)
+    Field: Credit (Type: 7)
+    Field: Notes (Type: 12)
+    Field: Is_New (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Financial_Details_Insert_User_ID (Type: 4)
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: 4)
+    Field: Deletion_Timestamp (Type: 8)
+    Field: Deletion_UserID (Type: 4)
+
+Table: IssuedDocumentFinancialDetailsT1imported
+    Field: Issued_Document_Financial_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Debit (Type: 7)
+    Field: Credit (Type: 7)
+    Field: Notes (Type: 12)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Financial_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Financial_Details_Insert_User_ID (Type: 4)
+    Field: IssuedDocumentFinancialDetails_Backup_ID (Type: 4)
+    Field: Is_New (Type: 1)
+
+Table: IssuedDocumentProductDetailsBackupT
+    Field: IssuedDocumentProductDetailsID_Backup_ID (Type: 4)
+    Field: Issued_Document_Product_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Quantity (Type: 4)
+    Field: Unit_Price_Before_Discount (Type: 7)
+    Field: Total # Unit Discount (Type: 7)
+    Field: VAT% (Type: 20)
+    Field: VAT_ID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: Transactor_Product_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Other_Entity) (Type: 4)
+    Field: Accounting_Behavior_ID (Type: 3)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Product_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Product_Details_Insert_User_ID (Type: 4)
+    Field: Document_Product_Details_Edit_Timestamp (Type: 8)
+    Field: Document_Product_Details_Edit_User_ID (Type: 4)
+    Field: Unit_Price_After_Discount (Type: 7)
+    Field: Financial_Transactor_ID (Type: 4)
+    Field: Vat_Transactor_ID (Type: 4)
+
+Table: IssuedDocumentProductDetailsT
+    Field: Issued_Document_Product_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Quantity (Type: 7)
+    Field: Unit_Price_Before_Discount (Type: 7)
+    Field: Total # Unit Discount (Type: 7)
+    Field: VAT% (Type: 7)
+    Field: VAT_ID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: Transactor_Product_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Other_Entity) (Type: 4)
+    Field: Accounting_Behavior_ID (Type: 3)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Product_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Product_Details_Insert_User_ID (Type: 4)
+    Field: IssuedDocumentProductDetails_Backup_ID (Type: 4)
+    Field: Is_New (Type: 1)
+    Field: Unit_Price_After_Discount (Type: 7)
+    Field: Financial_Transactor_ID (Type: 4)
+    Field: Vat_Transactor_ID (Type: 4)
+
+Table: IssuedDocumentProductDetailsT_DeletedRecords
+    Field: Issued_Document_Product_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Quantity (Type: 7)
+    Field: Unit_Price_Before_Discount (Type: 7)
+    Field: Total # Unit Discount (Type: 7)
+    Field: VAT% (Type: 20)
+    Field: VAT_ID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: Transactor_Product_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Other_Entity) (Type: 4)
+    Field: Accounting_Behavior_ID (Type: 3)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Product_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Product_Details_Insert_User_ID (Type: 4)
+    Field: IssuedDocumentProductDetails_Backup_ID (Type: 4)
+    Field: Is_New (Type: 1)
+    Field: Unit_Price_After_Discount (Type: 7)
+    Field: Financial_Transactor_ID (Type: 4)
+    Field: Vat_Transactor_ID (Type: 4)
+    Field: Deletion_Timestamp (Type: 8)
+    Field: Deletion_UserID (Type: 4)
+
+Table: IssuedDocumentProductDetailsTImported
+    Field: Issued_Document_Product_Details_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Quantity (Type: 7)
+    Field: Unit_Price_Before_Discount (Type: 7)
+    Field: Total # Unit Discount (Type: 7)
+    Field: VAT% (Type: 7)
+    Field: VAT_ID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: Transactor_Product_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Other_Entity) (Type: 4)
+    Field: Accounting_Behavior_ID (Type: 3)
+    Field: Is_Deleted (Type: 1)
+    Field: Document_Product_Details_Insert_Timestamp (Type: 8)
+    Field: Document_Product_Details_Insert_User_ID (Type: 4)
+    Field: IssuedDocumentProductDetails_Backup_ID (Type: 4)
+    Field: Is_New (Type: 1)
+
+Table: IssuedDocumentT
+    Field: Issued_Document_ID (Type: 4)
+    Field: Transaction_ID (Type: 4)
+    Field: Issued_Date (Type: 8)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+    Field: Document_Official_Number_Sequence (Type: 4)
+    Field: Financial_Transaction_Point_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Financial_ID(Other_Entity) (Type: 4)
+    Field: Financial_Transaction_Point_ID(Other_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Other_Entity) (Type: 4)
+    Field: User_Notes_For_Other_Users (Type: 10)
+    Field: User_Notes_For_Accounting_Department (Type: 10)
+    Field: Has_Been_Cancelled_By_Document_ID (Type: 4)
+    Field: O (Type: 1)
+    Field: U (Type: 1)
+    Field: IS_Deleted (Type: 1)
+    Field: Is_New (Type: 1)
+    Field: Document_Insert_Timestamp (Type: 8)
+    Field: Document_Insert_UserID (Type: 4)
+    Field: Issued_Document_Backup_ID (Type: 4)
+
+Table: IssuedDocumentT_DeletedRecords
+    Field: Issued_Document_ID (Type: 4)
+    Field: Transaction_ID (Type: 4)
+    Field: Issued_Date (Type: 8)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+    Field: Document_Official_Number_Sequence (Type: 4)
+    Field: Financial_Transaction_Point_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Financial_ID(Other_Entity) (Type: 4)
+    Field: Financial_Transaction_Point_ID(Other_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Main_Entity) (Type: 4)
+    Field: Transactor_Product_ID(Other_Entity) (Type: 4)
+    Field: User_Notes_For_Other_Users (Type: 10)
+    Field: User_Notes_For_Accounting_Department (Type: 10)
+    Field: Has_Been_Cancelled_By_Document_ID (Type: 4)
+    Field: O (Type: 1)
+    Field: U (Type: 1)
+    Field: IS_Deleted (Type: 1)
+    Field: Is_New (Type: 1)
+    Field: Document_Insert_Timestamp (Type: 8)
+    Field: Document_Insert_UserID (Type: 4)
+    Field: Issued_Document_Backup_ID (Type: 4)
+    Field: Deletion_Timestamp (Type: 8)
+    Field: Deletion_UserID (Type: 4)
+
+Table: JobsT
+    Field: Job_ID (Type: 4)
+    Field: Job_Title (Type: 10)
+    Field: Job_Description (Type: 12)
+
+Table: LinkAccountingArticlesToFinancialTransactorsT
+    Field: Link_Accounting_Articles_To_Financial_Transactors_ID (Type: 4)
+    Field: Accounting_Articles_ID (Type: 4)
+    Field: Financial_Transactors_ID (Type: 4)
+    Field: View_ID (Type: 4)
+    Field: Debit_Yes_OR_No (Type: 1)
+
+Table: LinkAccountingArticlesToIssuableDocumentsT
+    Field: Link_Issuable_Documents_To_Accounting_Articles_ID (Type: 4)
+    Field: Accounting_Article_ID (Type: 4)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: LinkActionTypesToProtocolTypes
+    Field: Link_ActionTypeID_To_ProtocolTypeID_ID (Type: 4)
+    Field: Protocol_Type_ID (Type: 4)
+    Field: Action_Type_ID (Type: 4)
+    Field: Notes (Type: 10)
+    Field: View_ID (Type: 4)
+
+Table: LinkAttributeValueToEntitiesBackupT
+    Field: LinkAttributeValueToEntityID_Backup_ID (Type: 4)
+    Field: Link_Attribute_Value_To_Entity_ID (Type: 4)
+    Field: Entity_Type_ID (Type: 4)
+    Field: Entity_ID (Type: 4)
+    Field: Attribute_ID (Type: 4)
+    Field: Attribute_Value_String (Type: 10)
+    Field: Attribute_Value_Number (Type: 7)
+    Field: Attribute_Value_Boolean (Type: 4)
+    Field: Attribute_Value_Date (Type: 8)
+    Field: Attribute_Value_Time (Type: 8)
+    Field: Attribute_Value_TImestamp (Type: 8)
+    Field: Notes (Type: 10)
+    Field: Is_Included_To_Suggested_Attributes (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: AttLinkToEntityEdit_UserID (Type: 4)
+    Field: AttLinkToEntityEdit_Timestamp (Type: 8)
+
+Table: LinkAttributeValueToEntitiesT
+    Field: Link_Attribute_Value_To_Entity_ID (Type: 4)
+    Field: Entity_Type_ID (Type: 4)
+    Field: Entity_ID (Type: 4)
+    Field: Attribute_ID (Type: 4)
+    Field: Attribute_Value_String (Type: 10)
+    Field: Attribute_Value_Number (Type: 7)
+    Field: Attribute_Value_Boolean (Type: 4)
+    Field: Attribute_Value_Date (Type: 8)
+    Field: Attribute_Value_Time (Type: 8)
+    Field: Attribute_Value_TImestamp (Type: 8)
+    Field: Notes (Type: 10)
+    Field: Is_Included_To_Suggested_Attributes (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: Is_New (Type: 1)
+    Field: AttLinkToEntityInsert_UserID (Type: 4)
+    Field: AttLinkToEntityInsert_Timestamp (Type: 8)
+    Field: AttLinkToEntityEdit_UserID (Type: 4)
+    Field: AttLinkToEntityEdit_Timestamp (Type: 8)
+    Field: LinkAttributeValueToEntityID_Backup_ID (Type: 4)
+
+Table: LinkAttributeValueToEntitiesT_DeletedRecords
+    Field: Link_Attribute_Value_To_Entity_ID (Type: 4)
+    Field: Entity_Type_ID (Type: 4)
+    Field: Entity_ID (Type: 4)
+    Field: Attribute_ID (Type: 4)
+    Field: Attribute_Value_String (Type: 10)
+    Field: Attribute_Value_Number (Type: 7)
+    Field: Attribute_Value_Boolean (Type: 4)
+    Field: Attribute_Value_Date (Type: 8)
+    Field: Attribute_Value_Time (Type: 8)
+    Field: Attribute_Value_TImestamp (Type: 8)
+    Field: Notes (Type: 10)
+    Field: Is_Included_To_Suggested_Attributes (Type: 1)
+    Field: Is_Deleted (Type: 1)
+    Field: Is_New (Type: 1)
+    Field: AttLinkToEntityInsert_UserID (Type: 4)
+    Field: AttLinkToEntityInsert_Timestamp (Type: 8)
+    Field: AttLinkToEntityEdit_UserID (Type: 4)
+    Field: AttLinkToEntityEdit_Timestamp (Type: 8)
+    Field: LinkAttributeValueToEntityID_Backup_ID (Type: 4)
+    Field: Deletion_Timestamp (Type: 8)
+    Field: Deletion_UserID (Type: 4)
+
+Table: LInkDutiesPerJobT
+    Field: Duties_Per_Job_ID (Type: 4)
+    Field: Job_ID (Type: 4)
+    Field: Duty_ID (Type: 4)
+    Field: Notes (Type: 12)
+
+Table: LInkEntitiesToActionsT
+    Field: Link_Entities_To_Events_ID (Type: 4)
+    Field: Action_ID (Type: 4)
+    Field: Entity_Type_ID (Type: 4)
+    Field: Entity_ID (Type: 4)
+    Field: Notes (Type: 12)
+
+Table: LinkExecutedActionsTypeIDAbleToCreateNewActionsTypeIDT
+    Field: ActionTypesID_That_Can_Generate_NewActionsWithActionTypeID_ID (Type: 4)
+    Field: Protocol_Type_ID (Type: 4)
+    Field: Executed_Action_Type_ID (Type: 4)
+    Field: ActionTypeID_For_New_Action (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: LinkFinancialTransactorsToVatTransactorsT
+    Field: Link_Financial_Transactor_To_Vat_Transactor_ID (Type: 4)
+    Field: Financial_Transactor_ID (Type: 4)
+    Field: Vat_Transactor_ID (Type: 4)
+    Field: View_ID (Type: 3)
+
+Table: LinkFunctionsToUsersT
+    Field: LInk_Functions_To_Users_ID (Type: 4)
+    Field: Function_ID (Type: 4)
+    Field: Is_Active (Type: 1)
+    Field: User_ID (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: LinkIntentionToTransactorTypeForDocumentUseT
+    Field: Link_Intention_To_Transactor_Type_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+    Field: Transactor_Type_Group (Type: 3)
+    Field: Transactor_Type_ID (Type: 4)
+    Field: Preselected (Type: 1)
+
+Table: LinkIntentionTypesToFormsT
+    Field: Link_IntentionTypes_To_Forms_ID (Type: 4)
+    Field: Intention_Type_ID (Type: 4)
+    Field: Form_ID (Type: 4)
+
+Table: LinkIssuableDocumentsToFormsT
+    Field: Link_IssuableDocuments_To_Forms_ID (Type: 4)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Form_ID (Type: 4)
+
+Table: LinkIssuableDocumentsToIntentionsT
+    Field: Link_Issuable_Documents_ToIntentions_ID (Type: 4)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+
+Table: LinkIssuableDocumentToTransactionPointsT
+    Field: Issuable_Doc_To_Transaction_Point_ID (Type: 4)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Transaction_Point_ID (Type: 4)
+    Field: Preferred_Storage_ID (Type: 3)
+    Field: Preferred_Cashier_ID (Type: 3)
+
+Table: LinkIssuableDocumentToUserT
+    Field: Link_Issuable_Document_To_User_ID (Type: 4)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: User_ID (Type: 4)
+
+Table: LinkIssuedDocumentToIntentionsT
+    Field: Link_IssuedDocumentID_To_IntentionID_ID (Type: 4)
+    Field: Issued_Document_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+
+Table: LinkMainToSupplentaryDocumentsT
+    Field: Link_Main_To_Supplentary_Documents_ID (Type: 4)
+    Field: Main_IssuableDocument_ID (Type: 4)
+    Field: Supplementary_IssuableDocument_ID (Type: 4)
+
+Table: LinkMonetaryTransactorsToTransactionPointsT
+    Field: Link_MonetaryTransactors_To_TransactionPoints_ID (Type: 4)
+    Field: TransactionPoint_ID (Type: 4)
+    Field: Monetary_Transactor_ID (Type: 4)
+    Field: Notes (Type: 10)
+    Field: View_ID (Type: 4)
+
+Table: LinkPricelistsToIntentionsT
+    Field: Link_Pricelists_To_Intentions_ID (Type: 4)
+    Field: Pricelist_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+
+Table: LinkProductArticlesToIssuableDocumentsT
+    Field: Link_Issuable_Documents_To_Product_Articles_ID (Type: 4)
+    Field: Product_Article_ID (Type: 4)
+    Field: Issuable_Document_ID (Type: 4)
+    Field: Intention_ID (Type: 4)
+    Field: Main_Entity_Transaction_Point (Type: 4)
+    Field: Transactor_Product_ID_Main_Entity_Type (Type: 4)
+    Field: Transactor_Product_ID_Main_Entity (Type: 4)
+    Field: Transactor_Product_ID_Other_Entity_Type (Type: 4)
+    Field: Transactor_Product_ID_Other_Entity (Type: 4)
+    Field: Transactor_Financial_ID_Other_Entity_Type (Type: 4)
+    Field: Transactor_Financial_ID_Other_Entity (Type: 4)
+    Field: Other_Entity_Transaction_Point (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: LinkProductArticlesToProductsT
+    Field: Link_Product_Articles_To_Products_ID (Type: 4)
+    Field: Product_Articles_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: View_ID (Type: 10)
+
+Table: LinkProductsAsAdditivesToOtherProductsT
+    Field: Products_Linked_As_Additives_To_Other_Products_ID (Type: 4)
+    Field: Parent_Product_ID (Type: 4)
+    Field: Child_Product_ID_(Additive) (Type: 4)
+    Field: AdditiveViewPositionID (Type: 4)
+
+Table: LinkProductsToCompanyFinancialTransactorsT
+    Field: Link_Products_To_Company_Financial_Transactors_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Intention_Type_ID (Type: 4)
+    Field: Transactor_Financial_ID (Type: 4)
+    Field: Accounting_Behavior_ID (Type: 4)
+    Field: Preselected (Type: 1)
+
+Table: LinkProductsToPricelistsT
+    Field: Product_To_Pricelist_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Price_List_ID (Type: 4)
+    Field: Price_Net(Before_Discount) (Type: 7)
+    Field: Discount_Or_Offer_ID (Type: 4)
+    Field: Activation_Timestamp (Type: 8)
+    Field: Product_Included_In_This_Pricelist_For_This_Period (Type: 1)
+    Field: Notes (Type: 10)
+
+Table: LinkProductsToSunsoftProductsT
+    Field: Product_ID (Type: 4)
+    Field: Sunsoft_ProductID (Type: 4)
+
+Table: LInkReferenceID(EntityTypeID)ToAttributeIDsT
+    Field: Entity_Type_IDs_To _Be_Linked_With_Attributes_ID (Type: 4)
+    Field: Entity_Type_ID (Type: 4)
+    Field: Reference_ID (Type: 4)
+    Field: Attribute_ID (Type: 4)
+    Field: Can_Have_Multiple_Values (Type: 1)
+    Field: Notes (Type: 10)
+    Field: View_ID (Type: 4)
+
+Table: LinkStoragesToInstallationsT
+    Field: Link_Storages_To_Installations_ID (Type: 4)
+    Field: StorageID (Type: 4)
+    Field: Installation_ID (Type: 4)
+
+Table: LinkStoredProcToActionTypesT
+    Field: Link_StoredProc_To_ActionTypes_ID (Type: 4)
+    Field: Action_Types_ID (Type: 4)
+    Field: Strored_Procedure_ID (Type: 4)
+
+Table: LinkStoredProcToAttributesT
+    Field: Link_StoredProc_To_Attributes_ID (Type: 4)
+    Field: Attributes_ID (Type: 4)
+    Field: Strored_Procedure_ID (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: LinkTransactorsToDutiesT
+    Field: Link_Transactor_To_Duty_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Duty_ID (Type: 4)
+    Field: Priority_Of_Duty_For_Transactor (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: LinkTransactorsToJobsT
+    Field: Link_Transactor_To_Job_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Job_ID (Type: 4)
+    Field: Priority_Of_Job_For_Transactor (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: LinkUsersToAccountingArticles
+    Field: Link_User_To_Accounting_Articles_ID (Type: 4)
+    Field: User_ID (Type: 4)
+    Field: Accounting_Article_ID (Type: 4)
+
+Table: LinkUsersToProductArticles
+    Field: Link_User_To_Product_Articles_ID (Type: 4)
+    Field: User_ID (Type: 4)
+    Field: Product_Article_ID (Type: 4)
+
+Table: LinkVATToFinancialTransactorsID TO DELETE
+    Field: Link_VAT_To_Financial_Transactors_ID (Type: 4)
+    Field: Financial_Transactor_ID (Type: 4)
+    Field: VAT_Transactor_ID (Type: 4)
+
+Table: LoggedInUsers
+    Field: Logged_In_Users_ID (Type: 4)
+    Field: User_ID (Type: 3)
+
+Table: LoginActivityT
+    Field: Log_In_ID (Type: 4)
+    Field: User_ID (Type: 3)
+    Field: Login_Timestamp (Type: 8)
+    Field: Logout_Timestamp (Type: 8)
+
+Table: Map_Document_Product_Rows_To_Company's_Financial_TransactorT
+    Field: Map_Document_Product_Rows_To_Company's_Financial_Transactor_ID (Type: 4)
+    Field: Transaction_Point_ID (Type: 4)
+    Field: Intention_Type_ID (Type: 4)
+    Field: Company"s_Financial_Transactor_ID (Type: 4)
+
+Table: Map_Document_Product_Rows_To_VAT_TransactorT
+    Field: Map_Document_Product_Records_To_VAT_Transactor_ID (Type: 4)
+    Field: Intention_Type_ID (Type: 4)
+    Field: %VAT (Type: 7)
+    Field: VAT_Transactor_ID (Type: 4)
+
+Table: MeasureUnitsT
+    Field: Measure_Unit_ID (Type: 4)
+    Field: Measure_Unit_Abbreviation (Type: 10)
+    Field: Measure_Unit_Description (Type: 10)
+
+Table: P&L_DetailContnents‘
+    Field: ID (Type: 4)
+    Field: RELATED_ID_P&L_STATEMENT_MAIN_CONTENT (Type: 7)
+    Field: P&L_STATEMENT_MAIN_CONTENT (Type: 10)
+    Field: P&L_STATEMENT_DETAIL_CONTENT (Type: 10)
+
+Table: P&L_MainContents‘
+    Field: P&L_Statement_Main_Content_ID (Type: 4)
+    Field: P&L_Statement_Main_Content_Description (Type: 10)
+
+Table: Paste Errors
+    Field: Link_Intention_To_Transactor_Type_ID (Type: 4)
+    Field: Intention_ID (Type: 10)
+    Field: Transactor_Type_Group (Type: 3)
+    Field: Transactor_Type_ID (Type: 10)
+    Field: Preselected (Type: 1)
+
+Table: PriceListsT
+    Field: Price_List_ID (Type: 4)
+    Field: Price_LIst_Description (Type: 10)
+    Field: Is_Active (Type: 1)
+    Field: View_ID (Type: 4)
+    Field: Notes (Type: 10)
+
+Table: ProductAccountingBehaviorT
+    Field: Product_Accounting_Behavior_ID (Type: 4)
+    Field: Product_Accounting_Behavior_Description (Type: 12)
+    Field: Notes (Type: 12)
+
+Table: ProductArticlesT
+    Field: Product_Article_ID (Type: 4)
+    Field: Product_Article_Description (Type: 10)
+    Field: In_Use (Type: 1)
+    Field: Notes (Type: 10)
+
+Table: ProductCategoryT
+    Field: Category_ID (Type: 4)
+    Field: Category_Description (Type: 10)
+    Field: For_Material_Products (Type: 1)
+    Field: View_ID (Type: 4)
+    Field: In_Use (Type: 1)
+
+Table: ProductInventoryBalanceT
+    Field: Product_Inventory_Balance_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Total_Debit (Type: 7)
+    Field: Total_Credit (Type: 7)
+
+Table: ProductMetaDataT
+    Field: Product_Meta_Data_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Description of product ingredients for efood (Type: 12)
+
+Table: ProductsT
+    Field: Product_ID (Type: 4)
+    Field: Product_Description (Type: 10)
+    Field: Marketing Label (Type: 10)
+    Field: Base_Product_ID (Type: 4)
+    Field: VAT_Category_ID (Type: 4)
+    Field: Quantity_Of_Product_Content_In_Package (Type: 7)
+    Field: Measure_Unit_For_Purchases/Sales_ID (Type: 4)
+    Field: Measure_Unit_Of_Product_Content_In_Package_ID (Type: 4)
+    Field: Product_Type_ID (Type: 4)
+    Field: Product_Category_ID (Type: 4)
+    Field: Product_Subcategory_ID (Type: 4)
+    Field: Barcode_for_internal_use (Type: 10)
+    Field: Barcode_official (Type: 10)
+    Field: SKU (Type: 10)
+    Field: Is_Material (Type: 1)
+    Field: Active (Type: 1)
+    Field: Inventoryable (Type: 1)
+    Field: Notes (Type: 10)
+
+Table: ProductSubcategoryT
+    Field: Subcategory_ID (Type: 4)
+    Field: Subcategory_Description (Type: 10)
+    Field: View_ID (Type: 4)
+    Field: In_Use (Type: 1)
+
+Table: ProductToProductAlterationLinkT
+    Field: ID (Type: 4)
+    Field: Purchased_Product_ID (Type: 4)
+    Field: Sale-Consumed_Product_ID (Type: 4)
+    Field: Notes (Type: 12)
+
+Table: ProductToSupplierLink‘
+    Field: Product_To_Supplier_Link_ID (Type: 4)
+    Field: Product_ID (Type: 4)
+    Field: Supplier_ID (Type: 4)
+
+Table: ProductTypeT
+    Field: Type_ID (Type: 4)
+    Field: Type_Description (Type: 10)
+    Field: For_Material_Products (Type: 1)
+    Field: View_ID (Type: 4)
+    Field: In_Use (Type: 1)
+
+Table: ProductUseIntentionForFranchisee‘
+    Field: Product_Use_Intention_For_Franchisee_ID (Type: 4)
+    Field: Product_Use_Intention_For_Franchisee_Description (Type: 10)
+
+Table: ProductVATCategoriesT
+    Field: Product_VAT_Category_ID (Type: 4)
+    Field: Product_VAT_Category_Description (Type: 10)
+    Field: Country_ID (Type: 4)
+    Field: Notes (Type: 12)
+
+Table: ProtocolsT
+    Field: Protocol_ID (Type: 4)
+    Field: Protocol_Type_ID (Type: 4)
+    Field: Assignment_Date (Type: 8)
+    Field: Permanently_Closed (Type: 1)
+    Field: Priority_Level (Type: 3)
+    Field: Notes (Type: 10)
+    Field: Protocol_Insert_Timestamp (Type: 8)
+    Field: Protocol_Insert_User_ID (Type: 4)
+    Field: Is_New (Type: 1)
+    Field: Is_Deleted (Type: 1)
+
+Table: ProtocolsT_DeletedRecords
+    Field: Protocol_ID (Type: 4)
+    Field: Protocol_Type_ID (Type: 4)
+    Field: Assignment_Date (Type: 8)
+    Field: Permanently_Closed (Type: 1)
+    Field: Priority_Level (Type: 3)
+    Field: Notes (Type: 10)
+    Field: Protocol_Insert_Timestamp (Type: 8)
+    Field: Protocol_Insert_User_ID (Type: 4)
+    Field: Is_New (Type: 1)
+    Field: Is_Deleted (Type: 1)
+
+Table: ProtocolTypesT
+    Field: Protocol_Type_ID (Type: 4)
+    Field: Protocol_Type_Description (Type: 10)
+    Field: Default_Priority_Level (Type: 3)
+    Field: Notes (Type: 10)
+
+Table: ProvincesT
+    Field: Province_ID (Type: 4)
+    Field: Province_Description (Type: 10)
+    Field: Country_ID (Type: 4)
+
+Table: RecipesExecutionMethodStepsT
+    Field: RecipeExecutionMethodStepID (Type: 4)
+    Field: RecipesExecutionMethodID (Type: 4)
+    Field: RecipeExecutionMethodStepPriorityID (Type: 4)
+    Field: RecipeExecutionMethodStepDescription (Type: 12)
+    Field: RecipeExecutionMethodStepNotes (Type: 12)
+
+Table: RecipesExecutionMethodWithProductsLink
+    Field: ID (Type: 4)
+    Field: ProductID (Type: 4)
+    Field: RecipesExecutionMethodID (Type: 4)
+
+Table: Recipes‘
+    Field: Recipe_Record_ID (Type: 4)
+    Field: Sale_Product_ID (Type: 4)
+    Field: Consumable_Product_ID (Type: 4)
+    Field: Consumption_Quantity (Type: 7)
+
+Table: ReipesExecutionMethod‘
+    Field: RecipesExecutionMethodID (Type: 4)
+    Field: RecipeExecutionMethodDescription (Type: 10)
+
+Table: SalesCategoryT
+    Field: Sales_Category_ID (Type: 4)
+    Field: Sales_Category_Description (Type: 10)
+
+Table: ShortcutKeysT
+    Field: Shortcut_Key_ID (Type: 4)
+    Field: Form_ID (Type: 4)
+    Field: Shortcut_Key_Description (Type: 10)
+    Field: Shortcut_Key_Info (Type: 10)
+    Field: View_ID (Type: 3)
+
+Table: StoredProceduresT
+    Field: Stored_Procedures_ID (Type: 4)
+    Field: Procedure_Name (Type: 10)
+    Field: Procedure_Description (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: TableEntitiesToActAsForeignKeyForAttributesT
+    Field: TableEntitiesToActAsForeignKeyForAttributes_ID (Type: 4)
+    Field: Entity_Description (Type: 10)
+    Field: Table_Name (Type: 10)
+    Field: Fieldname_PK_ToActAs_FK_For_Attribute (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: TransactionPointsT
+    Field: Transaction_Point_ID (Type: 4)
+    Field: Transaction_Point_Description (Type: 10)
+    Field: Installation_ID (Type: 4)
+    Field: Preselected_StorageID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: Country (Type: 4)
+    Field: Vat_StatusID (Type: 4)
+    Field: In_Use (Type: 1)
+
+Table: TransactionsBackupT
+    Field: TransactionID_Backup_ID (Type: 4)
+    Field: Transaction_ID (Type: 4)
+    Field: Transaction_Type_ID (Type: 4)
+    Field: is_Deleted (Type: 1)
+    Field: Transaction_Edit_Timestamp (Type: 8)
+    Field: Transaction_Edit_User_ID (Type: 4)
+
+Table: TransactionsT
+    Field: Transaction_ID (Type: 4)
+    Field: Transaction_Type_ID (Type: 4)
+    Field: Is_Deleted (Type: 1)
+    Field: Is_New (Type: 1)
+    Field: Transaction_Insert_Timestamp (Type: 8)
+    Field: Transaction_Insert_UserID (Type: 4)
+    Field: Transaction_Backup_ID (Type: 4)
+
+Table: TransactionsT_DeletedRecords
+    Field: Transaction_ID (Type: 4)
+    Field: Transaction_Type_ID (Type: 4)
+    Field: Is_Deleted (Type: 1)
+    Field: Is_New (Type: 1)
+    Field: Transaction_Insert_Timestamp (Type: 8)
+    Field: Transaction_Insert_UserID (Type: 4)
+    Field: Transaction_Backup_ID (Type: 4)
+    Field: Deletion_Timestamp (Type: 8)
+    Field: Deletion_UserID (Type: 8)
+
+Table: TransactionTypesT
+    Field: Transaction_Type_ID (Type: 4)
+    Field: Transaction_Type_Description (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: TransactorAddressDetailsT
+    Field: Transactor_Address_Details_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Transactor_Address_Type_ID (Type: 4)
+    Field: Street_Name (Type: 10)
+    Field: Street_Number (Type: 10)
+    Field: Postal_Code (Type: 10)
+    Field: City_ID (Type: 4)
+    Field: Country_ID (Type: 4)
+    Field: VAT_Status_ID (Type: 4)
+    Field: Default_Address_Of_Transactor (Type: 1)
+    Field: GPS Latitude (Type: 10)
+    Field: GPS Longitude (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: TransactorAddressTypeT
+    Field: Transactor_Address_Type_ID (Type: 4)
+    Field: Transactor_Address_Type_Description (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: TransactorContactDetailsT
+    Field: Transactor_Contact_Details_ID (Type: 4)
+    Field: Basic_Tsansactor_ID_FK (Type: 4)
+    Field: Transactor_Contact_Type_ID (Type: 4)
+    Field: Transactor_Contact_Decription (Type: 10)
+    Field: Notes (Type: 10)
+
+Table: TransactorContactTypeT
+    Field: Transactor_Contact_Type_ID (Type: 4)
+    Field: Transactor_Contact_Type_Description (Type: 10)
+    Field: In_Use (Type: 1)
+    Field: Notes (Type: 10)
+
+Table: TransactorDetailsT
+    Field: Transactor_Details_ID (Type: 4)
+    Field: Transactor_ID (Type: 4)
+    Field: Phone landline (Type: 10)
+    Field: Phone mobile (Type: 10)
+    Field: Email (Type: 10)
+    Field: Notes (Type: 12)
+    Field: VAT Number (Type: 10)
+    Field: VAT_Status_ID (Type: 4)
+    Field: Address (Type: 10)
+    Field: Country (Type: 4)
+    Field: Town (Type: 10)
+    Field: Province (Type: 10)
+    Field: Zip Code (Type: 10)
+    Field: Profession (Type: 10)
+    Field: FoodSupplier _Yes/No (Type: 1)
+    Field: Transactor_Details_Last_Modification_User_ID (Type: 4)
+    Field: Transactor_Details_Last_Modification_Timestamp (Type: 8)
+
+Table: TransactorsBasicT
+    Field: Basic_Transactor_ID (Type: 4)
+    Field: Basic_Transactor_Description (Type: 10)
+    Field: In Use (Type: 1)
+    Field: Transactor_Last_Modification_User_ID (Type: 4)
+    Field: Transactor_Last_Modification_Timestamp (Type: 8)
+
+Table: TransactorsT
+    Field: Transactor_ID (Type: 4)
+    Field: Basic_Transactor_ID (Type: 4)
+    Field: Transactor_Type_ID (Type: 4)
+    Field: Notes (Type: 12)
+    Field: Total_Debit (Type: 7)
+    Field: Total_Credit (Type: 7)
+    Field: Transactor_Last_Modification_User_ID (Type: 4)
+    Field: Transactor_Last_Modification_Timestamp (Type: 8)
+    Field: Account_ID (Type: 4)
+    Field: In_Use (Type: 1)
+
+Table: TransactorTypesT
+    Field: Transactor_Type_ID (Type: 4)
+    Field: Transactor_Type_Desription (Type: 10)
+    Field: Have_Financial_Transactions (Type: 1)
+    Field: Have_Product_Transactions (Type: 1)
+    Field: Is_Company's_Entity (Type: 1)
+    Field: Is_Product_Commercial_Transactor (Type: 1)
+    Field: Is_Dependant_From_Product (Type: 1)
+    Field: UsedAsMainOrOtherEntity (Type: 1)
+    Field: View_ID (Type: 4)
+    Field: View_ID_For_Financial_Documents (Type: 4)
+    Field: View_ID_For_Product_Documents (Type: 4)
+    Field: Is_VAT_Related (Type: 1)
+    Field: Has_VAT_Status (Type: 1)
+    Field: Notes (Type: 12)
+
+Table: UsersT
+    Field: User_ID (Type: 4)
+    Field: First_Name (Type: 10)
+    Field: Last_name (Type: 10)
+    Field: User_Name (Type: 10)
+    Field: Password (Type: 10)
+    Field: Email (Type: 10)
+    Field: Telephone (Type: 10)
+    Field: User_Role_ID (Type: 3)
+    Field: In_Use (Type: 1)
+
+Table: UserToCompanyLinkT to delete
+    Field: User_To_Company_Link_ID (Type: 4)
+    Field: User_ID (Type: 4)
+    Field: Company_ID (Type: 4)
+
+Table: USysApplicationLog
+    Field: ID (Type: 4)
+    Field: SourceObject (Type: 10)
+    Field: Data Macro Instance ID (Type: 10)
+    Field: Error Number (Type: 4)
+    Field: Category (Type: 10)
+    Field: Object Type (Type: 10)
+    Field: Description (Type: 12)
+    Field: Context (Type: 10)
+    Field: Created (Type: 8)
+
+Table: VAT_T
+    Field: VAT_ID (Type: 4)
+    Field: Transactor_VAT_Status_ID (Type: 4)
+    Field: Product_VAT_Category_ID (Type: 4)
+    Field: VAT% (Type: 7)
+    Field: Country_ID (Type: 4)
+
+Table: VATStatusT
+    Field: VAT_Status_ID (Type: 4)
+    Field: VAT_Status_Description (Type: 10)
+    Field: Country_ID (Type: 4)
+    Field: Notes (Type: 12)
+
+Table: ≈  —≈ÃÃœ‘«‘≈” √…¡ ’Àœ–œ…«”«
+    Field: ID (Type: 4)
+    Field: –≈—…√—¡÷« ≈—√¡”…¡” (Type: 12)
+
+Table: ”ÁÏÂÈ˛ÛÂÈÚ‘
+    Field: ID (Type: 4)
+    Field: ¡ÌÙÈÍÂﬂÏÂÌÔ Ôı ·ˆÔÒ‹ (Type: 12)
+    Field: –ÂÒÈ„Ò·ˆﬁ ·Ì·ÎıÙÈÍﬁ (Type: 12)
+    Field: Extra ”ÁÏÂÈ˛ÛÂÈÚ (Type: 12)
+
