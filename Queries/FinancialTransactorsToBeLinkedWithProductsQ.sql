@@ -1,0 +1,4 @@
+SELECT TransactorsWithBasicTransactorsDescriptionQ.Basic_Transactor_Description AS [Transactor Description], TransactorsWithBasicTransactorsDescriptionQ.Transactor_ID AS ID, TransactorTypesT.Transactor_Type_Desription AS Type
+FROM TransactorsWithBasicTransactorsDescriptionQ INNER JOIN TransactorTypesT ON TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID = TransactorTypesT.Transactor_Type_ID
+WHERE (((TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID)=2 Or (TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID)=3 Or (TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID)=32 Or (TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID)=33 Or (TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID)=34) AND ((TransactorTypesT.[Is_Company's_Entity])=Yes));
+

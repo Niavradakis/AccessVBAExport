@@ -1,0 +1,20 @@
+SELECT DocumentProductRecordsWithMainEntityFinancialTrasnactorQ.*
+FROM DocumentProductRecordsWithMainEntityFinancialTrasnactorQ;
+
+UNION
+
+
+SELECT DocumentProductRecordsWithOtherEntityFinancialTrasnactorQ.*
+FROM DocumentProductRecordsWithOtherEntityFinancialTrasnactorQ;
+
+
+UNION
+
+
+SELECT DocumentProductRecordsWithMainEntityProductTransactorQ.*
+FROM DocumentProductRecordsWithMainEntityProductTransactorQ;
+
+
+UNION SELECT DocumentProductRecordsWithOtherEntityProductTransactorQ.*
+FROM DocumentProductRecordsWithOtherEntityProductTransactorQ;
+

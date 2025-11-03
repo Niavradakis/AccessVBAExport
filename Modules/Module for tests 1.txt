@@ -1,0 +1,31 @@
+Option Compare Database
+Option Explicit
+
+
+
+Public Sub EchoChange()
+Application.Echo True
+End Sub
+
+Public Sub DebugPrintTests()
+Debug.Print "Select * from " & _
+" (SELECT   [Transactor_Address_Type_Description] & "": "" & [street_name] & "" "" & [street_number] & "", "" & [City_Description] & "", "" & [postal_code] & "", "" & [Country_Description] & "",  VAT STATUS: "" & [VAT_Status_Description]  AS [Other Entity Installation Details], " & _
+" TransactorAddressDetailsT.Transactor_Address_Details_ID, TransactorAddressDetailsT.VAT_Status_ID, TransactorAddressTypeT.Transactor_Address_Type_Description " & _
+" FROM ((((TransactorAddressDetailsT INNER JOIN TransactorAddressTypeT ON TransactorAddressDetailsT.Transactor_Address_Type_ID = TransactorAddressTypeT.Transactor_Address_Type_ID)INNER JOIN TransactorsFinancialNonCompanyEntitiesQ ON TransactorAddressDetailsT.Transactor_ID = TransactorsFinancialNonCompanyEntitiesQ.ID) " & _
+" INNER JOIN CitiesT ON TransactorAddressDetailsT.City_ID = CitiesT.City_ID) INNER JOIN CountriesT ON TransactorAddressDetailsT.Country_ID = CountriesT.Country_ID) " & _
+" LEFT JOIN VATStatusT ON TransactorAddressDetailsT.VAT_Status_ID = VATStatusT.VAT_Status_ID " & _
+" WHERE TransactorsFinancialNonCompanyEntitiesQ.ID = 981 " & _
+" Order by [Default_Address_Of_Transactor]) AS QUERY1 "
+
+End Sub
+
+Public Sub InsertNullRecords()
+Dim i As Long
+ i = 5358
+ 
+ Do Until i = 5391
+ CurrentDb.Execute "insert into TransactorsT(Basic_Transactor_ID) values (" & i & ")", dbFailOnError
+ i = i + 1
+ Loop
+ 
+End Sub

@@ -1,0 +1,4 @@
+SELECT TransactorsWithBasicTransactorsDescriptionQ.*
+FROM TransactorsWithBasicTransactorsDescriptionQ
+ORDER BY TransactorsWithBasicTransactorsDescriptionQ.Basic_Transactor_Description;
+

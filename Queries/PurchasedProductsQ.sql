@@ -1,0 +1,5 @@
+SELECT [ProductsT].Product_ID, [ProductsT].Product_Description, ProductUseIntentionForFranchiseeÔ.Product_Use_Intention_For_Franchisee_ID
+FROM ProductUseIntentionForFranchiseeÔ RIGHT JOIN ProductsT ON ProductUseIntentionForFranchiseeÔ.Product_Use_Intention_For_Franchisee_ID=[ProductsT].Product_Use_Intention_For_Franchisee_ID
+WHERE (((ProductUseIntentionForFranchiseeÔ.Product_Use_Intention_For_Franchisee_ID) Is Null Or (ProductUseIntentionForFranchiseeÔ.Product_Use_Intention_For_Franchisee_ID)>1))
+ORDER BY [ProductsT].Product_Description;
+

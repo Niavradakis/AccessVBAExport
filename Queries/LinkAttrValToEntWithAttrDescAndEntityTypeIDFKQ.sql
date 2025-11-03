@@ -1,0 +1,3 @@
+SELECT LinkAttributeValueToEntitiesT.*, AttributesT.Attribute_Description, AttributesT.EntityTypeID_For_RelevantTablePKField
+FROM AttributesT INNER JOIN LinkAttributeValueToEntitiesT ON AttributesT.Attribute_ID = LinkAttributeValueToEntitiesT.Attribute_ID;
+

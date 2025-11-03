@@ -1,0 +1,1223 @@
+ Option Compare Database
+Option Explicit
+
+' Loops over SourceDatabasesT and calls
+' TransferCountryDataFromOneSourceWithTransaction
+' for each row.
+' --------------------------------------------------------
+Public Sub SyncAllSources()
+    'On Error GoTo ErrorHandler
+    
+    Dim VarProcedureTitle As String
+    Dim VarModuleName As String
+    VarProcedureTitle = "SyncAllSources"
+    VarModuleName = "Bridges Module"
+    Debug.Print VarModuleName & " - " & VarProcedureTitle & " - " & Time()
+    '---------------------------------------------------------------------
+    
+    Dim db As DAO.Database
+    Dim rs As DAO.Recordset
+    Dim strPath As String
+    Dim strDatabaseName As String
+    
+    Set db = CurrentDb()
+    Set rs = db.OpenRecordset("SELECT * FROM SourceDatabasesT", dbOpenDynaset)
+    
+    Do While Not rs.EOF
+        strPath = rs!Source_Database_Path
+        strDatabaseName = rs!Source_Database_Name
+        
+        Call TransferCountryDataFromOneSourceWithTransaction(strPath, strDatabaseName)
+        Call TransferTransactorsDataFromOneSourceWithTransaction(strPath, strDatabaseName)
+        Call TransferTransactionDataFromOneSourceWithTransaction(strPath, strDatabaseName)
+        Call TransferProtocolsDataFromOneSourceWithTransaction(strPath, strDatabaseName)
+        Call TransferAttributesDataFromOneSourceWithTransaction(strPath, strDatabaseName)
+        rs.MoveNext
+    Loop
+    
+    MsgBox "Transfer from all sources completed successfully.", vbInformation
+    
+ExitProcedure:
+    If Not rs Is Nothing Then
+        rs.Close
+        Set rs = Nothing
+    End If
+    
+    If Not db Is Nothing Then
+        Set db = Nothing
+    End If
+    Exit Sub
+   
+ErrorHandler:
+    Dim VarErrorNum As Long
+    Dim VarErrorDescription As String
+    VarErrorNum = Err.Number
+    VarErrorDescription = Err.Description
+    
+    Call ErrorLoging(Err.Number, Err.Description, VarModuleName, VarProcedureTitle)
+    
+    Select Case VarErrorNum
+        Case Else
+            MsgBox "An error occurred while transferring data from all sources.", _
+                   vbCritical + vbOKOnly, "Attention!!!"
+            Call ShowErrorMessage(VarErrorNum, VarErrorDescription, VarModuleName, VarProcedureTitle)
+            Resume ExitProcedure
+    End Select
+End Sub
+
+' Transfers hierarchy data (Countries, Provinces, Counties, Cities)
+' from one source DB to local ERP DB, using transactions in both.
+' --------------------------------------------------------
+Public Sub TransferCountryDataFromOneSourceWithTransaction(strSourcePath As String, strSourceName As String)
+   ' On Error GoTo ErrorHandler
+ Exit Sub
+    Dim VarProcedureTitle As String
+    Dim VarModuleName As String
+    VarProcedureTitle = "TransferCountryDataFromOneSourceWithTransaction"
+    VarModuleName = "Bridges Module"
+    Debug.Print VarModuleName & " - " & VarProcedureTitle & " - " & Time()
+    '---------------------------------------------------------------------
+    
+    Dim wsLocal  As DAO.Workspace  ' local workspace for the local DB
+    Dim dbLocal  As DAO.Database   ' the local (ERP) DB
+    
+    Dim wsRemote As DAO.Workspace  ' separate workspace for the remote DB
+    Dim dbRemote As DAO.Database   ' the remote DB
+    
+    Dim dbDirectory As String
+    Dim dbName As String
+    dbName = CurrentProject.Name
+    
+    dbDirectory = CurrentProject.path & "/" & dbName
+
+    
+    Dim strSQL As String
+    
+    '--- Open local references
+    Set wsLocal = DBEngine.Workspaces(0)  ' default workspace in Access
+    Set dbLocal = CurrentDb()
+   ' Debug.Print "SourcePath = " & strSourcePath
+    '--- Create a separate workspace for the remote DB
+    '    (We give it a unique name so multiple calls won't conflict)
+    Set wsRemote = DBEngine.CreateWorkspace("Wrk_" & Format(Now(), "yyyymmddhhnnss"), "admin", "")
+    Set dbRemote = wsRemote.OpenDatabase(strSourcePath)
+    
+    '--- Begin a transaction in both the local workspace and the remote workspace
+    wsLocal.BeginTrans
+    wsRemote.BeginTrans
+    
+    '=== COUNTRIES: Append new records from Source to local
+    strSQL = _
+      "INSERT INTO CountriesT (Country_Description, Bridge_ID, Bridge_Source_Database) " & _
+   "SELECT " & _
+   "    c.Country_Description, " & _
+   "    c.Country_ID AS Bridge_ID, " & _
+   "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+   "FROM [;DATABASE=" & strSourcePath & "].CountriesT AS c " & _
+   "WHERE (c.Bridge_ID Is Null OR c.Bridge_ID=0);"
+    dbLocal.Execute strSQL, dbFailOnError
+     
+    '=== PROVINCES: Append new records from Source -> local
+    strSQL = _
+      "INSERT INTO ProvincesT (Province_Description, Country_ID, Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT p.Province_Description, e.Country_ID AS NewCountryID, " & _
+  "       p.Province_ID AS Bridge_ID, '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "   [;DATABASE=" & strSourcePath & "].ProvincesT AS p " & _
+  "   INNER JOIN [;DATABASE=" & strSourcePath & "].CountriesT AS c " & _
+  "       ON p.Country_ID = c.Country_ID " & _
+  ") " & _
+  "INNER JOIN CountriesT AS e " & _
+  "   ON e.Bridge_ID = c.Country_ID " & _
+  "WHERE (p.Bridge_ID Is Null OR p.Bridge_ID=0) " & _
+  "  AND e.Bridge_Source_Database = '" & strSourceName & "' "
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    '=== COUNTIES: Append
+    strSQL = _
+        "INSERT INTO CountiesT (County_Description, Province_ID, Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    p.County_Description, " & _
+  "    e.Province_ID AS NewProvinceID, " & _
+  "    p.County_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "    [;DATABASE=" & strSourcePath & "].CountiesT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].ProvincesT AS c " & _
+  "        ON p.Province_ID = c.Province_ID " & _
+  ") " & _
+  "INNER JOIN ProvincesT AS e " & _
+  "    ON e.Bridge_ID = c.Province_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID=0) " & _
+  "    AND e.Bridge_Source_Database = '" & strSourceName & "';"
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    '=== CITIES: Append
+     strSQL = _
+        "INSERT INTO CitiesT (City_Description, County_ID, Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    p.City_Description, " & _
+  "    e.County_ID AS NewCountyID, " & _
+  "    p.City_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "    [;DATABASE=" & strSourcePath & "].CitiesT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].CountiesT AS c " & _
+  "        ON p.County_ID = c.County_ID " & _
+  ") " & _
+  "INNER JOIN CountiesT AS e " & _
+  "    ON e.Bridge_ID = c.County_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID=0) " & _
+  "    AND e.Bridge_Source_Database = '" & strSourceName & "';"
+    dbLocal.Execute strSQL, dbFailOnError
+    
+     '--- Append to destination succeeded; commit transaction
+     'MsgBox "Append queries executed successfuly"
+        wsLocal.CommitTrans
+        wsRemote.CommitTrans
+    
+' now we start updating the source databases
+    
+       wsLocal.BeginTrans
+       wsRemote.BeginTrans
+  '=== COUNTRIES: Update source with the new ERP Country_ID
+    
+   strSQL = _
+   "UPDATE  CountriesT " & _
+   "INNER JOIN [;DATABASE=" & dbDirectory & "].CountriesT AS c" & _
+   "   ON CountriesT.Country_ID =  c.Bridge_ID " & _
+   "SET " & _
+   "    CountriesT.Bridge_ID = c.[Country_ID], " & _
+   "    CountriesT.Bridge_Destination_Database = ""ERP"" " & _
+   "WHERE " & _
+   "    (CountriesT.Bridge_ID Is Null OR CountriesT.Bridge_ID = 0) " & _
+   "    AND c.Bridge_Source_Database = """ & strSourceName & """;"
+    'Debug.Print strSQL
+    dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== PROVINCES: Update source with the new ERP Province_ID
+    strSQL = _
+       "UPDATE ProvincesT  " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].ProvincesT AS p" & _
+       "   ON ProvincesT.Province_ID = p.Bridge_ID " & _
+       "SET ProvincesT.Bridge_ID = p.Province_ID, " & _
+       "    ProvincesT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (ProvincesT.Bridge_ID Is Null OR ProvincesT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+        
+    '=== COUNTIES: Update source
+    strSQL = _
+       "UPDATE CountiesT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].CountiesT AS p" & _
+       "   ON CountiesT.County_ID = p.Bridge_ID " & _
+       "SET CountiesT.Bridge_ID = p.County_ID, " & _
+       "    CountiesT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (CountiesT.Bridge_ID Is Null OR CountiesT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== CITIES: Update source
+    strSQL = _
+       "UPDATE CitiesT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].CitiesT AS p" & _
+       "   ON CitiesT.City_ID = p.Bridge_ID " & _
+       "SET CitiesT.Bridge_ID = p.City_ID, " & _
+       "    CitiesT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (CitiesT.Bridge_ID Is Null OR CitiesT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+     dbRemote.Execute strSQL, dbFailOnError
+    
+    '--- Update source succeeded; commit transaction
+    
+    wsLocal.CommitTrans
+    wsRemote.CommitTrans
+    
+    MsgBox "Transfer (countries etc) from " & strSourceName & " succeeded.", vbInformation
+    GoTo ExitProcedure
+
+'---------------------------------------------------------------------
+ErrorHandler:
+    ' If ANY error occurs, roll back both transactions
+    On Error Resume Next  ' to avoid recursion if Rollback itself errors
+    wsLocal.Rollback
+    wsRemote.Rollback
+    
+    MsgBox "Error transferring from " & strSourceName & ": " & Err.Description, vbCritical
+    
+    ' Log the error as you were doing
+    Dim VarErrorNum As Long
+    Dim VarErrorDescription As String
+    VarErrorNum = Err.Number
+    VarErrorDescription = Err.Description
+    Call ErrorLoging(Err.Number, Err.Description, VarModuleName, VarProcedureTitle)
+    Select Case VarErrorNum
+        Case Else
+            MsgBox "An error occurred while transferring data from " & strSourceName & ".", _
+                   vbCritical + vbOKOnly, "Attention!!!"
+            Call ShowErrorMessage(VarErrorNum, VarErrorDescription, VarModuleName, VarProcedureTitle)
+            Resume ExitProcedure
+    End Select
+
+ExitProcedure:
+    ' Clean up
+    If Not dbRemote Is Nothing Then
+        dbRemote.Close
+        Set dbRemote = Nothing
+    End If
+    If Not wsRemote Is Nothing Then
+        wsRemote.Close
+        Set wsRemote = Nothing
+    End If
+    
+    If Not dbLocal Is Nothing Then
+        Set dbLocal = Nothing
+    End If
+    If Not wsLocal Is Nothing Then
+        Set wsLocal = Nothing
+    End If
+    Exit Sub
+End Sub
+
+' Transfers hierarchy data (Transactions, IssuedDociments, IssuedDocumentFinancialDetails, IssuedDocumentProductDetails, DiscountLogs and DiscountLogsDetails)
+' from one source DB to local ERP DB, using transactions in both.
+' --------------------------------------------------------
+Public Sub TransferTransactionDataFromOneSourceWithTransaction(strSourcePath As String, strSourceName As String)
+   ' On Error GoTo ErrorHandler
+Exit Sub
+    Dim VarProcedureTitle As String
+    Dim VarModuleName As String
+    VarProcedureTitle = "TransferTransactionDataFromOneSourceWithTransaction"
+    VarModuleName = "Bridges Module"
+    Debug.Print VarModuleName & " - " & VarProcedureTitle & " - " & Time()
+    '---------------------------------------------------------------------
+    Dim strForRst As String
+    Dim testrst As DAO.Recordset
+    Dim wsLocal  As DAO.Workspace  ' local workspace for the local DB
+    Dim dbLocal  As DAO.Database   ' the local (ERP) DB
+    
+    Dim wsRemote As DAO.Workspace  ' separate workspace for the remote DB
+    Dim dbRemote As DAO.Database   ' the remote DB
+    
+    Dim dbDirectory As String
+    Dim dbName As String
+    dbName = CurrentProject.Name
+    
+    dbDirectory = CurrentProject.path & "/" & dbName
+
+    
+    Dim strSQL As String
+    
+    '--- Open local references
+    Set wsLocal = DBEngine.Workspaces(0)  ' default workspace in Access
+    Set dbLocal = CurrentDb()
+    
+    '--- Create a separate workspace for the remote DB
+    '    (We give it a unique name so multiple calls won't conflict)
+    Set wsRemote = DBEngine.CreateWorkspace("Wrk_" & Format(Now(), "yyyymmddhhnnss"), "admin", "")
+    Set dbRemote = wsRemote.OpenDatabase(strSourcePath)
+    
+    '--- Begin a transaction in both the local workspace and the remote workspace
+    wsLocal.BeginTrans
+    wsRemote.BeginTrans
+    
+    '=== Transactions: Append new records from Source to local
+    strSQL = _
+      "INSERT INTO TransactionsT (Transaction_Type_ID, Is_Deleted, Is_New, Transaction_Insert_Timestamp, Transaction_Insert_UserID, Bridge_ID, Bridge_Source_Database) " & _
+   "SELECT " & _
+   "    c.Transaction_Type_ID, c.Is_Deleted, c.Is_New, c.Transaction_Insert_Timestamp, c.Transaction_Insert_UserID, " & _
+   "    c.Transaction_ID AS Bridge_ID, " & _
+   "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+   "FROM [;DATABASE=" & strSourcePath & "].TransactionsT AS c " & _
+   "WHERE (c.Bridge_ID Is Null OR c.Bridge_ID=0);"
+   'Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+      
+    '=== Issued Documents: Append new records from Source -> local
+ '   strForRst = "SELECT e.Transaction_ID AS NewTransactionID, p.Issued_Date, p.Issuable_Document_ID, p.Intention_ID, p.Document_Official_Number_Sequence, " & _
+      "p.[Financial_Transaction_Point_ID(Main_Entity)], T1.Transactor_ID AS [Transactor_Financial_ID(Other_Entity)1], " & _
+      "TrAddress.Bridge_ID AS [Financial_Transaction_Point_ID(Other_Entity)1], T2.Transactor_ID AS [Transactor_Product_ID(Main_Entity)1], T3.Transactor_ID AS [Transactor_Product_ID(Other_Entity)1], p.User_Notes_For_Other_Users, " & _
+      "p.User_Notes_For_Accounting_Department, p.Has_Been_Cancelled_By_Document_ID, p.O, p.U, p.IS_Deleted, p.Is_New, p.Document_Insert_Timestamp, p.Document_Insert_UserID, " & _
+      "p.Issued_Document_ID AS Bridge_ID, """ & strSourceName & """ AS Bridge_Source_Database " & _
+      "FROM ((((([;DATABASE=" & strSourcePath & "].IssuedDocumentT AS p " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactionsT AS c ON p.Transaction_ID = c.Transaction_ID) " & _
+      "INNER JOIN TransactionsT AS e ON c.Transaction_ID = e.Bridge_ID) " & _
+      "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS T1 ON p.[Transactor_Financial_ID(Other_Entity)] = T1.Transactor_ID) " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorAddressDetailsT AS TrAddress ON p.[Financial_Transaction_Point_ID(Other_Entity)] = TrAddress.Transactor_Address_Details_ID) " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS T2 ON p.[Transactor_Product_ID(Main_Entity)] = T2.Transactor_ID) " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS T3 ON p.[Transactor_Product_ID(Other_Entity)] = T3.Transactor_ID " & _
+      "WHERE (p.Bridge_ID Is Null Or p.Bridge_ID = 0) ;"
+  'strForRst = "SELECT p.Transaction_ID AS NewTransactionID, p.Issued_Date, p.Issuable_Document_ID, p.Intention_ID, p.Document_Official_Number_Sequence, " & _
+      "p.[Financial_Transaction_Point_ID(Main_Entity)],  T1.Bridge_ID as [Transactor_Financial_ID(Other_Entity)]," & _
+      "TrAddress.Bridge_ID as [Financial_Transaction_Point_ID(Other_Entity)], T2.Bridge_ID as [Transactor_Product_ID(Main_Entity)], T3.Bridge_ID as [Transactor_Product_ID(Other_Entity)], p.User_Notes_For_Other_Users, " & _
+      "p.User_Notes_For_Accounting_Department, p.Has_Been_Cancelled_By_Document_ID, p.O, p.U, p.IS_Deleted, p.Is_New, p.Document_Insert_Timestamp, p.Document_Insert_UserID, " & _
+      "p.Issued_Document_ID AS Bridge_ID, """ & strSourceName & """ AS Bridge_Source_Database " & _
+      "FROM ((([;DATABASE=" & strSourcePath & "].IssuedDocumentT AS p " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsT as T1 " & _
+      "ON p.[Transactor_Financial_ID(Other_Entity)] = T1.Transactor_ID) " & _
+      "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorAddressDetailsT AS TrAddress " & _
+      "ON p.[Financial_Transaction_Point_ID(Other_Entity)] = TrAddress.Transactor_Address_Details_ID) " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS T2 " & _
+      "ON p.[Transactor_Product_ID(Main_Entity)] = T2.Transactor_ID) " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS T3 " & _
+      "ON p.[Transactor_Product_ID(Other_Entity)] = T3.Transactor_ID " & _
+      "WHERE (p.Bridge_ID Is Null Or p.Bridge_ID = 0) ;"
+
+ ' strForRst = "SELECT c.Bridge_ID AS BrIDSource, c.Transaction_ID as TrIDSource, d.Transaction_ID as TrIDDest, p.Issued_Date, p.Issuable_Document_ID, p.Intention_ID, p.Document_Official_Number_Sequence, " & _
+      "p.[Financial_Transaction_Point_ID(Main_Entity)], d.bridge_ID as BrIDDest, " & _
+      "p.User_Notes_For_Other_Users, " & _
+      "p.User_Notes_For_Accounting_Department, p.Has_Been_Cancelled_By_Document_ID, p.O, p.U, p.IS_Deleted, p.Is_New, p.Document_Insert_Timestamp, p.Document_Insert_UserID, " & _
+      "p.Issued_Document_ID AS Bridge_ID, """ & strSourceName & """ AS Bridge_Source_Database " & _
+      "FROM ([;DATABASE=" & strSourcePath & "].IssuedDocumentT AS p " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactionsT as c " & _
+      "ON p.[Transaction_ID] = c.Transaction_ID ) " & _
+      "INNER JOIN TransactionsT as d " & _
+      "on c.Transaction_ID = D.Bridge_ID "
+      
+      'Debug.Print "strForRst = " & strForRst
+    
+    'Set testrst = CurrentDb.OpenRecordset(strForRst)
+    'If Not testrst.EOF And Not testrst.BOF Then
+  ' testrst.MoveLast
+   ' Debug.Print "transaction_ID source = " & testrst("TrIDSource")
+    'Debug.Print "Bridge_ID Source= " & testrst("BrIDSource")
+    'Debug.Print "Bridge_ID Destination = " & testrst("BrIDDest")
+    'Debug.Print "transaction_ID destination = " & testrst("TrIDDest")
+
+    'testrst.MoveFirst
+   ' Debug.Print "Recordcount for Issued Documents = " & testrst.recordcount
+   ' Else
+    'Debug.Print "Issued Documents recordset is empty"
+    'End If
+    
+     strSQL = _
+      "INSERT INTO IssuedDocumentT (Transaction_ID, Issued_Date, Issuable_Document_ID, Intention_ID, Document_Official_Number_Sequence, [Financial_Transaction_Point_ID(Main_Entity)], " & _
+      "[Transactor_Financial_ID(Other_Entity)], [Financial_Transaction_Point_ID(Other_Entity)], [Transactor_Product_ID(Main_Entity)], [Transactor_Product_ID(Other_Entity)], " & _
+      "User_Notes_For_Other_Users, User_Notes_For_Accounting_Department, Has_Been_Cancelled_By_Document_ID, O, U, IS_Deleted, Is_New, Document_Insert_Timestamp, Document_Insert_UserID, " & _
+      "Bridge_ID, Bridge_Source_Database) " & _
+      "SELECT TrDestT.Transaction_ID AS NewTransactionID, p.Issued_Date, p.Issuable_Document_ID, p.Intention_ID, p.Document_Official_Number_Sequence, " & _
+      "p.[Financial_Transaction_Point_ID(Main_Entity)],  T1.Bridge_ID as [Transactor_Financial_ID(Other_Entity)]," & _
+      "TrAddress.Bridge_ID as [Financial_Transaction_Point_ID(Other_Entity)], T2.Bridge_ID as [Transactor_Product_ID(Main_Entity)], T3.Bridge_ID as [Transactor_Product_ID(Other_Entity)], p.User_Notes_For_Other_Users, " & _
+      "p.User_Notes_For_Accounting_Department, p.Has_Been_Cancelled_By_Document_ID, p.O, p.U, p.IS_Deleted, p.Is_New, p.Document_Insert_Timestamp, p.Document_Insert_UserID, " & _
+      "p.Issued_Document_ID AS Bridge_ID, """ & strSourceName & """ AS Bridge_Source_Database " & _
+      "FROM ((((([;DATABASE=" & strSourcePath & "].IssuedDocumentT AS p " & _
+      "INNER JOIN [;DATABASE=" & strSourcePath & "].TransactionsT AS c " & _
+      "ON p.Transaction_ID = c.Transaction_ID) " & _
+      "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorsT as T1 " & _
+      "ON p.[Transactor_Financial_ID(Other_Entity)] = T1.Transactor_ID) " & _
+      "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorAddressDetailsT AS TrAddress " & _
+      "ON p.[Financial_Transaction_Point_ID(Other_Entity)] = TrAddress.Transactor_Address_Details_ID) " & _
+      "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS T2 " & _
+      "ON p.[Transactor_Product_ID(Main_Entity)] = T2.Transactor_ID) " & _
+      "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS T3 " & _
+      "ON p.[Transactor_Product_ID(Other_Entity)] = T3.Transactor_ID) " & _
+      "INNER JOIN TransactionsT as TrDestT " & _
+      "ON TrDestT.Bridge_ID = c.Transaction_ID " & _
+      "WHERE (p.Bridge_ID Is Null Or p.Bridge_ID = 0) " & _
+       "AND TrDestT.Bridge_Source_Database = '" & strSourceName & "' "
+      
+
+  Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    
+    '=== IssuedDocumentFinancialDetailsT: Append
+    strSQL = _
+        "INSERT INTO IssuedDocumentFinancialDetailsT (Issued_Document_ID, Transactor_ID, Debit, Credit, Notes, Is_Deleted, Document_Financial_Details_Insert_Timestamp, Document_Financial_Details_Insert_User_ID, " & _
+        "Is_New, Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    e.Issued_Document_ID AS NewIssuedDocumentID, " & _
+  " T1.Bridge_ID as Transactor_ID, p.Debit, p.Credit, p.Notes, p.Is_Deleted, p.Document_Financial_Details_Insert_Timestamp, p.Document_Financial_Details_Insert_User_ID, " & _
+  " p.Is_New,   p.Issued_Document_Financial_Details_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM ((" & _
+  "    [;DATABASE=" & strSourcePath & "].IssuedDocumentFinancialDetailsT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].IssuedDocumentT AS c " & _
+  "        ON p.Issued_Document_ID = c.Issued_Document_ID ) " & _
+  "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorsT as T1 " & _
+      "ON p.[Transactor_ID] = T1.Transactor_ID) " & _
+  "INNER JOIN IssuedDocumentT AS e " & _
+  "    ON e.Bridge_ID = c.Issued_Document_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID = 0) " & _
+  "AND e.Bridge_Source_Database = '" & strSourceName & "' "
+  
+   'Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    '=== IssuedDocumentProductDetailsT: Append
+   strSQL = _
+        "INSERT INTO IssuedDocumentProductDetailsT (Issued_Document_ID, Product_ID, Quantity, Unit_Price_Before_Discount, [Total # Unit Discount], [VAT%], VAT_ID, Notes, [Transactor_Product_ID(Main_Entity)], " & _
+        "[Transactor_Product_ID(Other_Entity)], Accounting_Behavior_ID, Is_Deleted, Document_Product_Details_Insert_Timestamp, Document_Product_Details_Insert_User_ID, Is_New, Unit_Price_After_Discount, " & _
+        "Financial_Transactor_ID, Vat_Transactor_ID, " & _
+        "Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    e.Issued_Document_ID AS NewIssuedDocumentID, " & _
+  " p.Product_ID, p.Quantity, p.Unit_Price_Before_Discount, [Total # Unit Discount], p.[VAT%], p.VAT_ID, p.Notes, T1.Bridge_ID as [Transactor_Product_ID(Main_Entity)], T2.Bridge_ID as [Transactor_Product_ID(Other_Entity)], " & _
+  "p.Accounting_Behavior_ID, p.Is_Deleted, p.Document_Product_Details_Insert_Timestamp, p.Document_Product_Details_Insert_User_ID, p.Is_New, p.Unit_Price_After_Discount, " & _
+  "p.Financial_Transactor_ID, p.Vat_Transactor_ID, " & _
+  "    p.Issued_Document_Product_Details_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (((" & _
+  "    [;DATABASE=" & strSourcePath & "].IssuedDocumentProductDetailsT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].IssuedDocumentT AS c " & _
+  "        ON p.Issued_Document_ID = c.Issued_Document_ID ) " & _
+   "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorsT as T1 " & _
+      "ON p.[Transactor_Product_ID(Main_Entity)] = T1.Transactor_ID) " & _
+   "LEFT JOIN [;DATABASE=" & strSourcePath & "].TransactorsT as T2 " & _
+      "ON p.[Transactor_Product_ID(Other_Entity)] = T2.Transactor_ID) " & _
+  "INNER JOIN IssuedDocumentT AS e " & _
+  "    ON e.Bridge_ID = c.Issued_Document_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID = 0) " & _
+    "AND e.Bridge_Source_Database = '" & strSourceName & "' "
+  
+   '  Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    
+      '=== DiscountLogsT: Append
+   strSQL = _
+        "INSERT INTO DiscountLogsT (Issued_Document_ID, Discount_OR_Offer_ID,[%Discount_Percentage], [#Discount_Value], Discount_For_Single_ProductDetailsID_Only, Is_Deleted, Discount_Insert_Timestamp, Discount_Insert_User_ID, " & _
+        "Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    e.Issued_Document_ID AS NewIssuedDocumentID, " & _
+  " p.Discount_OR_Offer_ID, p.[%Discount_Percentage], p.[#Discount_Value],  p.Discount_For_Single_ProductDetailsID_Only, p.Is_Deleted, p.Discount_Insert_Timestamp, p.Discount_Insert_User_ID, " & _
+  "    p.Discount_Logs_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "    [;DATABASE=" & strSourcePath & "].DiscountLogsT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].IssuedDocumentT AS c " & _
+  "        ON p.Issued_Document_ID = c.Issued_Document_ID " & _
+  ") " & _
+  "INNER JOIN IssuedDocumentT AS e " & _
+  "    ON e.Bridge_ID = c.Issued_Document_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID=0) " & _
+  "    AND e.Bridge_Source_Database = '" & strSourceName & "';"
+  'Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    
+       '=== DiscountLogsDetailsT: Append
+   strSQL = _
+        "INSERT INTO DiscountLogsDetailsT (Discount_Logs_ID, Product_Details_ID,Unit_Price_Before_This_Discount, Unit_Price_After_This_Discount, Is_Deleted, DiscountDetails_Insert_Timestamp, DiscountDetails_Insert_User_ID, " & _
+        "Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    e.Discount_Logs_ID AS NewIssuedDocumentID, " & _
+  "  p.Product_Details_ID, p.Unit_Price_Before_This_Discount, p.Unit_Price_After_This_Discount, p.Is_Deleted, p.DiscountDetails_Insert_Timestamp, p.DiscountDetails_Insert_User_ID," & _
+  "    p.Discount_Logs_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "    [;DATABASE=" & strSourcePath & "].DiscountLogsDetailsT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].DiscountLogsT AS c " & _
+  "        ON p.Discount_Logs_ID = c.Discount_Logs_ID " & _
+  ") " & _
+  "INNER JOIN DiscountLogsT AS e " & _
+  "    ON e.Bridge_ID = c.Discount_Logs_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID=0) " & _
+  "    AND e.Bridge_Source_Database = '" & strSourceName & "';"
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    
+     '--- Append to destination succeeded; commit transaction
+     'MsgBox "Append queries executed successfuly"
+        wsLocal.CommitTrans
+        wsRemote.CommitTrans
+    
+' now we start updating the source databases
+    
+       wsLocal.BeginTrans
+       wsRemote.BeginTrans
+  '=== Transactions: Update source with the new ERP Transaction_ID
+   
+   strSQL = _
+   "UPDATE  TransactionsT " & _
+   "INNER JOIN [;DATABASE=" & dbDirectory & "].TransactionsT AS c" & _
+   "   ON TransactionsT.Transaction_ID =  c.Bridge_ID " & _
+   "SET TransactionsT.Bridge_ID = c.[Transaction_ID], " & _
+   "    TransactionsT.Bridge_Destination_Database = ""ERP"" " & _
+   "WHERE (TransactionsT.Bridge_ID Is Null OR TransactionsT.Bridge_ID = 0) " & _
+   "    AND c.Bridge_Source_Database = """ & strSourceName & """;"
+    'Debug.Print strSQL
+    dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== Issued Documents: Update source with the new ERP Issued_Document_ID
+    strSQL = _
+       "UPDATE IssuedDocumentT  " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].IssuedDocumentT AS p" & _
+       "   ON IssuedDocumentT.Issued_Document_ID = p.Bridge_ID " & _
+       "SET IssuedDocumentT.Bridge_ID = p.Issued_Document_ID, " & _
+       "    IssuedDocumentT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (IssuedDocumentT.Bridge_ID Is Null OR IssuedDocumentT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+        
+    '=== IssuedDocumentFinancialDetails: Update source with the new ERP Issued_Document_Financial_Details_ID
+    strSQL = _
+       "UPDATE IssuedDocumentFinancialDetailsT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].IssuedDocumentFinancialDetailsT AS p" & _
+       "   ON IssuedDocumentFinancialDetailsT.Issued_Document_Financial_Details_ID = p.Bridge_ID " & _
+       "SET IssuedDocumentFinancialDetailsT.Bridge_ID = p.Issued_Document_Financial_Details_ID, " & _
+       "    IssuedDocumentFinancialDetailsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (IssuedDocumentFinancialDetailsT.Bridge_ID Is Null OR IssuedDocumentFinancialDetailsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== IssuedDocumentProductDetails: Update source with the new ERP Issued_Document_Product_Details_ID
+   strSQL = _
+       "UPDATE IssuedDocumentProductDetailsT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].IssuedDocumentProductDetailsT AS p" & _
+       "   ON IssuedDocumentProductDetailsT.Issued_Document_Product_Details_ID = p.Bridge_ID " & _
+       "SET IssuedDocumentProductDetailsT.Bridge_ID = p.Issued_Document_Product_Details_ID, " & _
+       "    IssuedDocumentProductDetailsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (IssuedDocumentProductDetailsT.Bridge_ID Is Null OR IssuedDocumentProductDetailsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== DiscountLogs: Update source with the new ERP Discount_Logs_ID
+   strSQL = _
+       "UPDATE DiscountLogsT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].DiscountLogsT AS p" & _
+       "   ON DiscountLogsT.Discount_Logs_ID = p.Bridge_ID " & _
+       "SET DiscountLogsT.Bridge_ID = p.Discount_Logs_ID, " & _
+       "    DiscountLogsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (DiscountLogsT.Bridge_ID Is Null OR DiscountLogsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== DiscountLogsDetails: Update source with the new ERP Discount_Logs_Details_ID
+   strSQL = _
+       "UPDATE DiscountLogsDetailsT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].DiscountLogsDetailsT AS p" & _
+       "   ON DiscountLogsDetailsT.Discounts_Logs_Details_ID = p.Bridge_ID " & _
+       "SET DiscountLogsDetailsT.Bridge_ID = p.Discounts_Logs_Details_ID, " & _
+       "    DiscountLogsDetailsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (DiscountLogsDetailsT.Bridge_ID Is Null OR DiscountLogsDetailsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+       Debug.Print strSQL
+      dbRemote.Execute strSQL, dbFailOnError
+    
+    '--- Update source succeeded; commit transaction
+    
+    wsLocal.CommitTrans
+    wsRemote.CommitTrans
+    
+    MsgBox "Transfer (transactions) from " & strSourceName & " succeeded.", vbInformation
+    GoTo ExitProcedure
+
+'---------------------------------------------------------------------
+ErrorHandler:
+    ' If ANY error occurs, roll back both transactions
+    On Error Resume Next  ' to avoid recursion if Rollback itself errors
+    wsLocal.Rollback
+    wsRemote.Rollback
+    
+    MsgBox "Error transferring from " & strSourceName & ": " & Err.Description, vbCritical
+    
+    ' Log the error as you were doing
+    Dim VarErrorNum As Long
+    Dim VarErrorDescription As String
+    VarErrorNum = Err.Number
+    VarErrorDescription = Err.Description
+    Call ErrorLoging(Err.Number, Err.Description, VarModuleName, VarProcedureTitle)
+    Select Case VarErrorNum
+        Case Else
+            MsgBox "An error occurred while transferring data from " & strSourceName & ".", _
+                   vbCritical + vbOKOnly, "Attention!!!"
+            Call ShowErrorMessage(VarErrorNum, VarErrorDescription, VarModuleName, VarProcedureTitle)
+            Resume ExitProcedure
+    End Select
+
+ExitProcedure:
+    ' Clean up
+    If Not dbRemote Is Nothing Then
+        dbRemote.Close
+        Set dbRemote = Nothing
+    End If
+    If Not wsRemote Is Nothing Then
+        wsRemote.Close
+        Set wsRemote = Nothing
+    End If
+    
+     If Not testrst Is Nothing Then
+        testrst.Close
+        Set testrst = Nothing
+    End If
+    
+    If Not dbLocal Is Nothing Then
+        Set dbLocal = Nothing
+    End If
+    If Not wsLocal Is Nothing Then
+        Set wsLocal = Nothing
+    End If
+    
+    Exit Sub
+End Sub
+
+
+' Transfers hierarchy data (TransactorsBasic, Transactors, TransactorAddressDetailsT, TransactorContactDetailsT)
+' from one source DB to local ERP DB
+' --------------------------------------------------------
+Public Sub TransferTransactorsDataFromOneSourceWithTransaction(strSourcePath As String, strSourceName As String)
+    Exit Sub
+    On Error GoTo ErrorHandler
+    
+    Dim VarProcedureTitle As String
+    Dim VarModuleName As String
+    VarProcedureTitle = "TransferTransactorsDataFromOneSourceWithTransaction"
+    VarModuleName = "Bridges Module"
+    Debug.Print VarModuleName & " - " & VarProcedureTitle & " - " & Time()
+    '---------------------------------------------------------------------
+    
+    Dim wsLocal  As DAO.Workspace  ' local workspace for the local DB
+    Dim dbLocal  As DAO.Database   ' the local (ERP) DB
+    
+    Dim wsRemote As DAO.Workspace  ' separate workspace for the remote DB
+    Dim dbRemote As DAO.Database   ' the remote DB
+    
+    Dim dbDirectory As String
+    Dim dbName As String
+    dbName = CurrentProject.Name
+    
+    dbDirectory = CurrentProject.path & "/" & dbName
+
+    
+    Dim strSQL As String
+    
+    '--- Open local references
+    Set wsLocal = DBEngine.Workspaces(0)  ' default workspace in Access
+    Set dbLocal = CurrentDb()
+    
+    '--- Create a separate workspace for the remote DB
+    '    (We give it a unique name so multiple calls won't conflict)
+    Set wsRemote = DBEngine.CreateWorkspace("Wrk_" & Format(Now(), "yyyymmddhhnnss"), "admin", "")
+    Set dbRemote = wsRemote.OpenDatabase(strSourcePath)
+    
+    '--- Begin a transaction in both the local workspace and the remote workspace
+    wsLocal.BeginTrans
+    wsRemote.BeginTrans
+    
+    '=== TransactorsBasic: Append new records from Source to local
+    strSQL = _
+      "INSERT INTO TransactorsBasicT (Basic_Transactor_Description, [In Use],Transactor_Last_Modification_User_ID, Transactor_Last_Modification_Timestamp, Bridge_ID, Bridge_Source_Database) " & _
+   "SELECT " & _
+   "    c.Basic_Transactor_Description, c.[In Use], c.Transactor_Last_Modification_User_ID, c.Transactor_Last_Modification_Timestamp, " & _
+   "    c.Basic_Transactor_ID AS Bridge_ID, " & _
+   "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+   "FROM [;DATABASE=" & strSourcePath & "].TransactorsBasicT AS c " & _
+   "WHERE (c.Bridge_ID Is Null OR c.Bridge_ID=0);"
+  ' Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+     
+     '=== Transactors: Append new records from Source to local
+    strSQL = _
+      "INSERT INTO TransactorsT (Basic_Transactor_ID, Transactor_Type_ID, Notes, Total_Debit, Total_Credit, Transactor_Last_Modification_User_ID, Transactor_Last_Modification_Timestamp, Account_ID, In_Use, " & _
+      "Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT e.Basic_Transactor_ID AS Basic_Transactor_ID, " & _
+  "p.Transactor_Type_ID, p.Notes, p.Total_Debit, p.Total_Credit, p.Transactor_Last_Modification_User_ID , p.Transactor_Last_Modification_Timestamp , p.Account_ID, p.In_Use, " & _
+  "p.Transactor_ID AS Bridge_ID, '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "   [;DATABASE=" & strSourcePath & "].TransactorsT AS p " & _
+  "   INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsBasicT AS c " & _
+  "   ON p.Basic_Transactor_ID = c.Basic_Transactor_ID " & _
+  ") " & _
+  "INNER JOIN TransactorsBasicT AS e " & _
+  "   ON e.Bridge_ID = c.Basic_Transactor_ID " & _
+  "WHERE (p.Bridge_ID Is Null OR p.Bridge_ID=0) " & _
+  "  AND e.Bridge_Source_Database = '" & strSourceName & "' "
+ ' Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    '=== TransactorAddressDetails: Append
+    strSQL = _
+        "INSERT INTO TransactorAddressDetailsT (Transactor_ID, Transactor_Address_Type_ID, Street_Name, Street_Number, Postal_Code, City_ID, Country_ID, VAT_Status_ID, Default_Address_Of_Transactor, [GPS Latitude], [GPS Longitude], Notes, " & _
+        "Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    e.Transactor_ID AS NewTransactorID, " & _
+  "    p.Transactor_Address_Type_ID, p.Street_Name, p.Street_Number, p.Postal_Code, p.City_ID, p.Country_ID, p.VAT_Status_ID, p.Default_Address_Of_Transactor, p.[GPS Latitude], p.[GPS Longitude], p.Notes, " & _
+  "    p.Transactor_Address_Details_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "    [;DATABASE=" & strSourcePath & "].TransactorAddressDetailsT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsT AS c " & _
+  "        ON p.Transactor_ID = c.Transactor_ID " & _
+  ") " & _
+  "INNER JOIN TransactorsT AS e " & _
+  "    ON e.Bridge_ID = c.Transactor_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID=0) " '& _
+  "    AND e.Bridge_Source_Database = '" & strSourceName & "';"
+  Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+    
+    '=== TransactorContactDetails: Append
+    strSQL = _
+        "INSERT INTO TransactorContactDetailsT (Basic_Tsansactor_ID_FK, Transactor_Contact_Type_ID, Transactor_Contact_Decription, Notes, " & _
+        "Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT " & _
+  "    e.Basic_Transactor_ID AS New_Basic_Transactor_ID, " & _
+  "    p.Transactor_Contact_Type_ID, p.Transactor_Contact_Decription, p.Notes, " & _
+  "    p.Transactor_Contact_Details_ID AS Bridge_ID, " & _
+  "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "    [;DATABASE=" & strSourcePath & "].TransactorContactDetailsT AS p " & _
+  "    INNER JOIN [;DATABASE=" & strSourcePath & "].TransactorsBasicT AS c " & _
+  "        ON p.Basic_Tsansactor_ID_FK = c.Basic_Transactor_ID " & _
+  ") " & _
+  "INNER JOIN TransactorsBasicT AS e " & _
+  "    ON e.Bridge_ID = c.Basic_Transactor_ID " & _
+  "WHERE " & _
+  "    (p.Bridge_ID Is Null OR p.Bridge_ID=0) " '& _
+  "    AND e.Bridge_Source_Database = '" & strSourceName & "';"
+  'Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+
+    
+     '--- Append to destination succeeded; commit transaction
+    ' MsgBox "Append queries executed successfuly"
+        wsLocal.CommitTrans
+        wsRemote.CommitTrans
+    
+' now we start updating the source databases
+    
+       wsLocal.BeginTrans
+       wsRemote.BeginTrans
+  '=== TransactorsBasic: Update source with the new ERP Basic_Transactor_ID
+   
+   strSQL = _
+   "UPDATE  TransactorsBasicT " & _
+   "INNER JOIN [;DATABASE=" & dbDirectory & "].TransactorsBasicT AS c" & _
+   "   ON TransactorsBasicT.Basic_Transactor_ID =  c.Bridge_ID " & _
+   "SET TransactorsBasicT.Bridge_ID = c.[Basic_Transactor_ID], " & _
+   "    TransactorsBasicT.Bridge_Destination_Database = ""ERP"" " & _
+   "WHERE (TransactorsBasicT.Bridge_ID Is Null OR TransactorsBasicT.Bridge_ID = 0) " & _
+   "    AND c.Bridge_Source_Database = """ & strSourceName & """;"
+    'Debug.Print strSQL
+    dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== Transactor: Update source with the new ERP Transactor_ID
+    strSQL = _
+       "UPDATE TransactorsT  " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].TransactorsT AS p" & _
+       "   ON TransactorsT.Transactor_ID = p.Bridge_ID " & _
+       "SET TransactorsT.Bridge_ID = p.Transactor_ID, " & _
+       "    TransactorsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (TransactorsT.Bridge_ID Is Null OR TransactorsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+        
+    '=== TransactorAddressDetails: Update source with the new ERP Transactor_Address_Details_ID
+    strSQL = _
+       "UPDATE TransactorAddressDetailsT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].TransactorAddressDetailsT AS p" & _
+       "   ON TransactorAddressDetailsT.Transactor_Address_Details_ID = p.Bridge_ID " & _
+       "SET TransactorAddressDetailsT.Bridge_ID = p.Transactor_Address_Details_ID, " & _
+       "    TransactorAddressDetailsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (TransactorAddressDetailsT.Bridge_ID Is Null OR TransactorAddressDetailsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+      
+
+    
+    '=== TransactorContactDetails: Update source with the new ERP Transactor_Contact_Details
+   strSQL = _
+       "UPDATE TransactorContactDetailsT " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].TransactorContactDetailsT AS p" & _
+       "   ON TransactorContactDetailsT.Transactor_Contact_Details_ID = p.Bridge_ID " & _
+       "SET TransactorContactDetailsT.Bridge_ID = p.Transactor_Contact_Details_ID, " & _
+       "    TransactorContactDetailsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (TransactorContactDetailsT.Bridge_ID Is Null OR TransactorContactDetailsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+    
+    
+    '--- Update source succeeded; commit transaction
+    
+    wsLocal.CommitTrans
+    wsRemote.CommitTrans
+    
+    MsgBox "Transfer (transactors) from " & strSourceName & " succeeded.", vbInformation
+    GoTo ExitProcedure
+
+'---------------------------------------------------------------------
+ErrorHandler:
+    ' If ANY error occurs, roll back both transactions
+    On Error Resume Next  ' to avoid recursion if Rollback itself errors
+    wsLocal.Rollback
+    wsRemote.Rollback
+    
+    MsgBox "Error transferring from " & strSourceName & ": " & Err.Description, vbCritical
+    
+    ' Log the error as you were doing
+    Dim VarErrorNum As Long
+    Dim VarErrorDescription As String
+    VarErrorNum = Err.Number
+    VarErrorDescription = Err.Description
+    Call ErrorLoging(Err.Number, Err.Description, VarModuleName, VarProcedureTitle)
+    Select Case VarErrorNum
+        Case Else
+            MsgBox "An error occurred while transferring data from " & strSourceName & ".", _
+                   vbCritical + vbOKOnly, "Attention!!!"
+            Call ShowErrorMessage(VarErrorNum, VarErrorDescription, VarModuleName, VarProcedureTitle)
+            Resume ExitProcedure
+    End Select
+
+ExitProcedure:
+    ' Clean up
+    If Not dbRemote Is Nothing Then
+        dbRemote.Close
+        Set dbRemote = Nothing
+    End If
+    If Not wsRemote Is Nothing Then
+        wsRemote.Close
+        Set wsRemote = Nothing
+    End If
+    
+    If Not dbLocal Is Nothing Then
+        Set dbLocal = Nothing
+    End If
+    If Not wsLocal Is Nothing Then
+        Set wsLocal = Nothing
+    End If
+    Exit Sub
+End Sub
+
+
+' Transfers hierarchy data (TransactorsBasic, Transactors, TransactorAddressDetailsT, TransactorContactDetailsT)
+' from one source DB to local ERP DB
+' --------------------------------------------------------
+Public Sub TransferProtocolsDataFromOneSourceWithTransaction(strSourcePath As String, strSourceName As String)
+Exit Sub
+    On Error GoTo ErrorHandler
+    
+    Dim VarProcedureTitle As String
+    Dim VarModuleName As String
+    VarProcedureTitle = "TransferProtocolsDataFromOneSourceWithTransaction"
+    VarModuleName = "Bridges Module"
+    Debug.Print VarModuleName & " - " & VarProcedureTitle & " - " & Time()
+    '---------------------------------------------------------------------
+    
+    Dim wsLocal  As DAO.Workspace  ' local workspace for the local DB
+    Dim dbLocal  As DAO.Database   ' the local (ERP) DB
+    
+    Dim wsRemote As DAO.Workspace  ' separate workspace for the remote DB
+    Dim dbRemote As DAO.Database   ' the remote DB
+    
+    Dim dbDirectory As String
+    Dim dbName As String
+    dbName = CurrentProject.Name
+    
+    dbDirectory = CurrentProject.path & "/" & dbName
+
+    
+    Dim strSQL As String
+    
+    '--- Open local references
+    Set wsLocal = DBEngine.Workspaces(0)  ' default workspace in Access
+    Set dbLocal = CurrentDb()
+    
+    '--- Create a separate workspace for the remote DB
+    '    (We give it a unique name so multiple calls won't conflict)
+    Set wsRemote = DBEngine.CreateWorkspace("Wrk_" & Format(Now(), "yyyymmddhhnnss"), "admin", "")
+    Set dbRemote = wsRemote.OpenDatabase(strSourcePath)
+    
+    '--- Begin a transaction in both the local workspace and the remote workspace
+    wsLocal.BeginTrans
+    wsRemote.BeginTrans
+    
+    '=== Protocols: Append new records from Source to local
+    strSQL = _
+      "INSERT INTO ProtocolsT (Protocol_Type_ID, Assignment_Date, Permanently_Closed, Priority_Level, Notes, Protocol_Insert_Timestamp, Bridge_ID, Bridge_Source_Database, Protocol_Insert_User_ID, Is_New, Is_Deleted) " & _
+   "SELECT " & _
+   "    c.Protocol_Type_ID, c.Assignment_Date, c.Permanently_Closed, c.Priority_Level, c.Notes, c.Protocol_Insert_Timestamp, c.Protocol_Insert_User_ID, c.Is_New, c.Is_Deleted, " & _
+   "    c.Protocol_ID AS Bridge_ID, " & _
+   "    '" & strSourceName & "' AS Bridge_Source_Database " & _
+   "FROM [;DATABASE=" & strSourcePath & "].ProtocolsT AS c " & _
+   "WHERE (c.Bridge_ID Is Null OR c.Bridge_ID=0);"
+    dbLocal.Execute strSQL, dbFailOnError
+     
+     '=== Actions: Append new records from Source to local
+    strSQL = _
+      "INSERT INTO ActionsT (Action_Type_ID, Protocol_ID, Timestamp_Assigned, Timestamp_Planned_To_Be_Executed_From, Timestamp_Planned_To_Be_Executed_Until, Timestamp_Executed, Notes, Action_Insert_Timestamp, " & _
+      "Action_Insert_User_ID, Is_New, Is_Deleted, " & _
+      "Bridge_ID, Bridge_Source_Database) " & _
+  "SELECT e.Protocol_ID AS NewProtocolID, " & _
+          "p.Action_Type_ID, p.Timestamp_Assigned, p.Timestamp_Planned_To_Be_Executed_From, p.Timestamp_Planned_To_Be_Executed_Until, p.Timestamp_Executed , p.Notes , p.Action_Insert_Timestamp, " & _
+          "p.Action_Insert_User_ID, p.Is_New, p.Is_Deleted, " & _
+          "p.Action_ID AS Bridge_ID, '" & strSourceName & "' AS Bridge_Source_Database " & _
+  "FROM (" & _
+  "   [;DATABASE=" & strSourcePath & "].ActionsT AS p " & _
+  "   INNER JOIN [;DATABASE=" & strSourcePath & "].ProtocolsT AS c " & _
+  "   ON p.Protocol_ID = c.Protocol_ID " & _
+  ") " & _
+  "INNER JOIN ProtocolsT AS e " & _
+  "   ON e.Bridge_ID = c.Protocol_ID " & _
+  "WHERE (p.Bridge_ID Is Null OR p.Bridge_ID=0) " & _
+  "  AND e.Bridge_Source_Database = '" & strSourceName & "' "
+  'Debug.Print strSQL
+    dbLocal.Execute strSQL, dbFailOnError
+    
+     
+     '--- Append to destination succeeded; commit transaction
+     'MsgBox "Append queries executed successfuly"
+        wsLocal.CommitTrans
+        wsRemote.CommitTrans
+    
+' now we start updating the source databases
+    
+       wsLocal.BeginTrans
+       wsRemote.BeginTrans
+  '=== Protocols: Update source with the new ERP Protocol_ID
+   
+   strSQL = _
+   "UPDATE  ProtocolsT " & _
+   "INNER JOIN [;DATABASE=" & dbDirectory & "].ProtocolsT AS c" & _
+   "   ON ProtocolsT.Protocol_ID =  c.Bridge_ID " & _
+   "SET ProtocolsT.Bridge_ID = c.Protocol_ID, " & _
+   "    ProtocolsT.Bridge_Destination_Database = ""ERP"" " & _
+   "WHERE (ProtocolsT.Bridge_ID Is Null OR ProtocolsT.Bridge_ID = 0) " & _
+   "    AND c.Bridge_Source_Database = """ & strSourceName & """;"
+    'Debug.Print strSQL
+    dbRemote.Execute strSQL, dbFailOnError
+    
+    '=== Actions: Update source with the new ERP Action_ID
+    strSQL = _
+       "UPDATE ActionsT  " & _
+       "INNER JOIN [;DATABASE=" & dbDirectory & "].ActionsT AS p" & _
+       "   ON ActionsT.Action_ID = p.Bridge_ID " & _
+       "SET ActionsT.Bridge_ID = p.Action_ID, " & _
+       "    ActionsT.Bridge_Destination_Database = ""ERP"" " & _
+       "WHERE (ActionsT.Bridge_ID Is Null OR ActionsT.Bridge_ID = 0) " & _
+       "AND p.Bridge_Source_Database = """ & strSourceName & """;"
+      dbRemote.Execute strSQL, dbFailOnError
+        
+
+    '--- Update source succeeded; commit transaction
+    
+    wsLocal.CommitTrans
+    wsRemote.CommitTrans
+    
+    MsgBox "Transfer (protocols) from " & strSourceName & " succeeded.", vbInformation
+    GoTo ExitProcedure
+
+'---------------------------------------------------------------------
+ErrorHandler:
+    ' If ANY error occurs, roll back both transactions
+    On Error Resume Next  ' to avoid recursion if Rollback itself errors
+    wsLocal.Rollback
+    wsRemote.Rollback
+    
+    MsgBox "Error transferring from " & strSourceName & ": " & Err.Description, vbCritical
+    
+    ' Log the error as you were doing
+    Dim VarErrorNum As Long
+    Dim VarErrorDescription As String
+    VarErrorNum = Err.Number
+    VarErrorDescription = Err.Description
+    Call ErrorLoging(Err.Number, Err.Description, VarModuleName, VarProcedureTitle)
+    Select Case VarErrorNum
+        Case Else
+            MsgBox "An error occurred while transferring data from " & strSourceName & ".", _
+                   vbCritical + vbOKOnly, "Attention!!!"
+            Call ShowErrorMessage(VarErrorNum, VarErrorDescription, VarModuleName, VarProcedureTitle)
+            Resume ExitProcedure
+    End Select
+
+ExitProcedure:
+    ' Clean up
+    If Not dbRemote Is Nothing Then
+        dbRemote.Close
+        Set dbRemote = Nothing
+    End If
+    If Not wsRemote Is Nothing Then
+        wsRemote.Close
+        Set wsRemote = Nothing
+    End If
+    
+    If Not dbLocal Is Nothing Then
+        Set dbLocal = Nothing
+    End If
+    If Not wsLocal Is Nothing Then
+        Set wsLocal = Nothing
+    End If
+    Exit Sub
+End Sub
+
+Public Sub TransferAttributesDataFromOneSourceWithTransaction(strSourcePath As String, strSourceName As String)
+
+    'On Error GoTo ErrorHandler
+    
+    Dim VarProcedureTitle As String
+    Dim VarModuleName As String
+    VarProcedureTitle = "TransferAttributesDataFromOneSourceWithTransaction"
+    VarModuleName = "Bridges Module"
+    Debug.Print VarModuleName & " - " & VarProcedureTitle & " - " & Time()
+    '---------------------------------------------------------------------
+    
+    Dim wsLocal  As DAO.Workspace  ' local workspace for the local DB
+    Dim dbLocal  As DAO.Database   ' the local (ERP) DB
+    
+    Dim wsRemote As DAO.Workspace  ' separate workspace for the remote DB
+    Dim dbRemote As DAO.Database   ' the remote DB
+    
+    Dim dbDirectory As String
+    Dim dbName As String
+    Dim rstEntityTypes As DAO.Recordset
+    Dim VarReleventTable As DAO.TableDef
+    Dim VarReleventTableName As String
+    Dim VarPrimaryKeyFieldNameFromRelevantTable As String
+    Dim VarBridgeID As Long
+    
+    dbName = CurrentProject.Name
+    dbDirectory = CurrentProject.path & "\" & dbName
+     
+Dim strSQL As String
+Dim testrst As DAO.Recordset
+Dim VarEntityTypeID As Integer
+Dim rstRelevantTable As DAO.Recordset
+
+    '--- Open local references
+    Set wsLocal = DBEngine.Workspaces(0)  ' default workspace in Access
+    Set dbLocal = CurrentDb()
+    
+    '--- Create a separate workspace for the remote DB
+    '    (We give it a unique name so multiple calls won't conflict)
+    Set wsRemote = DBEngine.CreateWorkspace("Wrk_" & Format(Now(), "yyyymmddhhnnss"), "admin", "")
+    Set dbRemote = wsRemote.OpenDatabase(strSourcePath)
+    
+   Set rstEntityTypes = dbRemote.OpenRecordset("select * from EntitiesTypesToHaveAttributesT", dbOpenSnapshot)
+    
+If Not rstEntityTypes.EOF And Not rstEntityTypes.BOF Then
+     rstEntityTypes.MoveLast
+     rstEntityTypes.MoveFirst
+Else
+     GoTo ExitProcedure
+End If
+
+Do Until rstEntityTypes.EOF
+ 
+Set VarReleventTable = dbRemote.TableDefs(rstEntityTypes("RelevantTable"))
+VarReleventTableName = VarReleventTable.Name
+VarEntityTypeID = rstEntityTypes.Fields(0)
+
+
+If VarReleventTableName <> "ProductsT" And VarReleventTableName <> "InstallationsT" Then
+VarPrimaryKeyFieldNameFromRelevantTable = VarReleventTable.Fields(0).Name 'VarReleventTable.Fields("Bridge_ID").Name 'VarReleventTable.Fields(0).Name
+Debug.Print "Field count for " & VarReleventTable.Name & ": " & VarReleventTable.Fields.Count
+
+Set rstRelevantTable = dbRemote.OpenRecordset("SELECT TOP 1 * FROM " & VarReleventTable.Name)
+VarBridgeID = rstRelevantTable("Bridge_ID")
+'VarBridgeID = VarReleventTable.Fields("Bridge_ID")
+Else
+GoTo goto_next_record
+'VarPrimaryKeyFieldNameFromRelevantTable = VarReleventTable.Fields(0).Name
+'VarBridgeID = VarReleventTable.Fields(0).Name
+End If
+
+    '--- Begin a transaction in both the local workspace and the remote workspace
+    wsLocal.BeginTrans
+    wsRemote.BeginTrans
+    
+    '=== LinkAttributeValueToEntities: Append new records from Source to local
+    
+
+strSQL = _
+"INSERT INTO LinkAttributeValueToEntitiesT (Entity_Type_ID, Entity_ID, Attribute_ID, Attribute_Value_String, Attribute_Value_Number, Attribute_Value_Boolean, Attribute_Value_Date, Attribute_Value_Time, " & _
+"Attribute_Value_TImestamp, Notes, Is_Included_To_Suggested_Attributes, Is_Deleted, Is_New, AttLinkToEntityInsert_UserID, AttLinkToEntityInsert_Timestamp, AttLinkToEntityEdit_UserID, AttLinkToEntityEdit_Timestamp, " & _
+"Bridge_ID, Bridge_Source_Database) " & _
+"SELECT c.Entity_Type_ID, " & VarBridgeID & " as Entity_ID, c.Attribute_ID, c.Attribute_Value_String, c.Attribute_Value_Number, c.Attribute_Value_Boolean, c.Attribute_Value_Date, c.Attribute_Value_Time, " & _
+"c.Attribute_Value_TImestamp, c.Notes, c.Is_Included_To_Suggested_Attributes, c.Is_Deleted, c.Is_New, c.AttLinkToEntityInsert_UserID, c.AttLinkToEntityInsert_Timestamp, " & _
+"c.AttLinkToEntityEdit_UserID, c.AttLinkToEntityEdit_Timestamp, c.Link_Attribute_Value_To_Entity_ID, '" & strSourceName & "' AS Bridge_Source_Database " & _
+"FROM [;DATABASE=" & strSourcePath & "].LinkAttributeValueToEntitiesT AS c " & _
+"INNER JOIN [;DATABASE=" & strSourcePath & "].[" & VarReleventTableName & "] as d " & _
+"ON c.Entity_ID = d." & VarPrimaryKeyFieldNameFromRelevantTable & _
+" WHERE ((c.Entity_Type_ID)= " & VarEntityTypeID & " AND ((c.Bridge_ID) Is Null Or (c.Bridge_ID)=0))"
+  
+   
+   'Debug.Print strSQL
+  ' Debug.Print "installation = " & strSourcePath
+    dbLocal.Execute strSQL, dbFailOnError
+       
+     
+     '--- Append to destination succeeded; commit transaction
+     'MsgBox "Append queries executed successfuly"
+        wsLocal.CommitTrans
+        wsRemote.CommitTrans
+    
+' now we start updating the source databases
+    
+       wsLocal.BeginTrans
+       wsRemote.BeginTrans
+  '=== LinkAttributeValueToEntities: Update source with the new ERP LinkAttributeValueToEntitiesID
+   
+   strSQL = _
+   "UPDATE  LinkAttributeValueToEntitiesT " & _
+   "INNER JOIN [;DATABASE=" & dbDirectory & "].LinkAttributeValueToEntitiesT AS c" & _
+   "   ON LinkAttributeValueToEntitiesT.Link_Attribute_Value_To_Entity_ID =  c.Bridge_ID " & _
+   "SET LinkAttributeValueToEntitiesT.Bridge_ID = c.Link_Attribute_Value_To_Entity_ID, " & _
+   "    LinkAttributeValueToEntitiesT.Bridge_Destination_Database = ""ERP"" " & _
+   "WHERE (LinkAttributeValueToEntitiesT.Bridge_ID Is Null OR LinkAttributeValueToEntitiesT.Bridge_ID = 0) " & _
+   "    AND c.Bridge_Source_Database = """ & strSourceName & """;"
+    'Debug.Print strSQL
+    dbRemote.Execute strSQL, dbFailOnError
+
+    '--- Update source succeeded; commit transaction
+    
+    wsLocal.CommitTrans
+    wsRemote.CommitTrans
+    
+   ' MsgBox "Transfer (attributes) from " & strSourceName & " succeeded.", vbInformation
+goto_next_record:
+rstEntityTypes.MoveNext
+Loop
+
+MsgBox "Transfer (attributes) from " & strSourceName & " succeeded.", vbInformation
+
+GoTo ExitProcedure
+
+'---------------------------------------------------------------------
+ErrorHandler:
+    ' If ANY error occurs, roll back both transactions
+    On Error Resume Next  ' to avoid recursion if Rollback itself errors
+    'wsLocal.Rollback
+    'wsRemote.Rollback
+    
+    MsgBox "Error transferring from " & strSourceName & ": " & Err.Description, vbCritical
+    
+    ' Log the error as you were doing
+    Dim VarErrorNum As Long
+    Dim VarErrorDescription As String
+    VarErrorNum = Err.Number
+    VarErrorDescription = Err.Description
+    Call ErrorLoging(Err.Number, Err.Description, VarModuleName, VarProcedureTitle)
+    Select Case VarErrorNum
+        Case Else
+            MsgBox "An error occurred while transferring data from " & strSourceName & ".", _
+                   vbCritical + vbOKOnly, "Attention!!!"
+            Call ShowErrorMessage(VarErrorNum, VarErrorDescription, VarModuleName, VarProcedureTitle)
+            Resume ExitProcedure
+    End Select
+
+ExitProcedure:
+    ' Clean up
+    If Not dbRemote Is Nothing Then
+        dbRemote.Close
+        Set dbRemote = Nothing
+    End If
+    If Not wsRemote Is Nothing Then
+        wsRemote.Close
+        Set wsRemote = Nothing
+    End If
+    
+    If Not dbLocal Is Nothing Then
+        Set dbLocal = Nothing
+    End If
+    If Not wsLocal Is Nothing Then
+        Set wsLocal = Nothing
+    End If
+    Exit Sub
+End Sub

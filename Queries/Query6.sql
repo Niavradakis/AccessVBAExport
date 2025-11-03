@@ -1,0 +1,4 @@
+SELECT DISTINCT LinkAttributeValueToEntitiesT.Entity_Type_ID, LinkAttributeValueToEntitiesT.Attribute_ID, IssuedDocumentFinancialDetailsFinalT.Issued_Document_Financial_Details_ID, IssuedDocumentFinancialDetailsFinalT.Transactor_ID, TransactorsT.Transactor_Type_ID
+FROM LinkAttributeValueToEntitiesT INNER JOIN (IssuedDocumentFinancialDetailsFinalT INNER JOIN TransactorsT ON IssuedDocumentFinancialDetailsFinalT.Transactor_ID = TransactorsT.Transactor_ID) ON LinkAttributeValueToEntitiesT.Entity_ID = IssuedDocumentFinancialDetailsFinalT.Issued_Document_Financial_Details_ID
+WHERE (((LinkAttributeValueToEntitiesT.Entity_Type_ID)=4));
+

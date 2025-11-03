@@ -1,0 +1,4 @@
+SELECT UnionOfFinalDebitAndCreditForTransactorsQ.Transactor_ID, Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Debit) AS SumOfDebit, Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Credit) AS SumOfCredit
+FROM UnionOfFinalDebitAndCreditForTransactorsQ
+GROUP BY UnionOfFinalDebitAndCreditForTransactorsQ.Transactor_ID;
+

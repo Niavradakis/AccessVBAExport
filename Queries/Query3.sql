@@ -1,0 +1,4 @@
+SELECT IssuedDocumentFinancialDetailsT.Transactor_ID, HELPQ2.Transactor_ID
+FROM (SELECT DISTINCT IssuedDocumentFinancialDetailsFinalT.Transactor_ID FROM IssuedDocumentFinancialDetailsFinalT INNER JOIN (SELECT TOP 10 IssuedDocumentFinancialDetailsFinalT.Transactor_ID, IssuedDocumentFinancialDetailsFinalT.Issued_Document_ID FROM IssuedDocumentFinalT INNER JOIN IssuedDocumentFinancialDetailsFinalT ON IssuedDocumentFinalT.Issued_Document_ID = IssuedDocumentFinancialDetailsFinalT.Issued_Document_ID WHERE IssuedDocumentFinancialDetailsFinalT.Transactor_ID=236 ORDER BY IssuedDocumentFinancialDetailsFinalT.Issued_Document_ID DESC)  AS HELPQ1 ON IssuedDocumentFinancialDetailsFinalT.Issued_Document_ID = HELPQ1.Issued_Document_ID)  AS HELPQ2 LEFT JOIN IssuedDocumentFinancialDetailsT ON HELPQ2.Transactor_ID = IssuedDocumentFinancialDetailsT.Transactor_ID
+WHERE (((IssuedDocumentFinancialDetailsT.Transactor_ID) Is Null));
+

@@ -1,0 +1,3 @@
+DELETE ProductInventoryBalanceT.*
+FROM ProductInventoryBalanceT;
+

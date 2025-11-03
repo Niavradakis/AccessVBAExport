@@ -1,0 +1,4 @@
+SELECT TransactorContactDetailsT.Basic_Tsansactor_ID_FK, TransactorContactDetailsT.Transactor_Contact_Decription
+FROM TransactorContactDetailsT
+WHERE (((TransactorContactDetailsT.Transactor_Contact_Type_ID)=3));
+

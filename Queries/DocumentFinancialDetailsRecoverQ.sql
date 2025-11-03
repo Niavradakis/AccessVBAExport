@@ -1,0 +1,4 @@
+PARAMETERS IssuedDocumentIDToRecover Long, TransactionIDToRecover Long, DebitToRecover IEEEDouble, CreditToRecover IEEEDouble, NotesToRecover LongText, IsDeletedToRecover Bit, IssuedDocumentFinancialDetailsBackUpID Long, IssuedDocumentFinancialDetailsBackUpIDToRecover Long;
+UPDATE IssuedDocumentFinancialDetailsT SET IssuedDocumentFinancialDetailsT.Issued_Document_ID = [IssuedDocumentIDToRecover], IssuedDocumentFinancialDetailsT.Transactor_ID = [TransactionIDToRecover], IssuedDocumentFinancialDetailsT.Debit = [DebitToRecover], IssuedDocumentFinancialDetailsT.Credit = [CreditToRecover], IssuedDocumentFinancialDetailsT.Notes = [NotesToRecover], IssuedDocumentFinancialDetailsT.Is_Deleted = [IsDeletedToRecover], IssuedDocumentFinancialDetailsT.IssuedDocumentFinancialDetails_Backup_ID = Null
+WHERE (((IssuedDocumentFinancialDetailsT.IssuedDocumentFinancialDetails_Backup_ID)=[IssuedDocumentFinancialDetailsBackUpID]));
+

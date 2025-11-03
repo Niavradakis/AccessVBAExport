@@ -1,0 +1,6 @@
+PARAMETERS currenttimestamp DateTime, currentuserID Short, [DiscountLogsDetailsIDPar] Long;
+INSERT INTO DiscountLogsDetailsBackupT ( Discounts_Logs_Details_ID, Discount_Logs_ID, Product_Details_ID, Unit_Price_Before_This_Discount, Unit_Price_After_This_Discount, Is_Deleted, DiscountDetails_Insert_Timestamp, DiscountDetails_Insert_User_ID, DiscountDetails_Edit_Timestamp, DiscountDetails_Edit_User_ID )
+SELECT DiscountLogsDetailsT.Discounts_Logs_Details_ID, DiscountLogsDetailsT.Discount_Logs_ID, DiscountLogsDetailsT.Product_Details_ID, DiscountLogsDetailsT.Unit_Price_Before_This_Discount, DiscountLogsDetailsT.Unit_Price_After_This_Discount, DiscountLogsDetailsT.Is_Deleted, DiscountLogsDetailsT.DiscountDetails_Insert_Timestamp, DiscountLogsDetailsT.DiscountDetails_Insert_User_ID, [currenttimestamp] AS DiscountDetails_Edit_Timestamp, [currentuserID] AS DiscountDetails_Edit_User_ID
+FROM DiscountLogsDetailsT
+WHERE (((DiscountLogsDetailsT.Discounts_Logs_Details_ID)=[DiscountLogsDetailsIDPar]));
+

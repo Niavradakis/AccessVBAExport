@@ -1,0 +1,59 @@
+Option Compare Database
+
+Public Sub ExportAllObjects()
+    Dim obj As AccessObject
+    Dim dbs As Object
+    Dim exportPath As String
+
+    exportPath = "C:\Users\Niavra\OneDrive - ENVIRON ломопяосыпг и й е\GREENTEX ONE DRIVE\NIAVRADAKIS\Access files\амаптунг\ERP\ExportsForChatGPT\Access_Exports\"  ' <-- change this path if you wish
+
+' Create subfolders if they don't exist
+    CreateFolder exportPath
+    CreateFolder exportPath & "Forms\"
+    CreateFolder exportPath & "Reports\"
+    CreateFolder exportPath & "Modules\"
+    CreateFolder exportPath & "Queries\"
+    CreateFolder exportPath & "Macros\"
+
+    Set dbs = CurrentProject.AllForms
+    For Each obj In dbs
+        Application.SaveAsText acForm, obj.Name, exportPath & "Forms\" & obj.Name & ".txt"
+    Next obj
+
+    Set dbs = CurrentProject.AllReports
+    For Each obj In dbs
+        Application.SaveAsText acReport, obj.Name, exportPath & "Reports\" & obj.Name & ".txt"
+    Next obj
+
+    Set dbs = CurrentProject.AllModules
+    For Each obj In dbs
+        Application.SaveAsText acModule, obj.Name, exportPath & "Modules\" & obj.Name & ".txt"
+    Next obj
+
+    Set dbs = CurrentProject.AllMacros
+    For Each obj In dbs
+        Application.SaveAsText acMacro, obj.Name, exportPath & "Macros\" & obj.Name & ".txt"
+    Next obj
+
+    ' Export queries
+    Dim qdf As DAO.QueryDef
+    For Each qdf In CurrentDb.QueryDefs
+        If Left(qdf.Name, 1) <> "~" Then
+            Dim fso As Object, txtStream As Object
+            Set fso = CreateObject("Scripting.FileSystemObject")
+            Set txtStream = fso.CreateTextFile(exportPath & "Queries\" & qdf.Name & ".sql", True)
+            txtStream.WriteLine qdf.sql
+            txtStream.Close
+        End If
+    Next qdf
+
+    MsgBox "All objects exported successfully to: " & exportPath
+End Sub
+
+Private Sub CreateFolder(path As String)
+    Dim fso As Object
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    If Not fso.FolderExists(path) Then
+        fso.CreateFolder path
+    End If
+End Sub

@@ -1,0 +1,3 @@
+SELECT LinkAttributeValueToEntitiesT.Link_Attribute_Value_To_Entity_ID, LinkAttributeValueToEntitiesT.Entity_Type_ID, LinkAttributeValueToEntitiesT.Entity_ID, LinkAttributeValueToEntitiesT.Attribute_ID, [attribute_Value_string] & [Attribute_Value_Number] & [Attribute_Value_Boolean] & [Attribute_Value_Date] & [Attribute_Value_Time] & [Attribute_Value_TImestamp] AS Attribute_Value, LinkAttributeValueToEntitiesT.Attribute_Value_String, LinkAttributeValueToEntitiesT.Attribute_Value_Number, LinkAttributeValueToEntitiesT.Attribute_Value_Boolean, LinkAttributeValueToEntitiesT.Attribute_Value_Date, LinkAttributeValueToEntitiesT.Attribute_Value_Time, LinkAttributeValueToEntitiesT.Attribute_Value_TImestamp
+FROM LinkAttributeValueToEntitiesT;
+

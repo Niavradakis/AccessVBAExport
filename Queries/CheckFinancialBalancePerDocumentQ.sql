@@ -1,0 +1,4 @@
+SELECT UnionOfFinalDebitAndCreditForTransactorsQ.Issued_Document_ID, UnionOfFinalDebitAndCreditForTransactorsQ.Sector, Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Debit) AS SumOfDebit, Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Credit) AS SumOfCredit, Sum([Debit])-Sum([Credit]) AS Difference
+FROM UnionOfFinalDebitAndCreditForTransactorsQ
+GROUP BY UnionOfFinalDebitAndCreditForTransactorsQ.Issued_Document_ID, UnionOfFinalDebitAndCreditForTransactorsQ.Sector;
+

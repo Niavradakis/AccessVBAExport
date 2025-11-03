@@ -1,0 +1,4 @@
+SELECT ProductsFilteredAfterSelectionOfSizeCboQ.Product_ID, [AttributeValuesListsT].Attribute_Value_id
+FROM (AttributesT INNER JOIN AttributeValuesListsT ON AttributesT.Attribute_ID=[AttributeValuesListsT].Attribute_ID) INNER JOIN (ProductsFilteredAfterSelectionOfSizeCboQ INNER JOIN AttributeValueToProductT ON ProductsFilteredAfterSelectionOfSizeCboQ.Product_ID = AttributeValueToProductT.Product_ID) ON [AttributeValuesListsT].Attribute_Value_id=AttributeValueToProductT.Attribute_Value_ID
+WHERE ((([AttributeValuesListsT].Attribute_Value_id)=IIf(forms!DeliveryPlatformProductAttributeTreeF.CoffeeVarietyCbo.value>0,forms!DeliveryPlatformProductAttributeTreeF.CoffeeVarietyCbo.value,forms!DeliveryPlatformProductAttributeTreeF.EfoodProductTypeCbo.value)));
+

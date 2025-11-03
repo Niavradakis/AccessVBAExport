@@ -1,0 +1,2 @@
+UPDATE RecalculatedFinancialBalancePerFinTransactorFromRecordsTempT INNER JOIN TransactorsT ON RecalculatedFinancialBalancePerFinTransactorFromRecordsTempT.Transactor_ID = TransactorsT.Transactor_ID SET TransactorsT.Total_Debit = [RecalculatedFinancialBalancePerFinTransactorFromRecordsTempT].[SumOfDebit], TransactorsT.Total_Credit = [RecalculatedFinancialBalancePerFinTransactorFromRecordsTempT].[SumOfCredit];
+

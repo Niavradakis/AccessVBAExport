@@ -1,0 +1,4 @@
+SELECT [TransactorsFinancialWithVatTransactorAndVat%Q].*, HelpTableForTransactorSearchByContactAndAddressDetailsT.Address_String, HelpTableForTransactorSearchByContactAndAddressDetailsT.Contact_String, [TransactorsFinancialWithVatTransactorAndVat%Q].[Vat%]
+FROM [TransactorsFinancialWithVatTransactorAndVat%Q] LEFT JOIN HelpTableForTransactorSearchByContactAndAddressDetailsT ON [TransactorsFinancialWithVatTransactorAndVat%Q].Transactor_ID = HelpTableForTransactorSearchByContactAndAddressDetailsT.Transactor_ID
+ORDER BY [TransactorsFinancialWithVatTransactorAndVat%Q].[Vat%] DESC;
+
