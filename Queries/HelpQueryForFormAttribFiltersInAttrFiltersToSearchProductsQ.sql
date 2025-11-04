@@ -1,4 +1,0 @@
-SELECT AttributesT.Attribute_Description, AttributesT.Attribute_ID, AttributesT.Entities_May_Have_Multiple_Values
-FROM (HelpTableForUseAttributeValuesAsFiltersT LEFT JOIN LinkAttributeValueToEntitiesT ON HelpTableForUseAttributeValuesAsFiltersT.Attribute_ID = LinkAttributeValueToEntitiesT.Attribute_ID) LEFT JOIN AttributesT ON LinkAttributeValueToEntitiesT.Attribute_ID = AttributesT.Attribute_ID
-WHERE (((AttributesT.Entities_May_Have_Multiple_Values)=No));
-

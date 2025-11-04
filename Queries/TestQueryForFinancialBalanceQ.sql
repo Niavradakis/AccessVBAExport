@@ -1,3 +1,0 @@
-SELECT Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Debit) AS SumOfDebit, Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Credit) AS SumOfCredit
-FROM UnionOfFinalDebitAndCreditForTransactorsQ;
-

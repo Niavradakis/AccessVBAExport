@@ -1,3 +1,0 @@
-SELECT IssuedDocumentT.*, IssuableDocumentT.Issuable_Document_Description, IntentionsT.Intention_Description, IssuableDocumentT.Distinction_Additive, DocumentsIssuersT.Document_Issuer_Description, IssuableDocumentT.Product_Values_YESisGross_NOisNet
-FROM (DocumentsIssuersT INNER JOIN IssuableDocumentT ON DocumentsIssuersT.Document_Issuer_ID = IssuableDocumentT.Document_Issuer_ID) INNER JOIN (IntentionsT INNER JOIN IssuedDocumentT ON IntentionsT.Intention_ID = IssuedDocumentT.Intention_ID) ON IssuableDocumentT.Issuable_Document_ID = IssuedDocumentT.Issuable_Document_ID;
-

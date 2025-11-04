@@ -1,4 +1,0 @@
-SELECT IssuedDocumentFinancialDetailsT.*
-FROM IssuedDocumentFinancialDetailsT
-ORDER BY IssuedDocumentFinancialDetailsT.Issued_Document_Financial_Details_ID;
-

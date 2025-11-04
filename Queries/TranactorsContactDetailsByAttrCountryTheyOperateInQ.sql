@@ -1,5 +1,0 @@
-SELECT TransactorsWithBasicTransactorsDescriptionQ.Transactor_ID, TransactorsWithBasicTransactorsDescriptionQ.Basic_Transactor_Description, CountriesT.Country_Description, FetchTransactorAllContactDetailsAsOneString([Basic_Transactor_ID]) AS Contact_Details, CountriesT.Country_ID, TransactorsWithBasicTransactorsDescriptionQ.Basic_Transactor_ID
-FROM AttributesT RIGHT JOIN ((TransactorsWithBasicTransactorsDescriptionQ INNER JOIN LinkAttributeValueToEntitiesT ON TransactorsWithBasicTransactorsDescriptionQ.Transactor_ID = LinkAttributeValueToEntitiesT.Entity_ID) INNER JOIN CountriesT ON LinkAttributeValueToEntitiesT.Attribute_Value_Number = CountriesT.Country_ID) ON AttributesT.Attribute_ID = LinkAttributeValueToEntitiesT.Attribute_ID
-WHERE (((LinkAttributeValueToEntitiesT.Attribute_ID)=318))
-ORDER BY CountriesT.Country_Description;
-

@@ -1,4 +1,0 @@
-SELECT HelpQForProductsEditOrDeleteFProductTypeSearchCboQ.*, HelpQForProductsEditOrDeleteFProductTypeSearchCboQ.Product_Category_ID
-FROM HelpQForProductsEditOrDeleteFProductTypeSearchCboQ
-WHERE (((HelpQForProductsEditOrDeleteFProductTypeSearchCboQ.Product_Category_ID)=tempvars!ProductCategoryToSearch)) Or (((tempvars!ProductCategoryToSearch) Is Null));
-

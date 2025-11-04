@@ -1,3 +1,0 @@
-SELECT IssuedDocumentProductDetailsT.Issued_Document_Product_Details_ID, IssuedDocumentProductDetailsT.Quantity, IssuedDocumentProductDetailsT.Unit_Price_Before_Discount
-FROM IssuedDocumentProductDetailsT;
-

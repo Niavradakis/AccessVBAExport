@@ -1,4 +1,0 @@
-SELECT [MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ].Issued_Document_ID, [MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ].[Company's_Financial_Transactor_ID(Main Entity)], Sum([MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ].Total_Net_Value) AS SumOfTotal_Net_Value, [MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ].[Main_Entity_Debited(For_Product_Documents)]
-FROM [MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ]
-GROUP BY [MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ].Issued_Document_ID, [MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ].[Company's_Financial_Transactor_ID(Main Entity)], [MapProductRecordsToCompany'sFinancialTransactor&VATTransactorQ].[Main_Entity_Debited(For_Product_Documents)];
-

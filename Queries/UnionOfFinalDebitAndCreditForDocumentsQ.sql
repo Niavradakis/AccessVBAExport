@@ -1,4 +1,0 @@
-SELECT UnionOfFinalDebitAndCreditForTransactorsQ.Issued_Document_ID, Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Debit) AS SumOfDebit, Sum(UnionOfFinalDebitAndCreditForTransactorsQ.Credit) AS SumOfCredit
-FROM UnionOfFinalDebitAndCreditForTransactorsQ
-GROUP BY UnionOfFinalDebitAndCreditForTransactorsQ.Issued_Document_ID;
-

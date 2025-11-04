@@ -1,4 +1,0 @@
-SELECT DISTINCT DiscountLogsT.Discount_Logs_ID AS HelpQ_Discount_Logs_ID, DiscountLogsDetailsT.Product_Details_ID AS HelpQ_Product_Details_ID, DiscountLogsDetailsT.Product_Details_ID, DiscountLogsDetailsT.Is_Deleted, DiscountLogsT.Is_Deleted, IssuedDocumentProductDetailsT.Is_Deleted
-FROM DiscountLogsT LEFT JOIN (DiscountLogsDetailsT LEFT JOIN IssuedDocumentProductDetailsT ON DiscountLogsDetailsT.Product_Details_ID = IssuedDocumentProductDetailsT.Issued_Document_Product_Details_ID) ON DiscountLogsT.Discount_Logs_ID = DiscountLogsDetailsT.Discount_Logs_ID
-WHERE (((DiscountLogsDetailsT.Product_Details_ID)=IIf(IsNull(Tempvars!ProductDetailsIDTvar),(DiscountLogsDetailsT.Product_Details_ID) Is Not Null,Tempvars!ProductDetailsIDTvar)) And ((DiscountLogsDetailsT.Is_Deleted)=False) And ((DiscountLogsT.Is_Deleted)=False) And ((IssuedDocumentProductDetailsT.Is_Deleted)=False));
-

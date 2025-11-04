@@ -1,3 +1,0 @@
-SELECT IntentionsTypeT.Intention_Type_Description, IntentionsTypeT.Intention_Type_ID
-FROM IntentionsTypeT;
-

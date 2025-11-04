@@ -1,4 +1,0 @@
-SELECT TransactorsFinancialQ.Basic_Transactor_Description, TransactorsFinancialQ.Transactor_ID, TransactorsFinancialQ.Basic_Transactor_ID, TransactorsFinancialQ.Transactor_Type_ID, TransactorsFinancialQ.Transactor_Type_Desription, TransactorsFinancialQ.In_Use, TransactorsFinancialQ.Has_VAT_Status, LinkAttributeValueToEntitiesT.Attribute_Value_Number
-FROM TransactorsFinancialQ LEFT JOIN LinkAttributeValueToEntitiesT ON TransactorsFinancialQ.Transactor_ID = LinkAttributeValueToEntitiesT.Entity_ID
-WHERE (((LinkAttributeValueToEntitiesT.Entity_Type_ID)=2 Or (LinkAttributeValueToEntitiesT.Entity_Type_ID) Is Null) AND ((LinkAttributeValueToEntitiesT.Attribute_ID)=16 Or (LinkAttributeValueToEntitiesT.Attribute_ID) Is Null));
-

@@ -1,4 +1,0 @@
-SELECT TransactorsWithBasicTransactorsDescriptionQ.Transactor_ID, TransactorsWithBasicTransactorsDescriptionQ.Basic_Transactor_Description, TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID
-FROM TransactorsWithBasicTransactorsDescriptionQ
-WHERE (((TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID)=7 Or (TransactorsWithBasicTransactorsDescriptionQ.Transactor_Type_ID)=9));
-

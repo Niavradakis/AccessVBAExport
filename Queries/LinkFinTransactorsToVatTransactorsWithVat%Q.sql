@@ -1,4 +1,0 @@
-SELECT LinkFinancialTransactorsToVatTransactorsT.Link_Financial_Transactor_To_Vat_Transactor_ID, LinkFinancialTransactorsToVatTransactorsT.Financial_Transactor_ID, LinkFinancialTransactorsToVatTransactorsT.Vat_Transactor_ID, LinkAttributeValueToEntitiesT.Attribute_Value_Number AS [Vat%]
-FROM LinkFinancialTransactorsToVatTransactorsT LEFT JOIN LinkAttributeValueToEntitiesT ON LinkFinancialTransactorsToVatTransactorsT.Vat_Transactor_ID = LinkAttributeValueToEntitiesT.Entity_ID
-WHERE (((LinkAttributeValueToEntitiesT.Attribute_ID)=16) AND ((LinkAttributeValueToEntitiesT.Entity_Type_ID)=2));
-

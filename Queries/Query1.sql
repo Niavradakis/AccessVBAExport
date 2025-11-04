@@ -1,5 +1,0 @@
-SELECT TOP 10 IssuedDocumentFinancialDetailsFinalT.Transactor_ID, IssuedDocumentFinancialDetailsFinalT.Issued_Document_ID
-FROM IssuedDocumentBackupT INNER JOIN IssuedDocumentFinancialDetailsFinalT ON [IssuedDocumentBackupT].Issued_Document_ID=IssuedDocumentFinancialDetailsFinalT.Issued_Document_ID
-WHERE (((IssuedDocumentFinancialDetailsFinalT.Transactor_ID)=236))
-ORDER BY IssuedDocumentFinancialDetailsFinalT.Issued_Document_ID DESC;
-

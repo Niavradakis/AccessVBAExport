@@ -1,3 +1,0 @@
-SELECT Sum(UnionOfInventoryBalanceDebitAndCreditQueriesQ.Debit) AS SumOfDebit, Sum(UnionOfInventoryBalanceDebitAndCreditQueriesQ.Credit) AS SumOfCredit
-FROM UnionOfInventoryBalanceDebitAndCreditQueriesQ;
-

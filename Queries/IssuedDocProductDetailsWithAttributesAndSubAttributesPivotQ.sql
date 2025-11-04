@@ -1,4 +1,0 @@
-SELECT IssuedDocumentProductDetailsT.*
-FROM IssuedDocumentProductDetailsT
-ORDER BY IssuedDocumentProductDetailsT.Issued_Document_Product_Details_ID;
-

@@ -1,4 +1,0 @@
-SELECT RecipesExecutionMethodWithProductsLink.RecipesExecutionMethodID, Products‘.Product_Description, ReipesExecutionMethod‘.RecipeExecutionMethodDescription, RecipesExecutionMethodWithProductsLink.ProductID, RecipesExecutionMethodWithProductsLink.ID
-FROM ReipesExecutionMethod‘ INNER JOIN (Products‘ INNER JOIN RecipesExecutionMethodWithProductsLink ON Products‘.Product_ID = RecipesExecutionMethodWithProductsLink.ProductID) ON ReipesExecutionMethod‘.RecipesExecutionMethodID = RecipesExecutionMethodWithProductsLink.RecipesExecutionMethodID
-ORDER BY Products‘.Product_Description;
-

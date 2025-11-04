@@ -1,3 +1,0 @@
-DELETE ProductInventoryBalanceT.*
-FROM ProductInventoryBalanceT;
-

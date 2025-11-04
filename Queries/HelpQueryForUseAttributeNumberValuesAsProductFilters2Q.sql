@@ -1,4 +1,0 @@
-SELECT HelpTableForUseAttributeValuesAsFiltersT.Attribute_ID, LinkAttributesToProductsQ.Attribute_Value_Number, LinkAttributesToProductsQ.Entity_ID
-FROM HelpTableForUseAttributeValuesAsFiltersT LEFT JOIN LinkAttributesToProductsQ ON HelpTableForUseAttributeValuesAsFiltersT.Attribute_Value_Number = LinkAttributesToProductsQ.Attribute_Value_Number
-WHERE (((LinkAttributesToProductsQ.Attribute_Value_Number) Is Not Null));
-

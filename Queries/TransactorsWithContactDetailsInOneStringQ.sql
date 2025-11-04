@@ -1,3 +1,0 @@
-SELECT TransactorsBasicT.Basic_Transactor_ID, FetchTransactorAllContactDetailsAsOneString([Basic_Transactor_ID]) AS ContactDetailsInOneString
-FROM TransactorsBasicT;
-

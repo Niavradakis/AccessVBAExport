@@ -1,4 +1,0 @@
-SELECT ProductInventoryBalanceT.*, TransactorsAllCompanyEntitiesQ.Transactor_Type_ID, TransactorsAllCompanyEntitiesQ.Basic_Transactor_Description, TransactorsAllCompanyEntitiesQ.Basic_Transactor_ID, ProductsT.Product_Description
-FROM ProductsT INNER JOIN (TransactorsAllCompanyEntitiesQ INNER JOIN ProductInventoryBalanceT ON TransactorsAllCompanyEntitiesQ.Transactor_ID = ProductInventoryBalanceT.Transactor_ID) ON ProductsT.Product_ID = ProductInventoryBalanceT.Product_ID
-WHERE (((TransactorsAllCompanyEntitiesQ.Transactor_Type_ID)=1));
-

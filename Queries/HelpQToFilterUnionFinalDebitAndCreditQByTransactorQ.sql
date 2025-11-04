@@ -1,5 +1,0 @@
-PARAMETERS TransactorIDPar Long;
-SELECT UnionOfFinalDebitAndCreditForTransactorsQ.Issued_Document_ID
-FROM UnionOfFinalDebitAndCreditForTransactorsQ
-WHERE (((UnionOfFinalDebitAndCreditForTransactorsQ.Transactor_ID)=[TransactorIDPar]));
-
