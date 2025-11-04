@@ -1,0 +1,356 @@
+Option Compare Database
+Option Explicit
+
+' ====== CONFIG ======
+Private Const exportPathBase As String = _
+ "C:\Users\Niavra\OneDrive - ENVIRON ломопяосыпг и й е\GREENTEX ONE DRIVE\NIAVRADAKIS\Access files\амаптунг\ERP\ExportsForChatGPT\Access_Exports\"
+
+
+' ====== ENTRY POINT ======
+Public Sub ExportAllObjectsPlusSchema()
+    Dim exportPath As String
+    exportPath = NormalizePath(exportPathBase)
+    
+    ' Create folders
+    CreateFolder exportPath
+    CreateFolder exportPath & "Forms\"
+    CreateFolder exportPath & "Reports\"
+    CreateFolder exportPath & "Modules\"
+    CreateFolder exportPath & "Queries\"
+    CreateFolder exportPath & "Macros\"
+    CreateFolder exportPath & "Tables\"
+    CreateFolder exportPath & "Indexes\"
+    CreateFolder exportPath & "Relationships\"
+    
+    ExportUIObjects exportPath
+    ExportQueries exportPath
+    ExportTablesAndIndexes exportPath
+    ExportRelationships exportPath
+    
+    MsgBox "Export complete to: " & exportPath, vbInformation
+End Sub
+
+' ====== FORMS/REPORTS/MODULES/MACROS ======
+Private Sub ExportUIObjects(ByVal exportPath As String)
+    Dim ao As AccessObject
+    
+    For Each ao In CurrentProject.AllForms
+        Application.SaveAsText acForm, ao.Name, exportPath & "Forms\" & ao.Name & ".txt"
+    Next ao
+    
+    For Each ao In CurrentProject.AllReports
+        Application.SaveAsText acReport, ao.Name, exportPath & "Reports\" & ao.Name & ".txt"
+    Next ao
+    
+    For Each ao In CurrentProject.AllModules
+        Application.SaveAsText acModule, ao.Name, exportPath & "Modules\" & ao.Name & ".txt"
+    Next ao
+    
+    For Each ao In CurrentProject.AllMacros
+        Application.SaveAsText acMacro, ao.Name, exportPath & "Macros\" & ao.Name & ".txt"
+    Next ao
+End Sub
+
+' ====== QUERIES ======
+Private Sub ExportQueries(ByVal exportPath As String)
+    Dim q As DAO.QueryDef
+    For Each q In CurrentDb.QueryDefs
+        If Left$(q.Name, 1) <> "~" Then
+            WriteTextFileUnicode exportPath & "Queries\" & q.Name & ".sql", q.sql
+        End If
+    Next q
+End Sub
+
+' ====== TABLES + INDEXES (DDL) ======
+Private Sub ExportTablesAndIndexes(ByVal exportPath As String)
+    Dim t As DAO.TableDef
+    Dim db As DAO.Database
+    Set db = CurrentDb
+    
+    Dim ddl As String, idxDDL As String
+    
+    For Each t In db.TableDefs
+        If IsUserTable(t) Then
+            If IsLinkedTable(t) Then
+                ' Linked: emit metadata only
+                Dim meta As String
+                meta = "/* LINKED TABLE" & vbCrLf & _
+                       "   Name: " & BracketName(t.Name) & vbCrLf & _
+                       "   Connect: " & Nz(t.Connect, "") & vbCrLf & _
+                       "   SourceTableName: " & Nz(t.SourceTableName, "") & vbCrLf & _
+                       "*/"
+                WriteTextFileUnicode exportPath & "Tables\" & t.Name & ".linked.txt", meta
+            Else
+                ddl = BuildCreateTableDDL(t)
+                WriteTextFileUnicode exportPath & "Tables\" & t.Name & ".ddl.sql", ddl
+            End If
+            
+            idxDDL = BuildIndexesDDL(t)
+            If Len(Trim$(idxDDL)) > 0 Then
+                WriteTextFileUnicode exportPath & "Indexes\" & t.Name & ".indexes.sql", idxDDL
+            End If
+        End If
+    Next t
+End Sub
+
+Private Function BuildCreateTableDDL(ByVal t As DAO.TableDef) As String
+    Dim lines As Collection: Set lines = New Collection
+    Dim fld As DAO.Field
+    Dim pkIdx As DAO.Index
+    Dim pkClause As String
+    
+    ' Gather field lines
+    For Each fld In t.Fields
+        If Not IsSystemField(fld) Then
+            lines.Add "  " & BracketName(fld.Name) & " " & FieldTypeDDL(fld) & FieldConstraintsDDL(fld)
+        End If
+    Next fld
+    
+    ' Primary key (single or multi)
+    Set pkIdx = PrimaryKeyIndex(t)
+    If Not pkIdx Is Nothing Then
+        pkClause = "  CONSTRAINT " & BracketName("PK_" & t.Name) & " PRIMARY KEY (" & _
+                   JoinBracketed(pkIdx) & ")"
+        lines.Add pkClause
+    End If
+    
+    Dim ddl As String
+    ddl = "CREATE TABLE " & BracketName(t.Name) & " (" & vbCrLf & _
+          JoinCollection(lines, "," & vbCrLf) & vbCrLf & ");"
+    
+    ' Add table-level properties that AI finds useful
+    ddl = ddl & vbCrLf & "/* Table Properties (Access):" & vbCrLf & _
+          "   Attributes=" & t.Attributes & vbCrLf & _
+          "*/"
+    BuildCreateTableDDL = ddl
+End Function
+
+Private Function FieldTypeDDL(ByVal fld As DAO.Field) As String
+    ' Map DAO DataTypeEnum to Access DDL-ish types for readability
+    Select Case fld.Type
+        Case dbBoolean: FieldTypeDDL = "YESNO"
+        Case dbByte:    FieldTypeDDL = "BYTE"
+        Case dbInteger: FieldTypeDDL = "SHORT"
+        Case dbLong
+            If (fld.Attributes And dbAutoIncrField) <> 0 Then
+                FieldTypeDDL = "COUNTER"
+            Else
+                FieldTypeDDL = "LONG"
+            End If
+        Case dbSingle:  FieldTypeDDL = "SINGLE"
+        Case dbDouble:  FieldTypeDDL = "DOUBLE"
+        Case dbCurrency: FieldTypeDDL = "CURRENCY"
+        Case dbDate:    FieldTypeDDL = "DATETIME"
+        Case dbText:    FieldTypeDDL = "TEXT(" & fld.Size & ")"
+        Case dbMemo:    FieldTypeDDL = "LONGTEXT"
+        Case dbGUID:    FieldTypeDDL = "GUID"
+        Case dbDecimal: FieldTypeDDL = "DECIMAL"
+        Case dbBinary:  FieldTypeDDL = "BINARY"
+        Case dbLongBinary: FieldTypeDDL = "LONGBINARY"
+        Case dbVarBinary: FieldTypeDDL = "VARBINARY"
+        Case dbAttachment: FieldTypeDDL = "ATTACHMENT"
+        Case dbComplexByte, dbComplexInteger, dbComplexLong, dbComplexSingle, dbComplexDouble, dbComplexDecimal, dbComplexGUID, dbComplexText
+            FieldTypeDDL = "COMPLEX" ' fallback label
+        Case Else
+            FieldTypeDDL = "UNKNOWN"
+    End Select
+End Function
+
+Private Function FieldConstraintsDDL(ByVal fld As DAO.Field) As String
+    Dim s As String
+    ' Required / Nullability
+    ' (Access DDL expresses NOT NULL; Required=True -> NOT NULL)
+    On Error Resume Next
+    If GetBoolProp(fld, "Required") Then s = s & " NOT NULL"
+    If GetBoolProp(fld, "AllowZeroLength") Then s = s & " /* AllowZeroLength */"
+    ' Default value
+    Dim defv As String: defv = GetStrProp(fld, "DefaultValue")
+    If Len(Trim$(defv)) > 0 Then
+        s = s & " DEFAULT " & defv
+    End If
+    ' Validation rule/text (commented for visibility)
+    Dim vr As String: vr = GetStrProp(fld, "ValidationRule")
+    If Len(Trim$(vr)) > 0 Then s = s & " /* ValidationRule: " & vr & " */"
+    Dim vt As String: vt = GetStrProp(fld, "ValidationText")
+    If Len(Trim$(vt)) > 0 Then s = s & " /* ValidationText: " & vt & " */"
+    ' Format / Caption
+    Dim fmt As String: fmt = GetStrProp(fld, "Format")
+    If Len(Trim$(fmt)) > 0 Then s = s & " /* Format: " & fmt & " */"
+    Dim cap As String: cap = GetStrProp(fld, "Caption")
+    If Len(Trim$(cap)) > 0 Then s = s & " /* Caption: " & cap & " */"
+    FieldConstraintsDDL = s
+End Function
+
+Private Function BuildIndexesDDL(ByVal t As DAO.TableDef) As String
+    Dim idx As DAO.Index
+    Dim col As DAO.Field
+    Dim lines As Collection: Set lines = New Collection
+
+    For Each idx In t.Indexes
+        ' Skip PK (emitted in CREATE TABLE) and FK pseudo-indexes
+        If Not idx.Primary And Not idx.Foreign Then
+            Dim stmt As String
+            Dim segs() As String
+            Dim i As Long
+
+            stmt = "CREATE "
+            If idx.Unique Then stmt = stmt & "UNIQUE "
+            stmt = stmt & "INDEX " & BracketName(idx.Name) & " ON " & BracketName(t.Name) & " ("
+
+            ReDim segs(0 To idx.Fields.Count - 1)
+            i = 0
+            For Each col In idx.Fields
+                Dim seg As String
+                seg = BracketName(col.Name)
+                ' DESC flag lives on the index field's Attributes
+                On Error Resume Next   ' some providers may not expose dbDescending
+                If (col.Attributes And dbDescending) <> 0 Then seg = seg & " DESC"
+                On Error GoTo 0
+                segs(i) = seg
+                i = i + 1
+            Next col
+
+            stmt = stmt & Join(segs, ", ") & ");"
+            ' Add a few useful properties as comments
+            stmt = stmt & " /* IgnoreNulls=" & idx.IgnoreNulls & _
+                          ", Required=" & idx.Required & _
+                          ", Unique=" & idx.Unique & " */"
+
+            lines.Add stmt
+        End If
+    Next idx
+
+    BuildIndexesDDL = JoinCollection(lines, vbCrLf)
+End Function
+
+
+' ====== RELATIONSHIPS (FK) ======
+Private Sub ExportRelationships(ByVal exportPath As String)
+    Dim rel As DAO.Relation
+    Dim db As DAO.Database: Set db = CurrentDb
+    Dim lines As Collection: Set lines = New Collection
+    
+    For Each rel In db.Relations
+        ' Skip system/hidden relations
+        If (rel.Attributes And dbSystemObject) = 0 Then
+            lines.Add BuildFKDDL(rel)
+        End If
+    Next rel
+    
+    If lines.Count > 0 Then
+        WriteTextFileUnicode exportPath & "Relationships\_AllForeignKeys.ddl.sql", _
+            JoinCollection(lines, vbCrLf & vbCrLf)
+    End If
+End Sub
+
+Private Function BuildFKDDL(ByVal rel As DAO.Relation) As String
+    Dim childTbl As String, pkTbl As String
+    Dim colsChild As Collection: Set colsChild = New Collection
+    Dim colsPk As Collection: Set colsPk = New Collection
+    Dim f As DAO.Field
+    
+    childTbl = rel.Table
+    pkTbl = rel.ForeignTable
+    
+    For Each f In rel.Fields
+        colsChild.Add BracketName(f.Name)
+        colsPk.Add BracketName(f.ForeignName)
+    Next f
+    
+    Dim ddl As String
+    ddl = "ALTER TABLE " & BracketName(childTbl) & vbCrLf & _
+          "  ADD CONSTRAINT " & BracketName(rel.Name) & vbCrLf & _
+          "  FOREIGN KEY (" & JoinCollection(colsChild, ", ") & ")" & vbCrLf & _
+          "  REFERENCES " & BracketName(pkTbl) & " (" & JoinCollection(colsPk, ", ") & ")"
+    
+    ' Cascade rules
+    Dim clauses As String
+    If (rel.Attributes And dbRelationUpdateCascade) <> 0 Then clauses = clauses & " ON UPDATE CASCADE"
+    If (rel.Attributes And dbRelationDeleteCascade) <> 0 Then clauses = clauses & " ON DELETE CASCADE"
+    If (rel.Attributes And dbRelationDontEnforce) <> 0 Then clauses = clauses & " /* NOT ENFORCED */"
+    
+    ddl = ddl & clauses & ";"
+    BuildFKDDL = ddl
+End Function
+
+' ====== HELPERS ======
+Private Function IsUserTable(ByVal t As DAO.TableDef) As Boolean
+    ' exclude system MSys* and temporary ~, and Access hidden sync tables
+    If Left$(t.Name, 1) = "~" Then IsUserTable = False: Exit Function
+    If Left$(t.Name, 4) = "MSys" Then IsUserTable = False: Exit Function
+    IsUserTable = True
+End Function
+
+Private Function IsLinkedTable(ByVal t As DAO.TableDef) As Boolean
+    IsLinkedTable = ((t.Attributes And dbAttachedTable) <> 0) Or ((t.Attributes And dbAttachedODBC) <> 0)
+End Function
+
+Private Function IsSystemField(ByVal fld As DAO.Field) As Boolean
+    IsSystemField = (Left$(fld.Name, 1) = "~")
+End Function
+
+Private Function PrimaryKeyIndex(ByVal t As DAO.TableDef) As DAO.Index
+    Dim idx As DAO.Index
+    For Each idx In t.Indexes
+        If idx.Primary Then Set PrimaryKeyIndex = idx: Exit Function
+    Next idx
+    Set PrimaryKeyIndex = Nothing
+End Function
+
+Private Function JoinBracketed(ByVal idx As DAO.Index) As String
+    Dim parts() As String
+    Dim i As Long: i = 0
+    ReDim parts(0 To idx.Fields.Count - 1)
+    Dim fld As DAO.Field
+    For Each fld In idx.Fields
+        parts(i) = BracketName(fld.Name)
+        i = i + 1
+    Next fld
+    JoinBracketed = Join(parts, ", ")
+End Function
+
+Private Function BracketName(ByVal s As String) As String
+    BracketName = "[" & Replace(s, "]", "]]") & "]"
+End Function
+
+Private Function GetBoolProp(ByVal obj As Object, ByVal propName As String) As Boolean
+    On Error GoTo EH
+    GetBoolProp = CBool(obj.Properties(propName).Value)
+    Exit Function
+EH:
+    GetBoolProp = False
+End Function
+
+Private Function GetStrProp(ByVal obj As Object, ByVal propName As String) As String
+    On Error GoTo EH
+    GetStrProp = CStr(obj.Properties(propName).Value)
+    Exit Function
+EH:
+    GetStrProp = ""
+End Function
+
+Private Function JoinCollection(col As Collection, sep As String) As String
+    Dim s As String, i As Long
+    For i = 1 To col.Count
+        s = s & col(i)
+        If i < col.Count Then s = s & sep
+    Next i
+    JoinCollection = s
+End Function
+
+Private Sub CreateFolder(ByVal path As String)
+    Dim fso As Object: Set fso = CreateObject("Scripting.FileSystemObject")
+    If Not fso.FolderExists(path) Then fso.CreateFolder path
+End Sub
+
+Private Function NormalizePath(ByVal p As String) As String
+    If Right$(p, 1) <> "\" Then NormalizePath = p & "\" Else NormalizePath = p
+End Function
+
+Private Sub WriteTextFileUnicode(ByVal filePath As String, ByVal contents As String)
+    Dim fso As Object, ts As Object
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set ts = fso.CreateTextFile(filePath, True, True) ' overwrite:=True, Unicode:=True
+    ts.Write contents
+    ts.Close
+End Sub
