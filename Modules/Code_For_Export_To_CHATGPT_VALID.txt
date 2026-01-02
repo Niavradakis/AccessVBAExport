@@ -3,14 +3,20 @@ Option Explicit
 
 ' ====== CONFIG ======
 Private Const exportPathBase As String = _
- "C:\Users\Niavra\OneDrive - ENVIRON ломопяосыпг и й е\GREENTEX ONE DRIVE\NIAVRADAKIS\Access files\амаптунг\ERP\ExportsForChatGPT\Access_Exports\"
+ "C:\Users\Niavra\Documents\GitHub\AccessVBAExport" '"C:\Users\Niavra\OneDrive - ENVIRON ломопяосыпг и й е\GREENTEX ONE DRIVE\NIAVRADAKIS\Access files\амаптунг\ERP\ExportsForChatGPT\Access_Exports\"
 
 
 ' ====== ENTRY POINT ======
 Public Sub ExportAllObjectsPlusSchema()
+'Go to C:\Users\Niavra\OneDrive - ENVIRON ломопяосыпг и й е\GREENTEX ONE DRIVE\NIAVRADAKIS\Access files\амаптунг\ERP\ExportsForChatGPT\Access_Exports\ and delete all folders containing access objects.
+'Then run subroutine ExportAllObjects (this sub)
+'It  raises message of successful execution and the exported files are located at
+'C:\Users\Niavra\OneDrive - ENVIRON ломопяосыпг и й е\GREENTEX ONE DRIVE\NIAVRADAKIS\Access files\амаптунг\ERP\ExportsForChatGPT\Access_Exports\
+
+
     Dim exportPath As String
     exportPath = NormalizePath(exportPathBase)
-    
+    'C:\Users\Niavra\Documents\GitHub\AccessVBAExport
     ' Create folders
     CreateFolder exportPath
     CreateFolder exportPath & "Forms\"
