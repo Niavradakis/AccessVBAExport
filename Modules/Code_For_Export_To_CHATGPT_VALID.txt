@@ -16,7 +16,7 @@ Public Sub ExportAllObjectsPlusSchema()
 
     Dim exportPath As String
     exportPath = NormalizePath(exportPathBase)
-    'C:\Users\Niavra\Documents\GitHub\AccessVBAExport
+    'test
     ' Create folders
     CreateFolder exportPath
     CreateFolder exportPath & "Forms\"
